@@ -1,0 +1,22 @@
+{
+  "name": "cwf-corporation",
+  "version": "1.0.0",
+  "description": "MERN Stack scaffolding for CWF Corporation - Pune India",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "lint:server": "npm run lint --prefix server",
+    "lint:client": "npm run lint --prefix client",
+    "lint": "npm run lint:server && npm run lint:client",
+    "format:server": "npm run format --prefix server",
+    "format:client": "npm run format --prefix client",
+    "format": "npm run format:server && npm run format:client",
+    "verify:models": "npm run verify --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
