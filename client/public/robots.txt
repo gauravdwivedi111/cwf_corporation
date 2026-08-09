@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /admin
+
+# Replace with production domain upon deployment
+Sitemap: https://cwfcorporation.com/sitemap.xml
