@@ -34,6 +34,9 @@ if (process.env.NODE_ENV !== 'test' && process.env.SKIP_DB_CONN !== 'true') {
 
 const app = express();
 
+// Trust proxy headers for rate limiters behind Render/Vercel proxies
+app.set('trust proxy', 1);
+
 // 1. Performance Compression (Gzip)
 app.use(compression());
 
