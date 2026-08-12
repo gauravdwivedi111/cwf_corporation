@@ -65,24 +65,11 @@ export default function ServicesList() {
           ) : (
             <div className="bento-grid">
               {services.map((service, index) => {
-                // Determine alternating bento fills
-                // Card 1: Neutral panel, Card 2: Solid Ink (dark), Card 3: Solid Volt (cobalt blue)
-                let cellClass = 'bento-cell';
-                let textStyle = { color: 'var(--ink)' };
-                let categoryColor = 'var(--volt)';
-                let btnClass = 'btn btn-outline';
-                
-                if (index % 3 === 1) {
-                  cellClass = 'bento-cell solid-ink';
-                  textStyle = { color: 'var(--white)' };
-                  categoryColor = 'var(--volt)';
-                  btnClass = 'btn btn-primary';
-                } else if (index % 3 === 2) {
-                  cellClass = 'bento-cell solid-volt';
-                  textStyle = { color: 'var(--white)' };
-                  categoryColor = 'var(--white)';
-                  btnClass = 'btn btn-outline';
-                }
+                // Uniform premium dark bento cell styling and gold buttons
+                const cellClass = 'bento-cell solid-ink';
+                const textStyle = { color: 'var(--white)' };
+                const categoryColor = 'var(--volt)';
+                const btnClass = 'btn btn-primary';
 
                 return (
                   <div 

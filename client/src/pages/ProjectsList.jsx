@@ -117,23 +117,11 @@ export default function ProjectsList() {
           ) : (
             <div className="bento-grid">
               {filteredProjects.map((project, index) => {
-                // Alternating color blocks: Card 1 (Neutral), Card 2 (Solid Ink), Card 3 (Solid Volt)
-                let cellClass = 'bento-cell';
-                let textStyle = { color: 'var(--ink)' };
-                let categoryColor = 'var(--volt)';
-                let isDark = false;
-                
-                if (index % 3 === 1) {
-                  cellClass = 'bento-cell solid-ink';
-                  textStyle = { color: 'var(--white)' };
-                  categoryColor = 'var(--volt)';
-                  isDark = true;
-                } else if (index % 3 === 2) {
-                  cellClass = 'bento-cell solid-volt';
-                  textStyle = { color: 'var(--white)' };
-                  categoryColor = 'var(--white)';
-                  isDark = true;
-                }
+                // Uniform premium dark bento cell styling
+                const cellClass = 'bento-cell solid-ink';
+                const textStyle = { color: 'var(--white)' };
+                const categoryColor = 'var(--volt)';
+                const isDark = true;
 
                 return (
                   <div

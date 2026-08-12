@@ -116,20 +116,10 @@ export default function About() {
                 desc: 'Our field engineers supervise the contracting crew, verifying slab preparation, compound mixes, and membrane application.'
               }
             ].map((step, index) => {
-              // Alternating color blocks: Card 1 (neutral), Card 2 (Solid Ink), Card 3 (Solid Volt), Card 4 (neutral)
-              let cellClass = 'bento-cell';
-              let textStyle = { color: 'var(--ink)' };
-              let categoryColor = 'var(--volt)';
-              
-              if (index === 1) {
-                cellClass = 'bento-cell solid-ink';
-                textStyle = { color: 'var(--white)' };
-                categoryColor = 'var(--volt)';
-              } else if (index === 2) {
-                cellClass = 'bento-cell solid-volt';
-                textStyle = { color: 'var(--white)' };
-                categoryColor = 'var(--white)';
-              }
+              // Uniform premium dark bento cell styling
+              const cellClass = 'bento-cell solid-ink';
+              const textStyle = { color: 'var(--white)' };
+              const categoryColor = 'var(--volt)';
 
               return (
                 <div 
@@ -188,22 +178,11 @@ export default function About() {
           ) : (
             <div className="bento-grid">
               {team.map((member, index) => {
-                let cellClass = 'bento-cell';
-                let textStyle = { color: 'var(--ink)' };
-                let designationColor = 'var(--volt)';
-                let isDark = false;
-                
-                if (index % 4 === 1) {
-                  cellClass = 'bento-cell solid-ink';
-                  textStyle = { color: 'var(--white)' };
-                  designationColor = 'var(--volt)';
-                  isDark = true;
-                } else if (index % 4 === 2) {
-                  cellClass = 'bento-cell solid-volt';
-                  textStyle = { color: 'var(--white)' };
-                  designationColor = 'var(--white)';
-                  isDark = true;
-                }
+                // Uniform premium dark bento cell styling
+                const cellClass = 'bento-cell solid-ink';
+                const textStyle = { color: 'var(--white)' };
+                const designationColor = 'var(--volt)';
+                const isDark = true;
 
                 return (
                   <div 

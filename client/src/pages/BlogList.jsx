@@ -73,26 +73,12 @@ export default function BlogList() {
                   ? `${plainTextSnippet.substring(0, 110)}...`
                   : plainTextSnippet;
 
-                // Determine alternating bento card colors
-                let cellClass = 'bento-cell';
-                let textStyle = { color: 'var(--ink)' };
-                let metaColor = 'var(--graphite)';
-                let btnClass = 'btn btn-outline';
-                let isDark = false;
-                
-                if (index % 3 === 1) {
-                  cellClass = 'bento-cell solid-ink';
-                  textStyle = { color: 'var(--white)' };
-                  metaColor = 'rgba(255, 255, 255, 0.7)';
-                  btnClass = 'btn btn-primary';
-                  isDark = true;
-                } else if (index % 3 === 2) {
-                  cellClass = 'bento-cell solid-volt';
-                  textStyle = { color: 'var(--white)' };
-                  metaColor = 'rgba(255, 255, 255, 0.85)';
-                  btnClass = 'btn btn-outline';
-                  isDark = true;
-                }
+                // Uniform premium dark bento cell styling and gold buttons
+                const cellClass = 'bento-cell solid-ink';
+                const textStyle = { color: 'var(--white)' };
+                const metaColor = 'rgba(255, 255, 255, 0.7)';
+                const btnClass = 'btn btn-primary';
+                const isDark = true;
 
                 return (
                   <div 
