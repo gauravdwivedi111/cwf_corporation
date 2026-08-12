@@ -4,7 +4,6 @@ import { X, MapPin } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
-import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * Public Projects Listing page (Portfolio).
@@ -14,8 +13,9 @@ export default function ProjectsList() {
   const { data: projectsData, loading, error, request: fetchProjects } = useApi();
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [revealRef, isVisible] = useScrollReveal();
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealRef = null;
+  const isVisible = true;
+  const prefersReduced = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
   useEffect(() => {
     fetchProjects('/projects').catch(() => {});

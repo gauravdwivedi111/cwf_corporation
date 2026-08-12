@@ -7,7 +7,6 @@ import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 import LeadForm from '../components/LeadForm.jsx';
 import CategoryIcon from '../components/CategoryIcon.jsx';
-import { useScrollReveal } from '../hooks/useScrollReveal.js';
 import CountUp from '../components/CountUp.jsx';
 
 /**
@@ -24,21 +23,19 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [touchStart, setTouchStart] = useState(null);
 
-  // Scroll triggers for page sections
-  const [servicesRef, servicesVisible] = useScrollReveal();
-  const [comparisonRef, comparisonVisible] = useScrollReveal();
-  const [testimonialsRef, testimonialsVisible] = useScrollReveal();
-  const [leadRef, leadVisible] = useScrollReveal();
-  const [statsRef, statsVisible] = useScrollReveal();
-
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // On mobile viewports, all content is fully visible immediately to prevent blank pages or delayed observer triggers.
-  const showStats = isMobile || statsVisible;
-  const showServices = isMobile || servicesVisible;
-  const showComparison = isMobile || comparisonVisible;
-  const showTestimonials = isMobile || testimonialsVisible;
-  const showLead = isMobile || leadVisible;
+  // Statically force all content blocks to be visible immediately on all viewports,
+  // bypassing IntersectionObserver timing delays and hydration mismatch bugs.
+  const prefersReduced = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  const statsRef = null;
+  const servicesRef = null;
+  const comparisonRef = null;
+  const testimonialsRef = null;
+  const leadRef = null;
+  const showStats = true;
+  const showServices = true;
+  const showComparison = true;
+  const showTestimonials = true;
+  const showLead = true;
 
   const handleTouchStartTestimonial = (e) => {
     setTouchStart(e.touches[0].clientX);

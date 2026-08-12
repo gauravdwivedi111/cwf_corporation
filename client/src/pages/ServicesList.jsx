@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import CategoryIcon from '../components/CategoryIcon.jsx';
-import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * Public Services Listing page.
@@ -12,8 +11,9 @@ import { useScrollReveal } from '../hooks/useScrollReveal.js';
  */
 export default function ServicesList() {
   const { data: servicesData, loading, error, request: fetchServices } = useApi();
-  const [revealRef, isVisible] = useScrollReveal();
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealRef = null;
+  const isVisible = true;
+  const prefersReduced = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
   useEffect(() => {
     fetchServices('/services').catch(() => {});

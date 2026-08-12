@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
-import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * About page displaying CWF structural story, 4-step waterproofing audit methodology,
@@ -11,9 +10,11 @@ import { useScrollReveal } from '../hooks/useScrollReveal.js';
  */
 export default function About() {
   const { data: teamData, loading: teamLoading, error: teamError, request: fetchTeam } = useApi();
-  const [methodRef, methodVisible] = useScrollReveal();
-  const [teamRef, teamVisible] = useScrollReveal();
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const methodRef = null;
+  const methodVisible = true;
+  const teamRef = null;
+  const teamVisible = true;
+  const prefersReduced = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
   useEffect(() => {
     fetchTeam('/team').catch(() => {});
