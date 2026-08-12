@@ -9,8 +9,8 @@ const generateAccessToken = (userId) => {
 };
 
 // Helper to generate refresh tokens
-const generateRefreshToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_REFRESH_SECRET, {
+const generateRefreshToken = (userId, tokenVersion = 0) => {
+  return jwt.sign({ id: userId, version: tokenVersion }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: process.env.JWT_REFRESH_EXPIRE || '7d',
   });
 };
@@ -61,7 +61,7 @@ export const login = async (req, res, next) => {
 
     // Generate JWT access + refresh tokens
     const accessToken = generateAccessToken(user._id);
-    const refreshToken = generateRefreshToken(user._id);
+    const refreshToken = generateRefreshToken(user._id, user.tokenVersion || 0);
 
     // Save last login time
     user.lastLogin = new Date();
@@ -112,8 +112,30 @@ export const refresh = async (req, res) => {
       });
     }
 
-    // Create new access token
+    // Verify token version match
+    if (decoded.version !== user.tokenVersion) {
+      // Replay attack / reuse detected! Invalidate all refresh tokens by incrementing version
+      user.tokenVersion = (user.tokenVersion || 0) + 1;
+      await user.save();
+      
+      // Clear cookie
+      res.clearCookie('refreshToken', getCookieOptions());
+
+      return res.status(401).json({
+        success: false,
+        message: 'Access denied. Security warning: Refresh token reuse detected.',
+      });
+    }
+
+    // Rotate refresh token: increment version, save, and issue new access & refresh tokens
+    user.tokenVersion = (user.tokenVersion || 0) + 1;
+    await user.save();
+
     const accessToken = generateAccessToken(user._id);
+    const newRefreshToken = generateRefreshToken(user._id, user.tokenVersion);
+
+    // Set rotated refresh token in httpOnly Cookie
+    res.cookie('refreshToken', newRefreshToken, getCookieOptions());
 
     res.status(200).json({
       success: true,

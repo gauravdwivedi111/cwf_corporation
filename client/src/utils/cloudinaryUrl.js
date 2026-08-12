@@ -14,9 +14,16 @@
 export const getOptimizedCloudinaryUrl = (url, width = 800) => {
   if (!url) return '';
 
-  // If the resource is not hosted on Cloudinary, return the original URL
+  // If the resource is a local file (does not contain res.cloudinary.com)
   if (!url.includes('res.cloudinary.com')) {
-    return url;
+    // Convert any png/jpg/jpeg paths to webp format
+    let optimizedUrl = url.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+    
+    // If layout requests width <= 400, load the small WebP version
+    if (width <= 400) {
+      return optimizedUrl.replace(/\.webp$/i, '-small.webp');
+    }
+    return optimizedUrl;
   }
 
   const uploadSegment = '/upload/';

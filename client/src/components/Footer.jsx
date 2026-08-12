@@ -18,19 +18,18 @@ export default function Footer() {
 
   // Fallback defaults if database Settings collection is empty or unreachable
   const settings = settingsData?.data || {
-    companyPhone: '+91 20 1234 5678',
-    companyEmail: 'info@cwfcorporation.com',
+    companyPhone: '089561 17811',
+    companyEmail: 'info@hbpolytech.com',
     address: {
-      street: '101, Apex Commercial Hub, MG Road',
+      street: 'Office No. - 808, Sai Millenium, Mumbai Hwy, Kate Wasti, Punawale',
       city: 'Pune',
-      pincode: '411001',
+      pincode: '411033',
       country: 'India',
     },
-    businessHours: 'Monday - Saturday: 9:00 AM - 6:00 PM',
+    businessHours: 'Tuesday - Sunday: 9:00 AM - 6:00 PM (Monday Closed)',
     socialLinks: {
-      facebook: 'https://facebook.com/cwfcorporation',
-      instagram: 'https://instagram.com/cwfcorporation',
-      linkedin: 'https://linkedin.com/company/cwfcorporation',
+      instagram: 'https://www.instagram.com/hbpolytech?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
+      linkedin: 'https://www.linkedin.com/in/hbpolytechind/',
     },
   };
 
@@ -39,8 +38,8 @@ export default function Footer() {
       <div className="container">
         <div className="grid-4">
           <div>
-            <div className="logo" style={{ color: 'var(--color-white)', marginBottom: '1rem' }}>
-              <ShieldAlert size={24} style={{ marginRight: '0.5rem', color: 'var(--color-accent)' }} />
+            <div className="logo" style={{ color: 'var(--panel)', marginBottom: '1rem' }}>
+              <ShieldAlert size={24} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
               CWF<span>Corporation</span>
             </div>
             <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.88rem' }}>
@@ -98,7 +97,7 @@ export default function Footer() {
               <li><Link to="/services/terrace-waterproofing">Terrace Waterproofing</Link></li>
               <li><Link to="/services/basement-waterproofing">Basement Grouting</Link></li>
               <li><Link to="/services/bathroom-waterproofing">Bathroom Wet Area Sealing</Link></li>
-              <li><Link to="/services/tank-waterproofing">Water Tank Grouting</Link></li>
+              <li><Link to="/services/water-tank-sealing">Water Tank Grouting</Link></li>
             </ul>
           </div>
 
@@ -106,22 +105,22 @@ export default function Footer() {
             <h4>CWF Pune Office</h4>
             <ul className="footer-nav" style={{ fontSize: '0.9rem' }}>
               <li style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-                <MapPin size={18} style={{ color: 'var(--color-accent)', flexShrink: 0, marginTop: '0.2rem' }} />
+                <MapPin size={18} style={{ color: 'var(--treated)', flexShrink: 0, marginTop: '0.2rem' }} />
                 <span>
                   {settings.address?.street},<br />
                   {settings.address?.city} - {settings.address?.pincode}, {settings.address?.country}
                 </span>
               </li>
               <li style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <Phone size={18} style={{ color: 'var(--color-accent)' }} />
+                <Phone size={18} style={{ color: 'var(--treated)' }} />
                 <a href={`tel:${settings.companyPhone}`}>{settings.companyPhone}</a>
               </li>
               <li style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginBottom: '0.75rem' }}>
-                <Mail size={18} style={{ color: 'var(--color-accent)' }} />
+                <Mail size={18} style={{ color: 'var(--treated)' }} />
                 <a href={`mailto:${settings.companyEmail}`}>{settings.companyEmail}</a>
               </li>
               <li style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <Clock size={18} style={{ color: 'var(--color-accent)' }} />
+                <Clock size={18} style={{ color: 'var(--treated)' }} />
                 <span>{settings.businessHours}</span>
               </li>
             </ul>
@@ -129,7 +128,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} CWF Corporation. All rights reserved.</p>
+          <p>&copy; <span className="data-num">{new Date().getFullYear()}</span> CWF Corporation. All rights reserved.</p>
           <p>Scientific Waterproofing & Structural Inspection Specialists, Pune</p>
         </div>
       </div>

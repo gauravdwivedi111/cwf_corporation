@@ -14,13 +14,13 @@ export default function NotFound() {
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
-      <section className="section" style={{ display: 'flex', alignItems: 'center', minHeight: '60vh', textAlign: 'center' }}>
-        <div className="container" style={{ maxWidth: '500px' }}>
-          <ShieldAlert size={64} style={{ color: 'var(--color-error)', marginBottom: '1.5rem', display: 'inline-block' }} />
-          <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>404</h1>
-          <h2>Page Not Found</h2>
-          <p style={{ marginTop: '1rem', marginBottom: '2rem' }}>
-            The page you are looking for does not exist. However, we can help protect your property from leakages!
+      <section className="section blueprint-grid" style={{ display: 'flex', alignItems: 'center', minHeight: '65vh', textAlign: 'center' }}>
+        <div className="container" style={{ maxWidth: '500px', backgroundColor: 'var(--panel)', padding: '3rem', border: '1.5px solid var(--ink)', borderRadius: '2px' }}>
+          <ShieldAlert size={64} style={{ color: 'var(--damage)', marginBottom: '1.5rem', display: 'inline-block' }} />
+          <h1 className="data-num" style={{ fontSize: '4.5rem', marginBottom: '0.5rem', lineHeight: 1, color: 'var(--damage)' }}>404</h1>
+          <h2 style={{ borderBottom: 'none', margin: '0.5rem 0', fontSize: '1.75rem', display: 'block' }}>PAGE NOT FOUND</h2>
+          <p style={{ marginTop: '1rem', marginBottom: '2rem', fontSize: '0.95rem' }}>
+            The requested technical route does not exist. However, we can help protect your property from concrete leaks!
           </p>
           <Link to="/" className="btn btn-primary" style={{ display: 'inline-flex', gap: '0.5rem', alignItems: 'center' }}>
             <ArrowLeft size={18} /> Back to Home Page

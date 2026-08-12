@@ -33,3 +33,12 @@ lerna-debug.log*
 # OS-specific files
 .DS_Store
 Thumbs.db
+
+# Project-specific local files
+lighthouse-*.json
+original-hero.mp4
+server/backups/
+server/logs/
+client/test-results/
+client/*-report.json
+*.backup

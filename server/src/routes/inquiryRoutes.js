@@ -20,7 +20,9 @@ const inquiryCreateRules = [
   body('phone')
     .notEmpty()
     .withMessage('Phone number is required.')
-    .trim(),
+    .trim()
+    .matches(/^\+?[0-9]{10,15}$/)
+    .withMessage('Please provide a valid phone number.'),
   body('email')
     .optional({ nullable: true, checkFalsy: true })
     .isEmail()

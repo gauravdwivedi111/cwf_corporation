@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
+import CategoryIcon from '../components/CategoryIcon.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * Public Services Listing page.
- * Loads and displays all published service categories.
+ * Loads and displays all published service categories in Bento cards.
  */
 export default function ServicesList() {
   const { data: servicesData, loading, error, request: fetchServices } = useApi();
+  const [revealRef, isVisible] = useScrollReveal();
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
     fetchServices('/services').catch(() => {});
@@ -28,15 +32,22 @@ export default function ServicesList() {
       </Helmet>
 
       {/* Header Banner */}
-      <section className="section" style={{ backgroundColor: 'var(--color-primary-dark)', color: 'var(--color-white)', textAlign: 'center', padding: '4rem 0' }}>
+      <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', textAlign: 'center', padding: '4rem 0' }}>
         <div className="container">
-          <h1 style={{ color: 'var(--color-white)', marginBottom: '0.5rem' }}>Structural Sealing & Waterproofing Services</h1>
-          <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0 }}>Scientific Diagnostic Solutions and Supervised Repair Execution</p>
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>
+            [CATALOG: COATINGS & GROUTING]
+          </span>
+          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', marginBottom: '0.5rem', fontSize: '2.5rem', lineHeight: 1.1 }}>
+            Waterproofing Services
+          </h1>
+          <p style={{ color: 'var(--graphite)', margin: 0, fontFamily: 'var(--font-body)' }}>
+            Scientific Diagnostic Solutions and Supervised Repair Execution
+          </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="section">
+      <section ref={revealRef} className="section">
         <div className="container">
           {loading ? (
             <div className="spinner-wrapper">
@@ -52,41 +63,81 @@ export default function ServicesList() {
               <p>No waterproofing services are listed currently.</p>
             </div>
           ) : (
-            <div className="grid-3">
-              {services.map((service) => (
-                <div key={service._id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                  <div className="card-image-wrapper">
-                    <img
-                      src={getOptimizedCloudinaryUrl(service.coverImage, 500)}
-                      alt={service.title}
-                      className="card-img"
-                      loading="lazy"
-                    />
+            <div className="bento-grid">
+              {services.map((service, index) => {
+                // Determine alternating bento fills
+                // Card 1: Neutral panel, Card 2: Solid Ink (dark), Card 3: Solid Volt (cobalt blue)
+                let cellClass = 'bento-cell';
+                let textStyle = { color: 'var(--ink)' };
+                let categoryColor = 'var(--volt)';
+                let btnClass = 'btn btn-outline';
+                
+                if (index % 3 === 1) {
+                  cellClass = 'bento-cell solid-ink';
+                  textStyle = { color: 'var(--white)' };
+                  categoryColor = 'var(--volt)';
+                  btnClass = 'btn btn-primary';
+                } else if (index % 3 === 2) {
+                  cellClass = 'bento-cell solid-volt';
+                  textStyle = { color: 'var(--white)' };
+                  categoryColor = 'var(--white)';
+                  btnClass = 'btn btn-outline';
+                }
+
+                return (
+                  <div 
+                    key={service._id} 
+                    className={cellClass}
+                    style={{ 
+                      gridColumn: 'span 4',
+                      display: 'flex', 
+                      flexDirection: 'column', 
+                      height: '100%',
+                      opacity: isVisible ? 1 : 0,
+                      transform: isVisible ? 'scale(1)' : 'scale(0.96)',
+                      transition: prefersReduced ? 'none' : `opacity 0.4s ease-out ${index * 80}ms, transform 0.4s ease-out ${index * 80}ms`,
+                      padding: '2rem'
+                    }}
+                  >
+                    <div style={{ width: '100%', height: '200px', borderRadius: '4px', overflow: 'hidden', marginBottom: '1.25rem' }}>
+                      <img
+                        src={getOptimizedCloudinaryUrl(service.coverImage, 500)}
+                        alt={service.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div style={{ flexGrow: 1 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+                        <span
+                          style={{
+                            fontSize: '0.72rem',
+                            fontWeight: '700',
+                            color: categoryColor,
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px',
+                            fontFamily: 'var(--font-data)'
+                          }}
+                        >
+                          {service.category.replace('-', ' ')}
+                        </span>
+                        <CategoryIcon category={service.category} size={24} />
+                      </div>
+                      <h3 style={{ fontSize: '1.3rem', ...textStyle, fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                        {service.title}
+                      </h3>
+                      <p style={{ fontSize: '0.92rem', opacity: index % 3 === 0 ? 0.8 : 0.9, ...textStyle, fontFamily: 'var(--font-body)', lineHeight: '1.5' }}>
+                        {service.shortDescription}
+                      </p>
+                    </div>
+                    <div style={{ marginTop: '1.5rem', zIndex: 10 }}>
+                      <Link to={`/services/${service.slug}`} className={btnClass} style={{ width: '100%', textAlign: 'center', border: index % 3 === 1 ? 'none' : undefined }}>
+                        View Diagnostics Guide
+                      </Link>
+                    </div>
                   </div>
-                  <div style={{ marginTop: '1.25rem', flexGrow: 1 }}>
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        fontWeight: '700',
-                        color: 'var(--color-accent)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                      }}
-                    >
-                      {service.category.replace('-', ' ')}
-                    </span>
-                    <h3 style={{ fontSize: '1.4rem' }}>{service.title}</h3>
-                    <p style={{ fontSize: '0.92rem' }}>{service.shortDescription}</p>
-                  </div>
-                  <div style={{ marginTop: '1.5rem' }}>
-                    <Link to={`/services/${service.slug}`} className="btn btn-primary" style={{ width: '100%' }}>
-                      View Diagnostics Guide
-                    </Link>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

@@ -1,3 +1,5 @@
+import logger from '../utils/logger.js';
+
 /**
  * Centralized global error handling middleware.
  * Formats Mongoose and general Javascript exceptions.
@@ -6,11 +8,6 @@
 export const errorHandler = (err, req, res, _next) => {
   let error = { ...err };
   error.message = err.message;
-
-  // Log error details for developer inspection in development mode
-  if (process.env.NODE_ENV !== 'production') {
-    console.error('ErrorHandler Caught:', err);
-  }
 
   // Handle Mongoose CastError (invalid ObjectIds)
   if (err.name === 'CastError') {
@@ -36,6 +33,18 @@ export const errorHandler = (err, req, res, _next) => {
   }
 
   const statusCode = error.statusCode || err.statusCode || 500;
+
+  // Server-side Winston logging based on status codes
+  if (statusCode === 500) {
+    logger.error(`[500] ${req.method} ${req.originalUrl} - ${err.message}`, {
+      stack: err.stack,
+      ip: req.ip,
+      body: req.method !== 'GET' ? req.body : null,
+    });
+  } else {
+    logger.warn(`[${statusCode}] ${req.method} ${req.originalUrl} - ${err.message}`);
+  }
+
   const response = {
     success: false,
     message: error.message || 'Internal Server Error',

@@ -44,6 +44,15 @@ export const upload = multer({
  * @returns {Promise<string>} - Secure URL of uploaded image
  */
 export const uploadToCloudinary = (fileBuffer, folder = 'cwf_corporation') => {
+  // Offline mock mode bypass if credentials are set to fake default values
+  if (
+    !process.env.CLOUDINARY_API_KEY ||
+    process.env.CLOUDINARY_API_KEY === '1234567890' ||
+    process.env.CLOUDINARY_CLOUD_NAME === 'demo'
+  ) {
+    return Promise.resolve('https://res.cloudinary.com/demo/image/upload/sample.jpg');
+  }
+
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {

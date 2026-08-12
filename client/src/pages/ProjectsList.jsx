@@ -4,19 +4,20 @@ import { X, MapPin } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
+import { useScrollReveal } from '../hooks/useScrollReveal.js';
 
 /**
  * Public Projects Listing page (Portfolio).
- * Fetches projects and allows category filtering.
- * Selecting a project opens a detailed overlay with before-after sliders.
+ * Loads, filters, and renders project details inside Bento cards.
  */
 export default function ProjectsList() {
   const { data: projectsData, loading, error, request: fetchProjects } = useApi();
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [revealRef, isVisible] = useScrollReveal();
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   useEffect(() => {
-    // We can filter client-side or server-side. For this grid, client-side is snappy.
     fetchProjects('/projects').catch(() => {});
   }, [fetchProjects]);
 
@@ -26,11 +27,11 @@ export default function ProjectsList() {
   const categories = [
     { value: 'all', label: 'All Projects' },
     { value: 'terrace', label: 'Terraces' },
-    { value: 'basement', label: 'Basements & Grouting' },
+    { value: 'basement', label: 'Basements' },
     { value: 'bathroom', label: 'Bathrooms' },
     { value: 'tank', label: 'Water Tanks' },
     { value: 'facade', label: 'External Facades' },
-    { value: 'injection-grouting', label: 'Injection Grouting' },
+    { value: 'injection-grouting', label: 'Injection' },
   ];
 
   // Filter project records
@@ -59,24 +60,40 @@ export default function ProjectsList() {
       </Helmet>
 
       {/* Header Banner */}
-      <section className="section" style={{ backgroundColor: 'var(--color-primary-dark)', color: 'var(--color-white)', textAlign: 'center', padding: '4rem 0' }}>
+      <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', textAlign: 'center', padding: '4rem 0' }}>
         <div className="container">
-          <h1 style={{ color: 'var(--color-white)', marginBottom: '0.5rem' }}>Waterproofing Project Portfolio</h1>
-          <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0 }}>Scientific Sealing Case Studies across Pune City</p>
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>
+            [PORTFOLIO: COMPLETED AUDITS]
+          </span>
+          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', marginBottom: '0.5rem', fontSize: '2.5rem', lineHeight: 1.1 }}>
+            Project Case Studies
+          </h1>
+          <p style={{ color: 'var(--graphite)', margin: 0, fontFamily: 'var(--font-body)' }}>
+            Scientific Sealing Case Studies across Pune City
+          </p>
         </div>
       </section>
 
       {/* Projects Grid Section */}
-      <section className="section">
+      <section ref={revealRef} className="section">
         <div className="container">
           {/* Category Filters */}
-          <ul className="portfolio-filters">
+          <ul className="portfolio-filters" style={{ display: 'flex', gap: '0.75rem', listStyle: 'none', padding: 0, marginBottom: '2.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             {categories.map((cat) => (
               <li key={cat.value}>
                 <button
                   onClick={() => setActiveFilter(cat.value)}
-                  className={`btn ${activeFilter === cat.value ? 'btn-primary' : 'btn-outline'}`}
-                  style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}
+                  className="btn"
+                  style={{ 
+                    padding: '0.4rem 1.1rem', 
+                    fontSize: '0.82rem',
+                    fontFamily: 'var(--font-data)',
+                    textTransform: 'uppercase',
+                    backgroundColor: activeFilter === cat.value ? 'var(--volt)' : 'var(--panel)',
+                    color: activeFilter === cat.value ? 'var(--white)' : 'var(--ink)',
+                    border: 'none',
+                    borderRadius: '4px'
+                  }}
                 >
                   {cat.label}
                 </button>
@@ -98,62 +115,95 @@ export default function ProjectsList() {
               <p>No project records match the selected category filter.</p>
             </div>
           ) : (
-            <div className="grid-3">
-              {filteredProjects.map((project) => (
-                <div
-                  key={project._id}
-                  className="card"
-                  onClick={() => openModal(project)}
-                  style={{ cursor: 'pointer', padding: 0, display: 'flex', flexDirection: 'column', height: '100%' }}
-                >
-                  <div className="card-image-wrapper">
-                    {/* Displays After image on grid preview */}
-                    <img
-                      src={getOptimizedCloudinaryUrl(project.afterImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_500,h_350,c_fill/canyon.jpg', 500)}
-                      alt={project.title}
-                      className="card-img"
-                      loading="lazy"
-                    />
-                    {project.isFeatured && (
+            <div className="bento-grid">
+              {filteredProjects.map((project, index) => {
+                // Alternating color blocks: Card 1 (Neutral), Card 2 (Solid Ink), Card 3 (Solid Volt)
+                let cellClass = 'bento-cell';
+                let textStyle = { color: 'var(--ink)' };
+                let categoryColor = 'var(--volt)';
+                let isDark = false;
+                
+                if (index % 3 === 1) {
+                  cellClass = 'bento-cell solid-ink';
+                  textStyle = { color: 'var(--white)' };
+                  categoryColor = 'var(--volt)';
+                  isDark = true;
+                } else if (index % 3 === 2) {
+                  cellClass = 'bento-cell solid-volt';
+                  textStyle = { color: 'var(--white)' };
+                  categoryColor = 'var(--white)';
+                  isDark = true;
+                }
+
+                return (
+                  <div
+                    key={project._id}
+                    className={cellClass}
+                    onClick={() => openModal(project)}
+                    style={{
+                      gridColumn: 'span 4',
+                      cursor: 'pointer',
+                      padding: '1.5rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: '100%',
+                      opacity: isVisible ? 1 : 0,
+                      transform: isVisible ? 'scale(1)' : 'scale(0.96)',
+                      transition: prefersReduced ? 'none' : `opacity 0.4s ease-out ${index * 80}ms, transform 0.4s ease-out ${index * 80}ms`
+                    }}
+                  >
+                    <div style={{ width: '100%', height: '180px', borderRadius: '4px', overflow: 'hidden', position: 'relative', marginBottom: '1rem' }}>
+                      <img
+                        src={getOptimizedCloudinaryUrl(project.afterImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_500,h_350,c_fill/canyon.jpg', 500)}
+                        alt={project.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        loading="lazy"
+                      />
+                      {project.isFeatured && (
+                        <span
+                          style={{
+                            position: 'absolute',
+                            top: '0.75rem',
+                            left: '0.75rem',
+                            backgroundColor: 'var(--volt)',
+                            color: 'var(--white)',
+                            padding: '0.25rem 0.5rem',
+                            fontSize: '0.7rem',
+                            fontWeight: '700',
+                            borderRadius: '2px',
+                            textTransform: 'uppercase',
+                            fontFamily: 'var(--font-data)'
+                          }}
+                        >
+                          Featured
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ flexGrow: 1 }}>
                       <span
                         style={{
-                          position: 'absolute',
-                          top: '1rem',
-                          left: '1rem',
-                          backgroundColor: 'var(--color-accent)',
-                          color: 'var(--color-white)',
-                          padding: '0.25rem 0.5rem',
-                          fontSize: '0.75rem',
+                          fontSize: '0.72rem',
                           fontWeight: '700',
-                          borderRadius: '4px',
+                          color: categoryColor,
                           textTransform: 'uppercase',
+                          letterSpacing: '1px',
+                          display: 'block',
+                          marginBottom: '0.5rem',
+                          fontFamily: 'var(--font-data)'
                         }}
                       >
-                        Featured
+                        {project.serviceCategory.replace('-', ' ')}
                       </span>
-                    )}
+                      <h3 style={{ fontSize: '1.25rem', ...textStyle, fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                        {project.title}
+                      </h3>
+                      <p style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', fontSize: '0.85rem', color: isDark ? 'var(--white)' : 'var(--graphite)', margin: 0, opacity: 0.8 }}>
+                        <MapPin size={16} /> {project.location}
+                      </p>
+                    </div>
                   </div>
-                  <div style={{ padding: '1.5rem', flexGrow: 1 }}>
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        fontWeight: '700',
-                        color: 'var(--color-accent)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        display: 'block',
-                        marginBottom: '0.5rem',
-                      }}
-                    >
-                      {project.serviceCategory.replace('-', ' ')}
-                    </span>
-                    <h3 style={{ fontSize: '1.25rem', marginBottom: '0.75rem' }}>{project.title}</h3>
-                    <p style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', fontSize: '0.85rem', color: 'var(--color-gray-text)', margin: 0 }}>
-                      <MapPin size={16} /> {project.location}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -161,18 +211,18 @@ export default function ProjectsList() {
 
       {/* Details Modal overlay */}
       {selectedProject && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title">
-            <button className="modal-close" onClick={closeModal} aria-label="Close modal">
+        <div className="modal-overlay" onClick={closeModal} style={{ backgroundColor: 'rgba(10, 14, 39, 0.85)' }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title" style={{ padding: '2.5rem', border: '4px solid var(--ink)', borderRadius: '6px' }}>
+            <button className="modal-close" onClick={closeModal} aria-label="Close modal" style={{ top: '1.5rem', right: '1.5rem', color: 'var(--ink)' }}>
               <X size={24} />
             </button>
 
-            <h2 id="modal-title" style={{ fontSize: '1.75rem', marginBottom: '1rem', paddingRight: '2rem' }}>
+            <h2 id="modal-title" style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.75rem', marginBottom: '1.5rem', paddingRight: '2rem' }}>
               {selectedProject.title}
             </h2>
 
             {/* Slider container */}
-            <div style={{ marginBottom: '2rem', border: '1px solid var(--color-gray-border)', borderRadius: '6px' }}>
+            <div style={{ marginBottom: '2rem' }}>
               <BeforeAfterSlider
                 beforeImage={selectedProject.beforeImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg'}
                 afterImage={selectedProject.afterImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg'}
@@ -181,30 +231,36 @@ export default function ProjectsList() {
               />
             </div>
 
-            <div className="grid-2" style={{ gap: '2rem', gridTemplateColumns: '1.8fr 1fr' }}>
-              <div>
-                <h3>Project Case Study</h3>
-                <p style={{ whiteSpace: 'pre-line' }}>{selectedProject.description}</p>
+            <div className="bento-grid" style={{ gap: '2rem' }}>
+              <div style={{ gridColumn: 'span 7' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.2rem', marginBottom: '0.75rem' }}>
+                  Project Case Study
+                </h3>
+                <p style={{ whiteSpace: 'pre-line', fontSize: '0.98rem', lineHeight: '1.5' }}>
+                  {selectedProject.description}
+                </p>
               </div>
 
-              <div>
-                <h3>Specifications</h3>
-                <ul className="footer-nav" style={{ color: 'var(--color-gray-text)', fontSize: '0.9rem' }}>
-                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--color-gray-border)' }}>
-                    <span>Location:</span>
-                    <strong>{selectedProject.location}</strong>
+              <div className="bento-cell" style={{ gridColumn: 'span 5', padding: '1.5rem', margin: 0, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.1rem', marginBottom: '1rem' }}>
+                  Specifications
+                </h3>
+                <ul className="footer-nav" style={{ listStyle: 'none', padding: 0 }}>
+                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '2px solid var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.8rem', textTransform: 'uppercase' }}>Location</span>
+                    <strong style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem' }}>{selectedProject.location}</strong>
                   </li>
-                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--color-gray-border)' }}>
-                    <span>Client Type:</span>
-                    <strong style={{ textTransform: 'capitalize' }}>{selectedProject.clientType}</strong>
+                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '2px solid var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.8rem', textTransform: 'uppercase' }}>Client Type</span>
+                    <strong style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>{selectedProject.clientType}</strong>
                   </li>
-                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid var(--color-gray-border)' }}>
-                    <span>Area Treated:</span>
-                    <strong>{selectedProject.sqftTreated.toLocaleString()} Sq. Ft.</strong>
+                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '2px solid var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.8rem', textTransform: 'uppercase' }}>Area Treated</span>
+                    <strong style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem' }} className="data-num">{selectedProject.sqftTreated.toLocaleString()} SQFT</strong>
                   </li>
-                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
-                    <span>Completion:</span>
-                    <strong>{new Date(selectedProject.completionDate).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</strong>
+                  <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '2px solid var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.8rem', textTransform: 'uppercase' }}>Completion</span>
+                    <strong style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem' }} className="data-num">{new Date(selectedProject.completionDate).toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }).toUpperCase()}</strong>
                   </li>
                 </ul>
               </div>

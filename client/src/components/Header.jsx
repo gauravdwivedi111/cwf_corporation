@@ -16,7 +16,7 @@ export default function Header() {
     <header className="app-header">
       <div className="container nav-container">
         <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Corporation Home">
-          <ShieldAlert size={28} style={{ marginRight: '0.5rem', color: 'var(--color-accent)' }} />
+          <ShieldAlert size={28} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
           CWF<span>Corporation</span>
         </NavLink>
 

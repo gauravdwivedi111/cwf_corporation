@@ -9,7 +9,7 @@ import LeadForm from '../components/LeadForm.jsx';
 /**
  * Dynamic Service Details Page.
  * Fetches a single service detail using route slug params.
- * Automatically increments view counts on load.
+ * Redesigned for Bento / Structural Bold concept.
  */
 export default function ServiceDetail() {
   const { slug } = useParams();
@@ -90,16 +90,23 @@ export default function ServiceDetail() {
           <Helmet>
             <title>{`${service.title} Diagnostics | CWF Corporation Pune`}</title>
             <meta name="description" content={service.shortDescription} />
+            <meta property="og:type" content="article" />
+            <meta property="og:title" content={`${service.title} Diagnostics | CWF Corporation Pune`} />
+            <meta property="og:description" content={service.shortDescription} />
+            <meta property="og:image" content={service.coverImage} />
+            <meta property="og:url" content={`https://cwfcorporation.com/services/${service.slug}`} />
           </Helmet>
 
           {/* Banner */}
-          <section className="section" style={{ backgroundColor: 'var(--color-primary-dark)', color: 'var(--color-white)', padding: '3.5rem 0' }}>
+          <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', padding: '3.5rem 0' }}>
             <div className="container">
-              <Link to="/services" style={{ color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: '500' }}>
+              <Link to="/services" style={{ color: 'var(--volt)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: 'bold', textDecoration: 'none', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                 <ArrowLeft size={18} /> Back to Services
               </Link>
-              <h1 style={{ color: 'var(--color-white)', marginBottom: '0.5rem' }}>{service.title}</h1>
-              <p style={{ color: 'rgba(255,255,255,0.7)', margin: 0, textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem' }}>
+              <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', fontSize: '2.5rem', lineHeight: 1.1, marginBottom: '0.5rem' }}>
+                {service.title}
+              </h1>
+              <p style={{ color: 'var(--ink)', opacity: 0.8, margin: 0, textTransform: 'uppercase', letterSpacing: '1px', fontSize: '0.85rem', fontFamily: 'var(--font-data)' }}>
                 Category: {service.category.replace('-', ' ')}
               </p>
             </div>
@@ -107,10 +114,13 @@ export default function ServiceDetail() {
 
           {/* Page Grid */}
           <section className="section">
-            <div className="container grid-2" style={{ gridTemplateColumns: '1.6fr 1fr', gap: '3rem' }}>
-              {/* Left Side - Details */}
-              <div>
-                <div style={{ borderRadius: '6px', overflow: 'hidden', marginBottom: '2rem', maxHeight: '400px' }}>
+            <div className="container bento-grid" style={{ gap: '2rem' }}>
+              
+              {/* Left Side - Details Bento Column */}
+              <div style={{ gridColumn: 'span 8', display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+                
+                {/* Visual Cover Image */}
+                <div style={{ borderRadius: '6px', border: '3px solid var(--ink)', overflow: 'hidden', height: '400px' }}>
                   <img
                     src={getOptimizedCloudinaryUrl(service.coverImage, 800)}
                     alt={service.title}
@@ -118,57 +128,86 @@ export default function ServiceDetail() {
                   />
                 </div>
 
-                <div style={{ marginBottom: '2.5rem' }}>
-                  <h2>Overview</h2>
-                  <p style={{ fontSize: '1.05rem', whiteSpace: 'pre-line' }}>{service.fullDescription}</p>
+                {/* Overview Text */}
+                <div className="bento-cell" style={{ margin: 0 }}>
+                  <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1rem' }}>
+                    Overview
+                  </h2>
+                  <p style={{ fontSize: '1.05rem', lineHeight: '1.6', whiteSpace: 'pre-line', margin: 0 }}>
+                    {service.fullDescription}
+                  </p>
                 </div>
 
-                <hr style={{ border: 'none', borderTop: '1px solid var(--color-gray-border)', margin: '2.5rem 0' }} />
-
-                {/* Technical diagnostics content */}
-                <div style={{ marginBottom: '2.5rem' }}>
-                  <h2 style={{ marginBottom: '1.5rem' }}>Scientific Diagnosis & Treatment Approach</h2>
+                {/* Technical Diagnostics approach bento */}
+                <div className="bento-cell solid-ink" style={{ margin: 0 }}>
+                  <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.5rem', marginBottom: '2rem' }}>
+                    Scientific Diagnosis & Treatment Approach
+                  </h2>
                   
-                  <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '0.5rem', backgroundColor: 'var(--color-accent-light)', borderRadius: '4px', color: 'var(--color-accent)' }}>
+                  <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '2rem', alignItems: 'flex-start' }}>
+                    <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
                       <HelpCircle size={24} />
                     </div>
                     <div>
-                      <h4 style={{ margin: 0 }}>The Problem</h4>
-                      <p style={{ fontSize: '0.92rem', margin: 0 }}>{currentDiagnostics.problem}</p>
+                      <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
+                        The Problem
+                      </h4>
+                      <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
+                        {currentDiagnostics.problem}
+                      </p>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '0.5rem', backgroundColor: 'var(--color-accent-light)', borderRadius: '4px', color: 'var(--color-accent)' }}>
+                  <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '2rem', alignItems: 'flex-start' }}>
+                    <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
                       <ClipboardList size={24} />
                     </div>
                     <div>
-                      <h4 style={{ margin: 0 }}>Our Diagnostic Audit Method</h4>
-                      <p style={{ fontSize: '0.92rem', margin: 0 }}>{currentDiagnostics.approach}</p>
+                      <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
+                        Our Diagnostic Audit Method
+                      </h4>
+                      <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
+                        {currentDiagnostics.approach}
+                      </p>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '0.5rem', backgroundColor: 'var(--color-accent-light)', borderRadius: '4px', color: 'var(--color-accent)' }}>
+                  <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                    <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
                       <ShieldCheck size={24} />
                     </div>
                     <div>
-                      <h4 style={{ margin: 0 }}>Recommended Treatment Specification</h4>
-                      <p style={{ fontSize: '0.92rem', margin: 0 }}>{currentDiagnostics.solutions}</p>
+                      <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
+                        Recommended Treatment Specification
+                      </h4>
+                      <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
+                        {currentDiagnostics.solutions}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 {service.gallery && service.gallery.length > 0 && (
-                  <div style={{ marginTop: '3rem' }}>
-                    <h2 style={{ marginBottom: '1.5rem' }}>Service Gallery</h2>
-                    <div className="grid-3">
+                  <div>
+                    <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1.5rem' }}>
+                      Service Gallery
+                    </h2>
+                    <div className="bento-grid">
                       {service.gallery.map((imgUrl, i) => (
-                        <div key={i} style={{ borderRadius: '4px', overflow: 'hidden', aspectRatio: '4/3', backgroundColor: 'var(--color-neutral-light)' }}>
+                        <div 
+                          key={i} 
+                          style={{ 
+                            gridColumn: 'span 4',
+                            borderRadius: '4px', 
+                            overflow: 'hidden', 
+                            aspectRatio: '4/3', 
+                            border: '3px solid var(--ink)', 
+                            backgroundColor: 'var(--panel)' 
+                          }}
+                        >
                           <img
                             src={getOptimizedCloudinaryUrl(imgUrl, 300)}
-                            alt={`Gallery image ${i + 1} for ${service.title}`}
+                            alt={`Gallery item ${i + 1} for ${service.title}`}
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             loading="lazy"
                           />
@@ -179,12 +218,23 @@ export default function ServiceDetail() {
                 )}
               </div>
 
-              {/* Right Side - Sticky Lead Form */}
-              <div>
-                <div style={{ position: 'sticky', top: '6rem' }}>
+              {/* Right Side - Sticky Lead Form Bento Cell */}
+              <div style={{ gridColumn: 'span 4' }}>
+                <div 
+                  className="bento-cell" 
+                  style={{ 
+                    position: 'sticky', 
+                    top: '6rem', 
+                    padding: '2rem', 
+                    backgroundColor: 'var(--panel)',
+                    border: '3px solid var(--ink)',
+                    margin: 0
+                  }}
+                >
                   <LeadForm defaultService={service.category} />
                 </div>
               </div>
+
             </div>
           </section>
         </>

@@ -8,6 +8,7 @@ import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 /**
  * Dynamic Blog Post Detail Reader view.
  * Fetches article by slug and parses raw content strings to rich HTML elements.
+ * Redesigned for Bento / Structural Bold concept.
  */
 export default function BlogPostDetail() {
   const { slug } = useParams();
@@ -50,38 +51,48 @@ export default function BlogPostDetail() {
       ) : (
         <>
           <Helmet>
-            {/* Inject dynamic SEO Title and description fallbacks */}
             <title>{post.seoTitle || `${post.title} | CWF Blog`}</title>
             <meta name="description" content={post.seoDescription || post.title} />
+            <meta property="og:type" content="article" />
+            <meta property="og:title" content={post.seoTitle || `${post.title} | CWF Blog`} />
+            <meta property="og:description" content={post.seoDescription || post.title} />
+            <meta property="og:image" content={post.coverImage} />
+            <meta property="og:url" content={`https://cwfcorporation.com/blog/${post.slug}`} />
           </Helmet>
 
           {/* Article Header */}
-          <section className="section" style={{ backgroundColor: 'var(--color-primary-dark)', color: 'var(--color-white)', padding: '4rem 0' }}>
+          <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', padding: '4rem 0' }}>
             <div className="container" style={{ maxWidth: '800px' }}>
-              <Link to="/blog" style={{ color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontWeight: '500' }}>
+              <Link to="/blog" style={{ color: 'var(--volt)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontWeight: 'bold', textDecoration: 'none', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                 <ArrowLeft size={18} /> Back to Blog List
               </Link>
-              <h1 style={{ color: 'var(--color-white)', fontSize: '2.5rem', marginBottom: '1.25rem' }}>{post.title}</h1>
+              <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', fontSize: '2.5rem', lineHeight: 1.1, marginBottom: '1.25rem' }}>
+                {post.title}
+              </h1>
               
               <div
                 style={{
                   display: 'flex',
                   gap: '1.5rem',
-                  fontSize: '0.9rem',
-                  color: 'rgba(255,255,255,0.7)',
+                  fontSize: '0.85rem',
+                  color: 'var(--ink)',
+                  opacity: 0.8,
+                  fontFamily: 'var(--font-data)'
                 }}
               >
                 <span style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
                   <Calendar size={16} />
-                  {new Date(post.publishedAt).toLocaleDateString('en-IN', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+                  <span className="data-num">
+                    {new Date(post.publishedAt).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'short',
+                      year: 'numeric',
+                    }).toUpperCase()}
+                  </span>
                 </span>
-                <span style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', textTransform: 'capitalize' }}>
+                <span style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', textTransform: 'uppercase' }}>
                   <User size={16} />
-                  By {post.author?.role || 'Engineer'}
+                  By {post.author?.role || 'ENGINEER'}
                 </span>
               </div>
             </div>
@@ -90,7 +101,7 @@ export default function BlogPostDetail() {
           {/* Reader Block */}
           <section className="section">
             <div className="container" style={{ maxWidth: '800px' }}>
-              <div style={{ borderRadius: '6px', overflow: 'hidden', marginBottom: '2.5rem', maxHeight: '450px' }}>
+              <div style={{ borderRadius: '6px', border: '3px solid var(--ink)', overflow: 'hidden', marginBottom: '2.5rem', maxHeight: '450px' }}>
                 <img
                   src={getOptimizedCloudinaryUrl(post.coverImage, 900)}
                   alt={post.title}
@@ -101,26 +112,28 @@ export default function BlogPostDetail() {
               {/* Rich text container */}
               <article
                 className="blog-content"
-                style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--color-neutral-dark)' }}
+                style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--ink)' }}
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
 
               {post.tags && post.tags.length > 0 && (
-                <div style={{ marginTop: '3.5rem', paddingTop: '1.5rem', borderTop: '1px solid var(--color-gray-border)', display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <Tag size={18} style={{ color: 'var(--color-accent)' }} />
+                <div style={{ marginTop: '3.5rem', paddingTop: '1.5rem', borderTop: '2px solid var(--ink)', display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Tag size={18} style={{ color: 'var(--volt)' }} />
                   {post.tags.map((tag, i) => (
                     <span
                       key={i}
                       style={{
-                        backgroundColor: 'var(--color-neutral-light)',
-                        color: 'var(--color-primary-mid)',
+                        backgroundColor: 'var(--panel)',
+                        color: 'var(--ink)',
+                        border: '1.5px solid var(--ink)',
                         padding: '0.25rem 0.75rem',
-                        fontSize: '0.85rem',
-                        fontWeight: '600',
+                        fontSize: '0.8rem',
+                        fontWeight: 'bold',
                         borderRadius: '4px',
+                        fontFamily: 'var(--font-data)'
                       }}
                     >
-                      #{tag}
+                      #{tag.toUpperCase()}
                     </span>
                   ))}
                 </div>

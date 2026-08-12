@@ -2,6 +2,7 @@ import express from 'express';
 import { body } from 'express-validator';
 import {
   getDashboardStats,
+  getStaffUsers,
   createStaffUser,
   updateUserStatus,
   uploadFile,
@@ -59,6 +60,17 @@ const userStatusRules = [
     .isBoolean()
     .withMessage('isActive must be a boolean value.'),
 ];
+
+/**
+ * @route   GET /api/admin/users
+ * @desc    Fetch all staff profiles
+ * @access  Private (Admin/Editor)
+ */
+router.get(
+  '/users',
+  authorize('superadmin', 'editor'),
+  getStaffUsers
+);
 
 /**
  * @route   POST /api/admin/users

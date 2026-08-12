@@ -86,29 +86,27 @@ export default function LeadForm({ defaultService = 'terrace' }) {
   if (success) {
     return (
       <div
-        className="card"
         style={{
-          padding: '3.5rem 2rem',
+          padding: '2rem 1rem',
           textAlign: 'center',
-          borderColor: 'var(--color-success)',
           maxWidth: '600px',
           margin: '0 auto',
         }}
       >
         <CheckCircle2
           size={56}
-          style={{ color: 'var(--color-success)', marginBottom: '1rem', display: 'inline-block' }}
+          style={{ color: 'var(--volt)', marginBottom: '1rem', display: 'inline-block' }}
         />
-        <h3 style={{ color: 'var(--color-success)', marginBottom: '0.5rem' }}>Inspection Scheduled</h3>
-        <p style={{ color: 'var(--color-neutral-dark)', fontWeight: '500', marginBottom: '0.5rem' }}>
+        <h3 style={{ color: 'var(--volt)', marginBottom: '0.5rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>Inspection Scheduled</h3>
+        <p style={{ color: 'var(--ink)', fontWeight: '500', marginBottom: '0.5rem' }}>
           Thank you for reaching out, {formData.name || 'Client'}.
         </p>
-        <p style={{ fontSize: '0.9rem', color: 'var(--color-gray-text)' }}>
+        <p style={{ fontSize: '0.9rem', color: 'var(--graphite)' }}>
           Your lead has been captured. A CWF waterproofing expert will contact you shortly to coordinate a technical site audit.
         </p>
         <button
           className="btn btn-secondary"
-          style={{ marginTop: '1.5rem' }}
+          style={{ marginTop: '1.5rem', width: '100%' }}
           onClick={() => setSuccess(false)}
         >
           Submit Another Request
@@ -118,15 +116,15 @@ export default function LeadForm({ defaultService = 'terrace' }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card" style={{ maxWidth: '650px', margin: '0 auto' }}>
-      <h3 style={{ marginBottom: '0.5rem', textAlign: 'center' }}>Book a Technical Site Audit</h3>
-      <p style={{ textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+    <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+      <h3 style={{ marginBottom: '0.5rem', textAlign: 'center', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>Book a Technical Site Audit</h3>
+      <p style={{ textAlign: 'center', fontSize: '0.9rem', marginBottom: '1.5rem', fontFamily: 'var(--font-body)' }}>
         Get a structural diagnostic inspection by our certified Pune engineers.
       </p>
 
       {error && !error.errors && (
         <div className="error-panel" style={{ padding: '1rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <ShieldAlert size={20} style={{ color: 'var(--color-error)' }} />
+          <ShieldAlert size={20} style={{ color: 'var(--volt)' }} />
           <p className="error-title" style={{ fontSize: '0.85rem', margin: 0 }}>
             {error.message}
           </p>

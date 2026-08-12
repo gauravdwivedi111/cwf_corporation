@@ -4,9 +4,13 @@ import dotenv from 'dotenv';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 
 import connectDB from './src/config/db.js';
 import { errorHandler } from './src/middleware/errorMiddleware.js';
+import logger from './src/utils/logger.js';
+import { globalLimiter, authLimiter } from './src/middleware/rateLimiter.js';
+import { getDynamicSitemap } from './src/controllers/sitemapController.js';
 
 // Route imports
 import authRoutes from './src/routes/authRoutes.js';
@@ -18,6 +22,7 @@ import teamRoutes from './src/routes/teamRoutes.js';
 import inquiryRoutes from './src/routes/inquiryRoutes.js';
 import settingRoutes from './src/routes/settingRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
+import { mockInterceptor } from './src/middleware/mockInterceptor.js';
 
 // Load environment variables
 dotenv.config();
@@ -29,150 +34,74 @@ if (process.env.NODE_ENV !== 'test' && process.env.SKIP_DB_CONN !== 'true') {
 
 const app = express();
 
-// 1. Security Hardening Middlewares
-app.use(helmet()); // Set secure HTTP headers
+// 1. Performance Compression (Gzip)
+app.use(compression());
+
+// 2. Request Telemetry Logging
+app.use((req, res, next) => {
+  logger.info(`Incoming Request: ${req.method} ${req.originalUrl} - IP: ${req.ip}`);
+  next();
+});
+
+// 3. Global DDoS rate limiter applied to all API paths
+app.use('/api', globalLimiter);
+
+// 4. Security Hardening Middlewares
+// Apply Helmet headers with strict Content Security Policy (CSP)
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true, // Required for reading refresh token HttpOnly cookies across origins
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://api.fontshare.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://api.fontshare.com', 'https://cdn.fontshare.com'],
+        imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
+        connectSrc: ["'self'"],
+      },
+    },
   })
 );
+
+// Dynamic CORS configurations rejecting wildcards in production
+const allowedOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map((o) => o.trim())
+  : ['http://localhost:5173'];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or server-to-server)
+      if (!origin) return callback(null, true);
+      
+      // Permit local development origins or defined production domains
+      const isAllowed = allowedOrigins.includes(origin) || 
+        (process.env.NODE_ENV !== 'production' && origin.startsWith('http://localhost'));
+
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS origin restrictions'));
+      }
+    },
+    credentials: true, // Required for HttpOnly refresh cookie transfers
+  })
+);
+
 app.use(mongoSanitize()); // Prevent NoSQL Injection attacks
 
-// 2. Parsers
+// 5. Parsers
 app.use(cookieParser()); // Read HttpOnly cookies
 app.use(express.json()); // Parse JSON body payloads
 
-// Mock data interceptor when database connection is skipped
+// Mock data interceptor when database connection is skipped (Local Development/Fast Test)
 if (process.env.SKIP_DB_CONN === 'true') {
-  app.use('/api', (req, res, next) => {
-    if (req.method === 'GET') {
-      if (req.path === '/services') {
-        return res.status(200).json({
-          success: true,
-          count: 1,
-          data: [{
-            _id: '660c1b48b1a45b85a3000001',
-            title: 'Terrace Waterproofing',
-            slug: 'terrace-waterproofing',
-            category: 'terrace',
-            shortDescription: 'Full terrace repair and chemical lining options.',
-            fullDescription: 'Detailed polyurethane inspection and concrete coating application.',
-            coverImage: 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg',
-            icon: 'droplet',
-            isPublished: true,
-            order: 1
-          }]
-        });
-      }
-      if (req.path === '/services/terrace-waterproofing') {
-        return res.status(200).json({
-          success: true,
-          data: {
-            _id: '660c1b48b1a45b85a3000001',
-            title: 'Terrace Waterproofing',
-            slug: 'terrace-waterproofing',
-            category: 'terrace',
-            shortDescription: 'Full terrace repair and chemical lining options.',
-            fullDescription: 'Detailed polyurethane inspection and concrete coating application.',
-            coverImage: 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg',
-            icon: 'droplet',
-            isPublished: true,
-            order: 1
-          }
-        });
-      }
-      if (req.path === '/testimonials') {
-        return res.status(200).json({
-          success: true,
-          count: 1,
-          data: [{
-            _id: '660c1b48b1a45b85a3000002',
-            clientName: 'Rajesh Patil',
-            clientType: 'residential',
-            text: 'Highly technical crew. The slab inspection detected moisture pathway precisely.',
-            rating: 5,
-            photo: 'https://res.cloudinary.com/demo/image/upload/w_100,h_100/sample.jpg',
-            isPublished: true
-          }]
-        });
-      }
-      if (req.path === '/settings') {
-        return res.status(200).json({
-          success: true,
-          data: {
-            companyPhone: '+91 20 1234 5678',
-            companyEmail: 'info@cwfcorporation.com',
-            address: {
-              street: '101, Apex Commercial Hub, MG Road',
-              city: 'Pune',
-              pincode: '411001',
-              country: 'India'
-            },
-            businessHours: 'Monday - Saturday: 9:00 AM - 6:00 PM',
-            socialLinks: {
-              facebook: 'https://facebook.com/cwfcorporation',
-              instagram: 'https://instagram.com/cwfcorporation',
-              linkedin: 'https://linkedin.com/company/cwfcorporation'
-            }
-          }
-        });
-      }
-      if (req.path === '/projects') {
-        return res.status(200).json({
-          success: true,
-          count: 1,
-          data: [{
-            _id: '660c1b48b1a45b85a3000003',
-            title: 'Terrace Slab Waterproofing & Leakage Repair',
-            location: 'Kothrud, Pune',
-            clientType: 'residential',
-            serviceCategory: 'terrace',
-            description: 'Active slab seepage resolved using scientific polyurethane injection.',
-            beforeImages: ['https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg'],
-            afterImages: ['https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg'],
-            sqftTreated: 2500,
-            completionDate: '2026-08-01T00:00:00.000Z',
-            isFeatured: true
-          }]
-        });
-      }
-      if (req.path === '/team') {
-        return res.status(200).json({
-          success: true,
-          count: 1,
-          data: [{
-            _id: '660c1b48b1a45b85a3000004',
-            name: 'Vikram Shinde',
-            designation: 'Senior Structural Auditor',
-            photo: 'https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fill/sample.jpg',
-            bio: '12 years waterproofing inspection experience.',
-            order: 1
-          }]
-        });
-      }
-      if (req.path === '/blog') {
-        return res.status(200).json({
-          success: true,
-          count: 1,
-          data: [{
-            _id: '660c1b48b1a45b85a3000005',
-            title: 'Identifying Concrete Slab Leaks',
-            slug: 'identifying-concrete-slab-leaks',
-            content: '<p>Standard concrete is porous...</p>',
-            coverImage: 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg',
-            publishedAt: '2026-08-01T00:00:00.000Z',
-            author: { role: 'superadmin' }
-          }]
-        });
-      }
-    }
-    next();
-  });
+  app.use('/api', mockInterceptor);
 }
 
-// 3. API Route Mapping
-app.use('/api/auth', authRoutes);
+// 6. API Route Mapping
+// Apply specific auth rate limiter on all auth routes
+app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/testimonials', testimonialRoutes);
@@ -181,6 +110,9 @@ app.use('/api/team', teamRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/admin', adminRoutes);
+
+// Serve Dynamic Sitemap XML
+app.get('/sitemap.xml', getDynamicSitemap);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -195,13 +127,15 @@ app.get('/', (req, res) => {
   res.send('CWF Corporation Express REST API is active. Navigate to /api/health for system status.');
 });
 
-// 4. Centralized Error Handler (Must be registered last)
+// 7. Centralized Error Handler (Must be registered last)
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  });
+}
 
 export default app;

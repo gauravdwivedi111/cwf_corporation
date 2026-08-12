@@ -79,6 +79,24 @@ export const getDashboardStats = async (req, res, next) => {
 };
 
 /**
+ * @desc    Get all staff users
+ * @route   GET /api/admin/users
+ * @access  Private (Admin/Editor)
+ */
+export const getStaffUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({}).sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @desc    Create a new staff user
  * @route   POST /api/admin/users
  * @access  Private (Superadmin only)

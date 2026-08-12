@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 /**
  * Draggable Before/After Image Comparison Slider component.
- * Supports mouse drag and touch swipe events for responsive mobile operation.
- * Uses custom clip-path properties to sweep over image layer nodes.
+ * Restyled for Bento / Structural Bold concept.
  */
 export default function BeforeAfterSlider({
   beforeImage,
@@ -12,8 +11,8 @@ export default function BeforeAfterSlider({
   afterAlt = 'Waterproofed state after treatment',
 }) {
   const [sliderPosition, setSliderPosition] = useState(50); // percentage: 0 to 100
-  const containerRef = useRef(null);
   const isDragging = useRef(false);
+  const containerRef = useRef(null);
 
   // Computes positioning and boundaries
   const handlePositionMove = (clientX) => {
@@ -69,7 +68,9 @@ export default function BeforeAfterSlider({
       onMouseMove={handleMouseMove}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      style={{ '--clip-pos': `${sliderPosition}%` }}
+      style={{
+        cursor: 'ew-resize'
+      }}
     >
       {/* Before state image layer */}
       <img
@@ -77,8 +78,9 @@ export default function BeforeAfterSlider({
         alt={beforeAlt}
         className="ba-image ba-image-before"
         draggable={false}
+        loading="lazy"
       />
-      <div className="ba-label ba-label-before">Before Treatment</div>
+      <div className="ba-label ba-label-before">Before</div>
 
       {/* After state image layer (Clipped) */}
       <img
@@ -86,13 +88,18 @@ export default function BeforeAfterSlider({
         alt={afterAlt}
         className="ba-image ba-image-after"
         draggable={false}
+        loading="lazy"
+        style={{
+          clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`,
+          WebkitClipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`
+        }}
       />
-      <div className="ba-label ba-label-after">After Treatment</div>
+      <div className="ba-label ba-label-after">After</div>
 
       {/* Sliding bar control indicator */}
-      <div className="ba-handle">
-        <div className="ba-handle-button" aria-hidden="true">
-          &harr;
+      <div className="ba-handle" style={{ left: `${sliderPosition}%` }}>
+        <div className="ba-handle-button" aria-label="Drag comparison slider handle">
+          &lt;&gt;
         </div>
       </div>
     </div>

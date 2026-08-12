@@ -1,4 +1,5 @@
 import Service from '../models/Service.js';
+import sanitizeHtml from 'sanitize-html';
 
 /**
  * @desc    Get all published services
@@ -7,7 +8,8 @@ import Service from '../models/Service.js';
  */
 export const getServices = async (req, res, next) => {
   try {
-    const services = await Service.find({ isPublished: true }).sort({ order: 1 });
+    const filter = req.query.all === 'true' ? {} : { isPublished: true };
+    const services = await Service.find(filter).sort({ order: 1 });
     res.status(200).json({
       success: true,
       count: services.length,
@@ -57,6 +59,17 @@ export const getServiceBySlug = async (req, res, next) => {
  */
 export const createService = async (req, res, next) => {
   try {
+    // Sanitize rich-text content input to block stored XSS
+    if (req.body.fullDescription) {
+      req.body.fullDescription = sanitizeHtml(req.body.fullDescription, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['h1', 'h2', 'img']),
+        allowedAttributes: {
+          ...sanitizeHtml.defaults.allowedAttributes,
+          'img': ['src', 'alt'],
+          'a': ['href', 'target', 'rel']
+        }
+      });
+    }
     const service = await Service.create(req.body);
     res.status(201).json({
       success: true,
@@ -76,6 +89,17 @@ export const updateService = async (req, res, next) => {
   const { id } = req.params;
 
   try {
+    // Sanitize rich-text content input to block stored XSS
+    if (req.body.fullDescription) {
+      req.body.fullDescription = sanitizeHtml(req.body.fullDescription, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(['h1', 'h2', 'img']),
+        allowedAttributes: {
+          ...sanitizeHtml.defaults.allowedAttributes,
+          'img': ['src', 'alt'],
+          'a': ['href', 'target', 'rel']
+        }
+      });
+    }
     const service = await Service.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
