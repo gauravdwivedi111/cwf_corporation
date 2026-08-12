@@ -235,6 +235,29 @@ export default function Home() {
                 </svg>
               </a>
             </div>
+
+            {/* Mobile Hero Trust Badges (Fills vacant space with premium trust data) */}
+            {isMobile && (
+              <div 
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '1rem',
+                  width: '100%',
+                  marginTop: '2.5rem',
+                  animation: 'fadeSlideUp 0.8s ease 1.1s both'
+                }}
+              >
+                <div style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(138, 203, 193, 0.15)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--volt)', fontFamily: 'var(--font-data)' }}>15+</div>
+                  <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.5px', marginTop: '0.25rem', fontFamily: 'var(--font-heading)' }}>Years in Pune</div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(138, 203, 193, 0.15)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center' }}>
+                  <div style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--white)', fontFamily: 'var(--font-data)' }}>1200+</div>
+                  <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.5px', marginTop: '0.25rem', fontFamily: 'var(--font-heading)' }}>Slab Audits</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

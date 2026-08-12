@@ -14,6 +14,12 @@ export default function Header() {
 
   return (
     <header className="app-header">
+      {/* Dark frosted overlay for off-canvas mobile sidebar */}
+      <div 
+        className={`nav-overlay ${isOpen ? 'open' : ''}`} 
+        onClick={closeMenu}
+      ></div>
+
       <div className="container nav-container">
         <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Corporation Home">
           <ShieldAlert size={28} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
@@ -31,6 +37,13 @@ export default function Header() {
 
         <nav>
           <ul className={`nav-menu ${isOpen ? 'open' : ''}`}>
+            {/* Mobile Sidebar Close and Branding Header */}
+            <li className="mobile-menu-header">
+              <span>Navigation</span>
+              <button onClick={closeMenu} aria-label="Close navigation menu">
+                <X size={24} />
+              </button>
+            </li>
             <li>
               <NavLink
                 to="/"
