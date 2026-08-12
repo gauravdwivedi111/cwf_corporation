@@ -11,9 +11,10 @@ export function useScrollReveal() {
   const [hasRevealed, setHasRevealed] = useState(false);
 
   useEffect(() => {
-    // If user prefers reduced motion, bypass and reveal content immediately
+    // If user prefers reduced motion or is on a mobile viewport, bypass and reveal content immediately
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) {
+    const isMobile = window.innerWidth < 768;
+    if (prefersReduced || isMobile) {
       setHasRevealed(true);
       return;
     }

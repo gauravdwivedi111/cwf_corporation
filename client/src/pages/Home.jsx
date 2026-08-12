@@ -22,6 +22,7 @@ export default function Home() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+  const [touchStart, setTouchStart] = useState(null);
 
   // Scroll triggers for page sections
   const [servicesRef, servicesVisible] = useScrollReveal();
@@ -31,6 +32,33 @@ export default function Home() {
   const [statsRef, statsVisible] = useScrollReveal();
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // On mobile viewports, all content is fully visible immediately to prevent blank pages or delayed observer triggers.
+  const showStats = isMobile || statsVisible;
+  const showServices = isMobile || servicesVisible;
+  const showComparison = isMobile || comparisonVisible;
+  const showTestimonials = isMobile || testimonialsVisible;
+  const showLead = isMobile || leadVisible;
+
+  const handleTouchStartTestimonial = (e) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEndTestimonial = (e) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const diff = touchStart - touchEnd;
+    
+    // Swipe left (next)
+    if (diff > 50) {
+      handleNextTestimonial();
+    }
+    // Swipe right (prev)
+    if (diff < -50) {
+      handlePrevTestimonial();
+    }
+    setTouchStart(null);
+  };
 
   useEffect(() => {
     fetchServices('/services').catch(() => {});
@@ -86,19 +114,21 @@ export default function Home() {
       <section 
         style={{
           position: 'relative',
-          height: '100vh',
+          minHeight: isMobile ? 'calc(100vh - 4.5rem)' : '100vh',
           width: '100%',
+          display: 'flex',
+          alignItems: 'center',
           overflow: 'hidden',
           backgroundColor: '#000',
           fontFamily: 'var(--font-heading)'
         }}
       >
-        {/* Background video loop */}
+        {/* Background video loop - Enabled on mobile for animated visual experience */}
         <video
-          src={isMobile ? undefined : "/hero-bg.mp4"}
+          src="/hero-bg.mp4"
           poster="/hero-poster.jpg"
           preload="metadata"
-          autoPlay={!isMobile}
+          autoPlay
           muted
           loop
           playsInline
@@ -109,7 +139,8 @@ export default function Home() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: '70% center'
+            objectPosition: '70% center',
+            opacity: 0.55 // Adds contrast overlay for readability
           }}
         />
 
@@ -120,14 +151,17 @@ export default function Home() {
             zIndex: 10,
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
-            height: 'calc(100vh - 4.5rem)',
-            padding: '4rem 1.5rem 3.5rem',
+            justifyContent: isMobile ? 'center' : 'space-between',
+            alignItems: isMobile ? 'center' : 'flex-start',
+            textAlign: isMobile ? 'center' : 'left',
+            height: isMobile ? 'auto' : 'calc(100vh - 4.5rem)',
+            padding: isMobile ? '3rem 1.5rem' : '4rem 1.5rem 3.5rem',
+            width: '100%'
           }}
           className="container"
         >
           {/* Top Section */}
-          <div style={{ maxWidth: '48rem' }}>
+          <div style={{ maxWidth: '48rem', width: '100%' }}>
             {/* Badge pill */}
             <div 
               style={{
@@ -158,15 +192,15 @@ export default function Home() {
           </div>
 
           {/* Bottom Section */}
-          <div>
+          <div style={{ width: '100%', marginTop: isMobile ? '2rem' : '0' }}>
             {/* Paragraph */}
             <p
               style={{
                 fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)',
                 lineHeight: '1.6',
-                color: 'rgba(255,255,255,0.6)',
-                maxWidth: '32rem',
-                marginBottom: '1.5rem',
+                color: 'rgba(255,255,255,0.7)',
+                maxWidth: isMobile ? '100%' : '32rem',
+                margin: isMobile ? '0 auto 1.5rem' : '0 0 1.5rem',
                 animation: 'fadeSlideUp 0.8s ease 0.7s both',
                 fontWeight: 300
               }}
@@ -224,8 +258,8 @@ export default function Home() {
               className="bento-cell"
               style={{
                 gridColumn: 'span 3',
-                opacity: statsVisible ? 1 : 0,
-                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                opacity: showStats ? 1 : 0,
+                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 50ms, transform 0.4s ease-out 50ms'
               }}
             >
@@ -245,8 +279,8 @@ export default function Home() {
               className="bento-cell solid-ink"
               style={{
                 gridColumn: 'span 3',
-                opacity: statsVisible ? 1 : 0,
-                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                opacity: showStats ? 1 : 0,
+                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 100ms, transform 0.4s ease-out 100ms'
               }}
             >
@@ -266,8 +300,8 @@ export default function Home() {
               className="bento-cell"
               style={{
                 gridColumn: 'span 3',
-                opacity: statsVisible ? 1 : 0,
-                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                opacity: showStats ? 1 : 0,
+                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 150ms, transform 0.4s ease-out 150ms'
               }}
             >
@@ -287,8 +321,8 @@ export default function Home() {
               className="bento-cell solid-volt"
               style={{
                 gridColumn: 'span 3',
-                opacity: statsVisible ? 1 : 0,
-                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                opacity: showStats ? 1 : 0,
+                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 200ms, transform 0.4s ease-out 200ms'
               }}
             >
@@ -359,8 +393,8 @@ export default function Home() {
                       display: 'flex', 
                       flexDirection: 'column', 
                       height: '100%',
-                      opacity: servicesVisible ? 1 : 0,
-                      transform: servicesVisible ? 'translateY(0)' : 'translateY(25px)',
+                      opacity: showServices ? 1 : 0,
+                      transform: showServices ? 'translateY(0)' : 'translateY(25px)',
                       transition: prefersReduced ? 'none' : `opacity 0.5s ease-out ${index * 80}ms, transform 0.5s ease-out ${index * 80}ms`,
                       padding: '2rem'
                     }}
@@ -471,8 +505,8 @@ export default function Home() {
             <div
               style={{
                 gridColumn: 'span 7',
-                opacity: comparisonVisible ? 1 : 0,
-                transform: comparisonVisible ? 'translateX(0)' : 'translateX(-20px)',
+                opacity: showComparison ? 1 : 0,
+                transform: showComparison ? 'translateX(0)' : 'translateX(-20px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out'
               }}
             >
@@ -488,8 +522,8 @@ export default function Home() {
               className="bento-cell solid-ink"
               style={{
                 gridColumn: 'span 5',
-                opacity: comparisonVisible ? 1 : 0,
-                transform: comparisonVisible ? 'translateX(0)' : 'translateX(20px)',
+                opacity: showComparison ? 1 : 0,
+                transform: showComparison ? 'translateX(0)' : 'translateX(20px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
                 padding: '2.5rem'
               }}
@@ -517,17 +551,20 @@ export default function Home() {
           <div className="container">
             <div 
               className="bento-cell"
+              onTouchStart={handleTouchStartTestimonial}
+              onTouchEnd={handleTouchEndTestimonial}
               style={{
                 background: '#10202A',
                 border: '2px solid var(--volt)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(138, 203, 193, 0.1)',
-                opacity: testimonialsVisible ? 1 : 0,
-                transform: testimonialsVisible ? 'translateY(0)' : 'translateY(25px)',
+                opacity: showTestimonials ? 1 : 0,
+                transform: showTestimonials ? 'translateY(0)' : 'translateY(25px)',
                 transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
                 maxWidth: '850px',
                 margin: '0 auto',
                 padding: '3rem',
-                position: 'relative'
+                position: 'relative',
+                touchAction: 'pan-y'
               }}
             >
               <div style={{ textAlign: 'center' }}>
@@ -571,8 +608,8 @@ export default function Home() {
           <div
             className="bento-cell"
             style={{
-              opacity: leadVisible ? 1 : 0,
-              transform: leadVisible ? 'translateY(0)' : 'translateY(25px)',
+              opacity: showLead ? 1 : 0,
+              transform: showLead ? 'translateY(0)' : 'translateY(25px)',
               transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
               maxWidth: '700px',
               margin: '0 auto',
