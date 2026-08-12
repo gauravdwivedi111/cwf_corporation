@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import dns from 'dns';
 
-// Force DNS servers to Google DNS to bypass local router/Windows SRV resolution limitations
-dns.setServers(['8.8.8.8', '8.8.4.4']);
+// Force DNS servers to Google DNS only on Windows hosts to bypass local router SRV resolution limitations
+if (process.platform === 'win32') {
+  dns.setServers(['8.8.8.8', '8.8.4.4']);
+}
 
 const connectDB = async () => {
   try {
