@@ -347,64 +347,36 @@ select:focus-visible {
   h3[style*="font-size"] { font-size: 1.2rem !important; }
 
   .mobile-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(138, 203, 193, 0.15);
-    margin-bottom: 1.5rem;
-  }
-
-  .mobile-menu-header span {
-    font-family: var(--font-heading);
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--volt);
-    letter-spacing: 1px;
-  }
-
-  .mobile-menu-header button {
-    background: none;
-    border: none;
-    color: var(--ink);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-  }
-
-  .mobile-menu-header button:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    display: none !important; /* Hide sidebar close button as it's a dropdown card now */
   }
 
   .nav-menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 50%; /* Covers exactly half of the screen width */
-    min-width: 220px; /* Prevents cramped text on small displays */
-    background-color: #070D12; /* Deep charcoal background for extreme text readability */
-    border-left: 2px solid var(--volt); /* Glowing volt green accent border line */
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 4.75rem; /* Floating slightly below the 4.5rem sticky header */
+    right: 1.5rem; /* Margin aligned with the right boundary of the page container */
+    width: 250px; /* Precise premium dropdown box width */
+    height: auto; /* Fits the height of navigation items */
+    background-color: #070D12; /* Solid deep dark charcoal background for maximum contrast */
+    border: 1.5px solid var(--volt); /* Glowing volt green accent outline border box */
+    border-radius: 12px; /* Smooth rounded corners */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(138, 203, 193, 0.15);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 2.5rem 1.5rem;
-    gap: 0.75rem;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 1.25rem 0.75rem;
+    gap: 0.25rem; /* Organized list layout spacing */
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     z-index: 9999;
     list-style: none;
   }
 
   .nav-menu.open {
-    transform: translateX(0);
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .nav-menu li {
@@ -412,13 +384,15 @@ select:focus-visible {
   }
 
   .nav-menu .nav-link {
-    font-size: 1.15rem; /* Clean typography sizing */
-    padding: 0.75rem 1.25rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
     width: 100%;
     text-align: left;
     display: flex;
     align-items: center;
-    border-radius: 6px;
+    border-radius: 8px;
     color: var(--ink);
     border: 1px solid transparent;
     transition: all 0.2s ease;
@@ -427,14 +401,14 @@ select:focus-visible {
   .nav-menu .nav-link:hover {
     background-color: rgba(138, 203, 193, 0.08);
     color: var(--volt) !important;
-    padding-left: 1.5rem; /* Slider effect on hover */
+    padding-left: 1.25rem; /* Smooth slide highlight motion */
   }
 
   .nav-menu .nav-link.active {
     background-color: rgba(138, 203, 193, 0.12);
-    border: 1.5px solid var(--volt) !important;
+    border: 1px solid var(--volt) !important;
     color: var(--volt) !important;
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
   }
 
   .mobile-nav-toggle {
