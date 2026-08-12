@@ -79,8 +79,9 @@ app.use(
       // Allow requests with no origin (like mobile apps, curl, or server-to-server)
       if (!origin) return callback(null, true);
       
-      // Permit local development origins or defined production domains
+      // Permit local development origins, defined production domains, or Vercel subdomains
       const isAllowed = allowedOrigins.includes(origin) || 
+        origin.endsWith('.vercel.app') ||
         (process.env.NODE_ENV !== 'production' && origin.startsWith('http://localhost'));
 
       if (isAllowed) {
