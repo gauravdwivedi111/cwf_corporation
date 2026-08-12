@@ -422,6 +422,7 @@ select:focus-visible {
   position: relative;
   width: 100%;
   aspect-ratio: 16/10;
+  min-height: 220px; /* Prevents height collapse inside mobile flex-direction: column layouts */
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 12px;
