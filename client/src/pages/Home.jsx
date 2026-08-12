@@ -297,9 +297,9 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Stat 2: Projects (Solid Ink Fill) */}
+            {/* Stat 2: Projects (Neutral Panel) */}
             <div 
-              className="bento-cell solid-ink"
+              className="bento-cell"
               style={{
                 gridColumn: 'span 3',
                 opacity: showStats ? 1 : 0,
@@ -307,13 +307,13 @@ export default function Home() {
                 transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 100ms, transform 0.4s ease-out 100ms'
               }}
             >
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--white)', marginBottom: '0.5rem' }}>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
                 <CountUp end={1200} isStart={true} />+
               </div>
-              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                 Slab Audits Completed
               </h4>
-              <p style={{ fontSize: '0.88rem', margin: 0, opacity: 0.8 }}>
+              <p style={{ fontSize: '0.88rem', margin: 0, color: 'var(--graphite)' }}>
                 Core scanning, moisture mappings, and injection oversight.
               </p>
             </div>
@@ -339,9 +339,9 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Stat 4: Certification (Solid Volt Fill) */}
+            {/* Stat 4: Certification (Neutral Panel) */}
             <div 
-              className="bento-cell solid-volt"
+              className="bento-cell"
               style={{
                 gridColumn: 'span 3',
                 opacity: showStats ? 1 : 0,
@@ -349,13 +349,13 @@ export default function Home() {
                 transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 200ms, transform 0.4s ease-out 200ms'
               }}
             >
-              <div style={{ fontFamily: 'var(--font-data)', fontSize: '3.2rem', fontWeight: 'bold', lineHeight: 1, color: 'var(--white)', marginBottom: '0.5rem' }}>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
                 ISO 9001
               </div>
-              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem' }}>
+              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
                 Certified Consultancy
               </h4>
-              <p style={{ fontSize: '0.88rem', margin: 0, opacity: 0.8 }}>
+              <p style={{ fontSize: '0.88rem', margin: 0, color: 'var(--graphite)' }}>
                 Formally audited processes for moisture diagnostic engineering.
               </p>
             </div>
@@ -388,24 +388,11 @@ export default function Home() {
           ) : (
             <div className="bento-grid">
               {services.slice(0, 3).map((service, index) => {
-                // Determine alternating cell class types
-                // Card 1: Neutral panel, Card 2: Solid Ink (dark), Card 3: Solid Volt (cobalt blue)
-                let cellClass = 'bento-cell';
-                let textStyle = { color: 'var(--ink)' };
-                let categoryColor = 'var(--volt)';
-                let btnClass = 'btn btn-outline';
-                
-                if (index === 1) {
-                  cellClass = 'bento-cell solid-ink';
-                  textStyle = { color: 'var(--white)' };
-                  categoryColor = 'var(--volt)';
-                  btnClass = 'btn btn-primary';
-                } else if (index === 2) {
-                  cellClass = 'bento-cell solid-volt';
-                  textStyle = { color: 'var(--white)' };
-                  categoryColor = 'var(--white)';
-                  btnClass = 'btn btn-outline';
-                }
+                // Uniform premium dark bento cell styling and gold buttons
+                const cellClass = 'bento-cell solid-ink';
+                const textStyle = { color: 'var(--white)' };
+                const categoryColor = 'var(--volt)';
+                const btnClass = 'btn btn-primary';
 
                 return (
                   <div 
