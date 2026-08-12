@@ -1,5 +1,12 @@
-const rawBaseUrl = import.meta.env.VITE_API_URL || '/api';
-const BASE_URL = rawBaseUrl.replace(/\/$/, '');
+const rawBaseUrl = import.meta.env.VITE_API_URL || '';
+let BASE_URL = rawBaseUrl.replace(/\/$/, '');
+
+// Auto-append '/api' prefix to absolute backend URLs if omitted by user configuration
+if (BASE_URL.startsWith('http') && !BASE_URL.endsWith('/api')) {
+  BASE_URL += '/api';
+} else if (!BASE_URL) {
+  BASE_URL = '/api';
+}
 
 /**
  * Standard utility wrapper for fetch requests to the CWF backend API.
