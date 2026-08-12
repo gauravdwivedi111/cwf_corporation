@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const rawBaseUrl = import.meta.env.VITE_API_URL || '/api';
+const BASE_URL = rawBaseUrl.replace(/\/$/, '');
 
 /**
  * Standard utility wrapper for fetch requests to the CWF backend API.

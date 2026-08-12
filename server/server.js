@@ -68,8 +68,10 @@ app.use(
 
 // Dynamic CORS configurations rejecting wildcards in production
 const allowedOrigins = process.env.CLIENT_URL
-  ? process.env.CLIENT_URL.split(',').map((o) => o.trim())
+  ? process.env.CLIENT_URL.split(',').map((o) => o.trim().replace(/\/$/, ''))
   : ['http://localhost:5173'];
+
+logger.info(`CORS Whitelisted Origins: ${JSON.stringify(allowedOrigins)}`);
 
 app.use(
   cors({
