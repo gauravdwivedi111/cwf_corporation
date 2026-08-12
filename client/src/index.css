@@ -236,7 +236,7 @@ select:focus-visible {
 .nav-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(10, 20, 26, 0.7);
+  background-color: rgba(5, 10, 15, 0.85);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   opacity: 0;
@@ -387,10 +387,11 @@ select:focus-visible {
     top: 0;
     right: 0;
     bottom: 0;
-    width: 290px; /* Clean sidebar width */
-    background-color: #10202A; /* Solid dark background matching canvas theme */
+    width: 50%; /* Covers exactly half of the screen width */
+    min-width: 220px; /* Prevents cramped text on small displays */
+    background-color: #070D12; /* Deep charcoal background for extreme text readability */
     border-left: 2px solid var(--volt); /* Glowing volt green accent border line */
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
