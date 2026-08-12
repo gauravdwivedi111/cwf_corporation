@@ -224,8 +224,9 @@ export default function Home() {
               className="bento-cell"
               style={{
                 gridColumn: 'span 3',
-                opacity: 1,
-                transform: 'none'
+                opacity: statsVisible ? 1 : 0,
+                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 50ms, transform 0.4s ease-out 50ms'
               }}
             >
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
@@ -244,8 +245,9 @@ export default function Home() {
               className="bento-cell solid-ink"
               style={{
                 gridColumn: 'span 3',
-                opacity: 1,
-                transform: 'none'
+                opacity: statsVisible ? 1 : 0,
+                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 100ms, transform 0.4s ease-out 100ms'
               }}
             >
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--white)', marginBottom: '0.5rem' }}>
@@ -264,8 +266,9 @@ export default function Home() {
               className="bento-cell"
               style={{
                 gridColumn: 'span 3',
-                opacity: 1,
-                transform: 'none'
+                opacity: statsVisible ? 1 : 0,
+                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 150ms, transform 0.4s ease-out 150ms'
               }}
             >
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
@@ -284,8 +287,9 @@ export default function Home() {
               className="bento-cell solid-volt"
               style={{
                 gridColumn: 'span 3',
-                opacity: 1,
-                transform: 'none'
+                opacity: statsVisible ? 1 : 0,
+                transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 200ms, transform 0.4s ease-out 200ms'
               }}
             >
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3.2rem', fontWeight: 'bold', lineHeight: 1, color: 'var(--white)', marginBottom: '0.5rem' }}>
@@ -355,8 +359,9 @@ export default function Home() {
                       display: 'flex', 
                       flexDirection: 'column', 
                       height: '100%',
-                      opacity: 1,
-                      transform: 'none',
+                      opacity: servicesVisible ? 1 : 0,
+                      transform: servicesVisible ? 'translateY(0)' : 'translateY(25px)',
+                      transition: prefersReduced ? 'none' : `opacity 0.5s ease-out ${index * 80}ms, transform 0.5s ease-out ${index * 80}ms`,
                       padding: '2rem'
                     }}
                   >
@@ -466,8 +471,9 @@ export default function Home() {
             <div
               style={{
                 gridColumn: 'span 7',
-                opacity: 1,
-                transform: 'none'
+                opacity: comparisonVisible ? 1 : 0,
+                transform: comparisonVisible ? 'translateX(0)' : 'translateX(-20px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out'
               }}
             >
               <BeforeAfterSlider
@@ -482,8 +488,9 @@ export default function Home() {
               className="bento-cell solid-ink"
               style={{
                 gridColumn: 'span 5',
-                opacity: 1,
-                transform: 'none',
+                opacity: comparisonVisible ? 1 : 0,
+                transform: comparisonVisible ? 'translateX(0)' : 'translateX(20px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
                 padding: '2.5rem'
               }}
             >
@@ -514,8 +521,9 @@ export default function Home() {
                 background: '#10202A',
                 border: '2px solid var(--volt)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(138, 203, 193, 0.1)',
-                opacity: 1,
-                transform: 'none',
+                opacity: testimonialsVisible ? 1 : 0,
+                transform: testimonialsVisible ? 'translateY(0)' : 'translateY(25px)',
+                transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
                 maxWidth: '850px',
                 margin: '0 auto',
                 padding: '3rem',
@@ -563,8 +571,9 @@ export default function Home() {
           <div
             className="bento-cell"
             style={{
-              opacity: 1,
-              transform: 'none',
+              opacity: leadVisible ? 1 : 0,
+              transform: leadVisible ? 'translateY(0)' : 'translateY(25px)',
+              transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
               maxWidth: '700px',
               margin: '0 auto',
               padding: '2.5rem',

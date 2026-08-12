@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 /**
  * Draggable Before/After Image Comparison Slider component.
- * Restyled for Bento / Structural Bold concept.
+ * Restyled for Bento / Structural Bold concept with touch device support.
  */
 export default function BeforeAfterSlider({
   beforeImage,
@@ -25,20 +25,13 @@ export default function BeforeAfterSlider({
     setSliderPosition(percentage);
   };
 
-  const handleTouchMove = (e) => {
-    if (!isDragging.current) return;
-    if (e.touches && e.touches[0]) {
-      handlePositionMove(e.touches[0].clientX);
-    }
-  };
-
   const handleMouseMove = (e) => {
     if (!isDragging.current) return;
     handlePositionMove(e.clientX);
   };
 
   const handleDragStart = (e) => {
-    e.preventDefault(); // Stop standard image drag ghosting
+    if (e.button !== 0) return; // Only left-click
     isDragging.current = true;
   };
 
@@ -47,6 +40,22 @@ export default function BeforeAfterSlider({
   };
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleTouchMoveLocal = (e) => {
+      if (!isDragging.current) return;
+      if (e.touches && e.touches[0]) {
+        // Prevent default scrolling only when dragging the slider
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        handlePositionMove(e.touches[0].clientX);
+      }
+    };
+
+    container.addEventListener('touchmove', handleTouchMoveLocal, { passive: false });
+
     const handleGlobalDragEnd = () => {
       isDragging.current = false;
     };
@@ -55,6 +64,7 @@ export default function BeforeAfterSlider({
     window.addEventListener('touchend', handleGlobalDragEnd);
 
     return () => {
+      container.removeEventListener('touchmove', handleTouchMoveLocal);
       window.removeEventListener('mouseup', handleGlobalDragEnd);
       window.removeEventListener('touchend', handleGlobalDragEnd);
     };
@@ -67,9 +77,10 @@ export default function BeforeAfterSlider({
       onMouseDown={handleDragStart}
       onMouseMove={handleMouseMove}
       onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
       style={{
-        cursor: 'ew-resize'
+        cursor: 'ew-resize',
+        userSelect: 'none',
+        WebkitUserSelect: 'none'
       }}
     >
       {/* Before state image layer */}

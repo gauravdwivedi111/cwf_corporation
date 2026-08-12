@@ -309,26 +309,52 @@ select:focus-visible {
 }
 
 @media (max-width: 768px) {
+  .section { padding: 2.5rem 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 1.5rem; }
+  
+  /* Global mobile typography fixes */
+  h1 { font-size: 2rem !important; }
+  h2 { font-size: 1.5rem !important; margin-bottom: 1.25rem !important; }
+  h3 { font-size: 1.2rem !important; }
+  p { font-size: 0.95rem; line-height: 1.5; }
+  
+  /* Force inline font-size overrides to collapse gracefully on mobile */
+  h1[style*="font-size"] { font-size: 2rem !important; }
+  h2[style*="font-size"] { font-size: 1.5rem !important; }
+  h3[style*="font-size"] { font-size: 1.2rem !important; }
+
   .nav-menu {
     position: fixed;
     top: 4.5rem;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--panel);
-    border-top: 1px solid var(--ink);
+    background-color: rgba(16, 32, 42, 0.98); /* Solid dark frosted backdrop */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(138, 203, 193, 0.15);
     flex-direction: column;
-    padding: 2.5rem 1.5rem;
-    gap: 1.75rem;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 2rem;
     transform: translateX(100%);
     transition: transform var(--transition-normal);
-    z-index: 99;
+    z-index: 9999; /* Higher than any layout content */
   }
   .nav-menu.open {
     transform: translateX(0);
   }
+  .nav-menu .nav-link {
+    font-size: 1.35rem; /* Larger, readable mobile links */
+    padding: 0.6rem 2rem;
+    width: 100%;
+    text-align: center;
+    display: block;
+  }
   .mobile-nav-toggle {
     display: block;
+    z-index: 10000; /* Stays above menu drawer */
   }
 }
 
