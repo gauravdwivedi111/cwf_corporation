@@ -96,9 +96,126 @@ npm run format
 
 ---
 
+## Architecture
+
+The project features a standard three-tier MERN architecture:
+
+```mermaid
+flowchart TD
+    Client[React-Vite SPA] -->|1. Request /api/*| Express[Express Server]
+    Express -->|2. Verify Session / Role| Middleware[Auth Middleware]
+    Middleware -->|3. Query / Update| DB[MongoDB Mongoose]
+    Express -->|4. Log Transactions| Winston[Winston Logger]
+    Express -->|5. Store Attachments| Cloudinary[Cloudinary SDK]
+```
+
+*   **Role-Based Access**: The application distinguishes between normal client inquiries and administrative dashboards using custom role verification middlewares.
+*   **Audit Logging**: Core business actions are logged to file transports via Winston logger for diagnostic security.
+
+---
+
 ## Mongoose Model Verification
+
 We include a dry-run validation script to confirm Mongoose models compile and reference each other correctly without requiring a live MongoDB connection:
+
 ```bash
 npm run verify:models
 ```
+
 This is useful for local syntax checking and CI/CD verification pipelines.
+
+---
+
+## Environment Variables
+
+### Backend Configuration (`server/.env`)
+Required settings to run the Node.js API:
+
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/cwf_corporation
+JWT_SECRET=change-this-to-a-secure-secret
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASSWORD=
+```
+
+### Frontend Configuration (`client/.env`)
+Specify the backend API endpoint:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+---
+
+## API Documentation
+
+### 1. Inquiries Endpoint
+Creates a new client inspection request.
+
+*   **Endpoint:** `/api/inquiries`
+*   **Method:** `POST`
+*   **Request Body:**
+    ```json
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "phone": "+919876543210",
+      "address": "Pune, India",
+      "description": "Waterproofing consultation required for terrace leak."
+    }
+    ```
+*   **Response (HTTP 201):**
+    ```json
+    {
+      "success": true,
+      "message": "Inquiry submitted successfully.",
+      "inquiry_id": "60d0fe4f5311236168a109a1"
+    }
+    ```
+
+### 2. Admin Authentication Endpoint
+Authenticates administrative users.
+
+*   **Endpoint:** `/api/auth/login`
+*   **Method:** `POST`
+*   **Request Body:**
+    ```json
+    {
+      "email": "admin@cwf.com",
+      "password": "securepassword"
+    }
+    ```
+*   **Response (HTTP 200):**
+    ```json
+    {
+      "success": true,
+      "token": "eyJhbGciOiJIUzI1NiIsIn...",
+      "user": {
+        "name": "Super Admin",
+        "role": "superadmin"
+      }
+    }
+    ```
+
+---
+
+## Future Improvements
+*   Add SMS notifications for automatic inquiry assignment.
+*   Implement real-time dashboard updates using WebSockets/Socket.io.
+*   Integrate PDF report generation for waterproofing inspection checklists.
+
+---
+
+## Author
+*   **Gaurav Dwivedi** - [GitHub Profile](https://github.com/gauravdwivedi111)
+
+---
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
