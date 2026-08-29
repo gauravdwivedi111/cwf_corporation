@@ -189,7 +189,7 @@ export default function Home() {
       </Helmet>
 
       {/* HERO SECTION */}
-      <section className="flowstate-hero">
+      <section className="flowstate-hero" style={{ minHeight: '90lvh', padding: '12rem 0 8rem' }}>
         <style dangerouslySetInnerHTML={{ __html: styleTag }} />
         
         {/* 1. Fluid canvas (z-0) */}
@@ -218,94 +218,8 @@ export default function Home() {
           }} 
         />
 
-        {/* 3. Top nav (<header>, z-20) */}
-        <header style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          top: 0,
-          zIndex: 20,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: isSm ? '1.75em 2.5em' : '1.25em',
-          boxSizing: 'border-box',
-          ...fadeDownStyle(150)
-        }}>
-          {/* Left - brand link */}
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6em', fontWeight: 500, fontSize: isSm ? '1.375em' : '1.15em', color: '#ffffff', letterSpacing: '-0.01em', textDecoration: 'none' }}>
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ width: isSm ? '1.5em' : '1.35em', height: isSm ? '1.5em' : '1.35em', stroke: 'currentColor' }}>
-              <path d="M2.5 9c2.5 0 2.5 4.2 5 4.2S10 9 12 9s2.5 4.2 5 4.2S19.5 9 21.5 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-              <path d="M2.5 15c2.5 0 2.5 4.2 5 4.2S10 15 12 15s2.5 4.2 5 4.2S19.5 15 21.5 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.5"/>
-            </svg>
-            <span>Flowstate</span>
-          </a>
-
-          {/* Center - glass link pill (hidden below sm: 640px) */}
-          {isSm && (
-            <nav style={{
-              position: 'absolute',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              height: '3em',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '2.25em',
-              borderRadius: '9999px',
-              border: '1px solid rgba(255,255,255,0.16)',
-              background: 'rgba(255,255,255,0.08)',
-              padding: '0 1.75em',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)'
-            }}>
-              {['How it works?', 'Pricing', 'Products', 'Blog'].map((link) => (
-                <a 
-                  key={link}
-                  href={`#${link.toLowerCase().replace(/[^\w]/g, '-')}`}
-                  style={{
-                    fontSize: '0.95em',
-                    color: '#b9becf',
-                    textDecoration: 'none',
-                    whiteSpace: 'nowrap',
-                    transition: 'color 150ms cubic-bezier(0.2, 0, 0, 1)'
-                  }}
-                  onMouseEnter={(e) => e.target.style.color = '#eef0f6'}
-                  onMouseLeave={(e) => e.target.style.color = '#b9becf'}
-                >
-                  {link}
-                </a>
-              ))}
-            </nav>
-          )}
-
-          {/* Right - CTA button */}
-          <a 
-            href="#get-started" 
-            className="flowstate-pill-button"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: isSm ? '2.75em' : '2.5em',
-              borderRadius: '9999px',
-              background: '#ffffff',
-              padding: isSm ? '0 1.375em' : '0 1.125em',
-              fontSize: isSm ? '0.95em' : '0.85em',
-              fontWeight: 500,
-              color: '#2f2f33',
-              textDecoration: 'none',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-              transition: 'background 150ms cubic-bezier(0.2, 0, 0, 1)'
-            }}
-            onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.85)'}
-            onMouseLeave={(e) => e.target.style.background = '#ffffff'}
-          >
-            Get Started
-          </a>
-        </header>
-
-        {/* 4. Center column (z-10) */}
-        <div style={{
+        {/* 3. Center column (z-10) */}
+        <div className="container" style={{
           position: 'relative',
           zIndex: 10,
           display: 'flex',
@@ -315,7 +229,7 @@ export default function Home() {
           maxWidth: isLg ? '52em' : (isSm ? '40em' : '22em')
         }}>
           {/* Badge pill */}
-          <p style={{
+          <span style={{ 
             display: 'inline-flex',
             alignItems: 'center',
             borderRadius: '9999px',
@@ -327,10 +241,14 @@ export default function Home() {
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             margin: 0,
+            textTransform: 'uppercase',
+            letterSpacing: '3px',
+            fontFamily: 'var(--font-data)',
+            fontWeight: 'bold',
             ...fadeUpStyle(320)
           }}>
-            10K+ already in flow
-          </p>
+            CWF CONSULTING CORPORATION PUNE
+          </span>
 
           {/* Heading */}
           <h1 style={{
@@ -343,9 +261,11 @@ export default function Home() {
             color: '#eef0f6',
             textAlign: 'center',
             marginInline: 'auto',
-            marginBottom: 0
+            marginBottom: 0,
+            fontFamily: 'var(--font-heading)',
+            textTransform: 'uppercase'
           }}>
-            {renderWords("Deep Work in a Distracted World", "heading", 480, 85)}
+            {renderWords("One Standard of Integrity. Three Business Lines.", "heading", 480, 85)}
           </h1>
 
           {/* Sub-line */}
@@ -356,98 +276,13 @@ export default function Home() {
             lineHeight: 1.5,
             color: '#b9becf',
             marginInline: 'auto',
-            marginBottom: 0
+            marginBottom: 0,
+            fontWeight: 300,
+            fontFamily: 'var(--font-body)'
           }}>
-            {renderWords("Cut through the noise, reclaim your attention, and do work that truly matters.", "subline", 1150, 22)}
+            {renderWords("We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune's leading consultancy group.", "subline", 1150, 22)}
           </p>
-
-          {/* Waitlist form */}
-          <div style={{
-            marginTop: isSm ? '2.5em' : '1.75em',
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            ...fadeUpStyle(1450)
-          }}>
-            <form 
-              onSubmit={(e) => e.preventDefault()}
-              style={{ width: '37em', maxWidth: '100%' }}
-            >
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                height: isSm ? '4em' : '3.5em',
-                borderRadius: '9999px',
-                border: '1px solid rgba(255,255,255,0.16)',
-                background: 'rgba(255,255,255,0.08)',
-                backdropFilter: 'blur(12px)',
-                WebkitBackdropFilter: 'blur(12px)',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                paddingLeft: isSm ? '1.5em' : '1.25em',
-                paddingRight: isSm ? '0.4em' : '0.35em'
-              }}>
-                <input 
-                  type="email" 
-                  required 
-                  placeholder="Enter your email"
-                  className="flowstate-input"
-                  style={{
-                    flex: 1,
-                    minWidth: 0,
-                    height: '100%',
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#eef0f6',
-                    fontSize: isSm ? '1.15em' : '0.95em',
-                    fontFamily: '"Onest", sans-serif'
-                  }}
-                />
-                <button 
-                  type="submit"
-                  className="flowstate-pill-button"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: isSm ? '2.75em' : '2.5em',
-                    borderRadius: '9999px',
-                    background: '#ffffff',
-                    border: 'none',
-                    padding: isSm ? '0 1.375em' : '0 1.125em',
-                    fontSize: isSm ? '0.95em' : '0.85em',
-                    fontWeight: 500,
-                    color: '#2f2f33',
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                    transition: 'background 150ms cubic-bezier(0.2, 0, 0, 1)'
-                  }}
-                  onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.85)'}
-                  onMouseLeave={(e) => e.target.style.background = '#ffffff'}
-                >
-                  Join Waitlist
-                </button>
-              </div>
-            </form>
-          </div>
-
         </div>
-
-        {/* 5. Footer (z-20) */}
-        <footer style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 20,
-          display: 'flex',
-          justifyContent: 'center',
-          padding: isSm ? '1.5em 2.5em' : '1.25em',
-          fontSize: isSm ? '0.8em' : '0.72em',
-          color: '#b9becf',
-          ...fadeUpStyle(1650)
-        }}>
-          &copy; 2026 Flowstate &mdash; engineered for deep work.
-        </footer>
 
       </section>
 
