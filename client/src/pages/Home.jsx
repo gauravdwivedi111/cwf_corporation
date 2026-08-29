@@ -233,21 +233,58 @@ export default function Home() {
 
       {/* ABOUT US SECTION */}
       <section id="about" className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
-        <div className="container grid-2" style={{ alignItems: 'center', gap: '3rem' }}>
+        <div className="container grid-2" style={{ alignItems: 'flex-start', gap: '3rem' }}>
           <div>
             <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>
               [PROFILE: CORPORATE FOUNDATION]
             </span>
-            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.75rem', marginBottom: '1.25rem' }}>
-              Diagnosing Waterproofing & Engineering Deficiencies Since 2011
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '2rem', marginBottom: '1.5rem', color: 'var(--white)' }}>
+              ABOUT CWF CONSULTING CORPORATION
             </h2>
-            <p style={{ lineHeight: '1.6', fontSize: '0.98rem', marginBottom: '1rem', color: 'rgba(255, 255, 255, 0.85)' }}>
-              CWF Consulting Corporation was founded to solve a critical issue in Pune&apos;s construction market: the lack of engineering diagnostics in waterproofing repairs and corporate development operations. Standard contractors often apply surface solutions without identifying the structural pathway of water ingress.
-            </p>
-            <p style={{ lineHeight: '1.6', fontSize: '0.98rem', margin: 0, color: 'rgba(255, 255, 255, 0.85)' }}>
-              Operating as independent consultants, our certified engineers perform forensic concrete testing, scalable software designs, and corporate debt advisory. We provide rigorous drawings, specifications, and project management oversight to guarantee standard compliance across all three business divisions.
-            </p>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.96rem', lineHeight: '1.6' }}>
+              <p style={{ fontWeight: '500', color: 'var(--white)' }}>
+                CWF Consulting Corporation is a multi-disciplinary consulting and solutions organization committed to delivering integrated expertise across Civil Consulting, Web & Digital Solutions, and Financial Services.
+              </p>
+              
+              <p>
+                We believe that today&apos;s clients need more than individual service providers—they need a reliable partner who understands their challenges and delivers practical, professional, and result-oriented solutions. Our approach brings together technical expertise, digital innovation, and financial guidance under one platform.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', margin: '1rem 0', paddingLeft: '1rem', borderLeft: '3px solid var(--volt)' }}>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>
+                  <strong>Civil Consulting:</strong> Specialized support for waterproofing, flooring, landscaping, painting, repair and rehabilitation, technical inspections, quality assurance, BOQ preparation, specifications, cost estimation, and project supervision.
+                </p>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>
+                  <strong>Web & Digital Solutions:</strong> Helping businesses establish, strengthen, and transform their digital presence through websites, web applications, business portals, automation, and other technology-driven solutions.
+                </p>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>
+                  <strong>Financial Services:</strong> Supporting clients with investment, insurance, loan assistance, NRI-focused solutions, behavioural profiling, risk profiling, and financial planning, helping individuals and businesses make more informed financial decisions.
+                </p>
+              </div>
+
+              <p>
+                At CWF Consulting Corporation, we are driven by a commitment to professionalism, integrity, innovation, and long-term relationships. We focus on understanding every client&apos;s unique requirements and connecting them with the right expertise and solutions.
+              </p>
+            </div>
+
+            <div style={{
+              marginTop: '2rem',
+              display: 'inline-block',
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              color: 'var(--volt)',
+              letterSpacing: '2px',
+              border: '2px solid var(--volt)',
+              padding: '0.5rem 1rem',
+              borderRadius: '2px',
+              textTransform: 'uppercase'
+            }}>
+              ONE PARTNER. INFINITE POSSIBILITIES.
+            </div>
           </div>
+
           <div style={{ textAlign: 'center' }}>
             <div style={{ border: '3px solid var(--ink)', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'var(--panel)', padding: '1.5rem', display: 'inline-block', width: '100%', maxWidth: '380px' }}>
               <img
