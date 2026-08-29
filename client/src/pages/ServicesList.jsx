@@ -36,7 +36,7 @@ export default function ServicesList() {
     },
     finance: {
       title: 'Financial Advisory & Corporate Planning',
-      subtitle: 'Strategic Capital Overviews and Tax Compliance Representation',
+      subtitle: 'PLAN • PROTECT • PROSPER — Strategic Capital Overviews and Tax Compliance Representation',
       bannerLabel: '[ADVISORY: CORPORATE DEBT & TAXES]',
       description: 'Consult CWF Financial Advisory. We structure SME business growth loans, working capital overdraft limits, corporate tax planning, and wealth solutions.'
     }

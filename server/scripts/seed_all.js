@@ -124,8 +124,8 @@ const seedAll = async () => {
       {
         segment: 'finance',
         displayName: 'Financial Advisory & Corporate Planning',
-        tagline: 'Strategic Corporate Debt Advisory, Working Capital Solutions & Tax Planning',
-        heroDescription: 'Maximize your business growth with expert structural corporate tax planning, working capital solutions, SME investment advisory, and debt-advisory services.',
+        tagline: 'PLAN • PROTECT • PROSPER',
+        heroDescription: 'Strategic Corporate Debt Advisory, Working Capital Solutions & Tax Planning. Maximize your business growth with expert structural corporate tax planning, working capital solutions, and debt-advisory services.',
         icon: 'TrendingUp',
         order: 3,
       },
