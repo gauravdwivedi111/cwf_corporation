@@ -108,7 +108,7 @@ const seedAll = async () => {
       {
         segment: 'civil',
         displayName: 'Civil & Waterproofing',
-        tagline: 'Scientific Waterproofing Diagnostics & Structural Integrity Supervision',
+        tagline: 'PROTECT • REPAIR • TRANSFORM',
         heroDescription: 'We provide forensic moisture scanning, structural concrete inspections, and high-performance sealing systems to protect structures from water ingress and reinforcements from corrosion.',
         icon: 'ShieldAlert',
         order: 1,

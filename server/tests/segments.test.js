@@ -30,7 +30,7 @@ describe('Segment-Aware API Layer & Discriminator Validation', () => {
       {
         segment: 'civil',
         displayName: 'Civil & Waterproofing',
-        tagline: 'Scientific Waterproofing Diagnostics',
+        tagline: 'PROTECT • REPAIR • TRANSFORM',
         heroDescription: 'Civil description',
         icon: 'Shield',
         order: 1,

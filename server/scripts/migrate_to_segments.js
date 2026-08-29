@@ -27,7 +27,7 @@ const migrate = async () => {
       {
         segment: 'civil',
         displayName: 'Civil & Waterproofing',
-        tagline: 'Scientific Waterproofing Diagnostics & Construction Supervision',
+        tagline: 'PROTECT • REPAIR • TRANSFORM',
         heroDescription: 'From new construction to existing structures, we provide expert waterproofing consultancy to help you select the right systems, materials, and application strategies.',
         icon: 'ShieldAlert',
         order: 1,
@@ -35,7 +35,7 @@ const migrate = async () => {
       {
         segment: 'web',
         displayName: 'Web Development',
-        tagline: 'Custom Web Applications & Full-Stack Development',
+        tagline: 'CONNECT • DIGITALIZE • GROW',
         heroDescription: '[Placeholder] High-performance React, Node.js, and cloud application engineering tailored for modern enterprises.',
         icon: 'Code',
         order: 2,
