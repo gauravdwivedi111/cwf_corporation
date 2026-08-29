@@ -84,6 +84,11 @@ export default function SegmentHome() {
     );
   }
 
+  const hasSplitHero = segment === 'finance' || segment === 'web';
+  const heroImageUrl = segment === 'finance'
+    ? 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop'
+    : 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop';
+
   return (
     <>
       <Helmet>
@@ -93,10 +98,10 @@ export default function SegmentHome() {
 
       {/* HERO SECTION */}
       <section 
-        style={segment === 'finance' ? {
+        style={hasSplitHero ? {
           position: 'relative',
           padding: isMobile ? '6rem 0' : '10rem 0 8rem',
-          backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop")',
+          backgroundImage: `url("${heroImageUrl}")`,
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center' : 'right center',
           borderBottom: '3px solid var(--ink)',
@@ -111,11 +116,11 @@ export default function SegmentHome() {
           overflow: 'hidden'
         }}
       >
-        {/* Subtle grid lines background (only for non-finance segments) */}
-        {segment !== 'finance' ? (
+        {/* Subtle grid lines background (only for non-split segments) */}
+        {!hasSplitHero ? (
           <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.15 }}></div>
         ) : (
-          /* Split-visibility gradient overlay for finance hero */
+          /* Split-visibility gradient overlay for split hero */
           <div 
             style={{ 
               position: 'absolute', 
@@ -133,7 +138,7 @@ export default function SegmentHome() {
         
         <div 
           className="container" 
-          style={segment === 'finance' ? {
+          style={hasSplitHero ? {
             position: 'relative', 
             zIndex: 5,
             textAlign: 'left',
@@ -148,10 +153,10 @@ export default function SegmentHome() {
           <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.75rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
             [DIVISION: {info.displayName.toUpperCase()}]
           </span>
-          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: segment === 'finance' ? 'none' : '800px', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
+          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: hasSplitHero ? 'none' : '800px', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
             {info.tagline}
           </h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: segment === 'finance' ? 'none' : '650px', margin: '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
+          <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: hasSplitHero ? 'none' : '650px', margin: '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
             {info.heroDescription}
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', animation: 'fadeSlideUp 0.8s ease 0.9s both' }}>
