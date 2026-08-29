@@ -52,11 +52,14 @@ export default function Header() {
   if (isRoot) {
     return (
       <header className="app-header minimal-header" style={{ 
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)', 
-        padding: '1.25rem 0', 
-        position: 'relative', 
-        overflow: 'hidden',
-        backgroundColor: '#090e18'
+        position: 'sticky', 
+        top: 0,
+        zIndex: 100,
+        backgroundColor: 'rgba(16, 32, 42, 0.75)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(138, 203, 193, 0.12)',
+        overflow: 'hidden'
       }}>
         {/* CSS Keyframes and styling scoped to first page header only */}
         <style dangerouslySetInnerHTML={{__html: `
@@ -111,7 +114,7 @@ export default function Header() {
             <img 
               src="/logo.jpg" 
               alt="CWF Consulting Corporation Logo" 
-              style={{ height: '42px', objectFit: 'contain', borderRadius: '4px', border: '1.5px solid var(--ink)', backgroundColor: '#fff', padding: '2px' }} 
+              style={{ height: '36px', objectFit: 'contain', borderRadius: '2px' }} 
             />
             <span style={{ 
               fontFamily: 'var(--font-heading)', 
