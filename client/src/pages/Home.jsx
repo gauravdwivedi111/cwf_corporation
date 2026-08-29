@@ -189,44 +189,50 @@ export default function Home() {
       </Helmet>
 
       {/* HERO SECTION */}
-      <section className="flowstate-hero" style={{ minHeight: '70lvh', padding: isMobile ? '6rem 0 4rem' : '10rem 0 7rem' }}>
+      <section 
+        className="flowstate-hero" 
+        style={{ 
+          position: 'relative',
+          minHeight: '70lvh', 
+          padding: isMobile ? '6rem 0 4rem' : '10rem 0 7rem',
+          backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop")',
+          backgroundSize: 'cover',
+          backgroundPosition: isMobile ? 'center' : 'right center',
+          borderBottom: '3px solid var(--ink)',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         <style dangerouslySetInnerHTML={{ __html: styleTag }} />
         
-        {/* 1. Fluid canvas (z-0) */}
-        <canvas 
-          ref={canvasRef} 
-          aria-hidden="true" 
-          style={{ 
-            position: 'absolute', 
-            inset: 0, 
-            width: '100%', 
-            height: '100%', 
-            zIndex: 0, 
-            pointerEvents: 'none' 
-          }} 
-        />
-
-        {/* 2. Scrim (z-1) */}
+        {/* Split-visibility gradient overlay for root page hero */}
         <div 
-          aria-hidden="true" 
           style={{ 
             position: 'absolute', 
-            inset: 0, 
-            zIndex: 1, 
-            pointerEvents: 'none', 
-            background: 'radial-gradient(115% 95% at 50% 46%, rgba(4,5,12,0.68) 0%, rgba(4,5,12,0.68) 24%, rgba(4,5,12,0.46) 52%, rgba(4,5,12,0.12) 100%)' 
+            top: 0, 
+            left: 0, 
+            right: 0, 
+            bottom: 0, 
+            background: isMobile 
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.8) 0%, rgba(5, 7, 22, 0.96) 100%)'
+              : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
+            zIndex: 1 
           }} 
         />
 
-        {/* 3. Center column (z-10) */}
+        {/* Left column content container */}
         <div className="container" style={{
           position: 'relative',
           zIndex: 10,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
+          alignItems: 'flex-start',
+          textAlign: 'left',
           width: '100%',
-          maxWidth: isLg ? '52em' : (isSm ? '40em' : '22em')
+          marginLeft: 0,
+          marginRight: 'auto',
+          maxWidth: isMobile ? '100%' : '58%'
         }}>
           {/* Badge pill */}
           <span style={{ 
@@ -253,14 +259,14 @@ export default function Home() {
           {/* Heading */}
           <h1 style={{
             marginTop: isSm ? '1.75em' : '1.25em',
-            maxWidth: isLg ? '46em' : (isSm ? '34em' : '20em'),
+            maxWidth: 'none',
             fontSize: isLg ? '5em' : (isSm ? '3.5em' : '2em'),
             fontWeight: 500,
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
             color: '#eef0f6',
-            textAlign: 'center',
-            marginInline: 'auto',
+            textAlign: 'left',
+            marginInline: '0',
             marginBottom: 0,
             fontFamily: 'var(--font-heading)',
             textTransform: 'uppercase'
@@ -271,11 +277,12 @@ export default function Home() {
           {/* Sub-line */}
           <p style={{
             marginTop: isSm ? '1.25em' : '1em',
-            maxWidth: isLg ? 'none' : (isSm ? '34em' : '20em'),
+            maxWidth: 'none',
             fontSize: isLg ? '1.2em' : (isSm ? '1.1em' : '1em'),
             lineHeight: 1.5,
             color: '#b9becf',
-            marginInline: 'auto',
+            textAlign: 'left',
+            marginInline: '0',
             marginBottom: 0,
             fontWeight: 300,
             fontFamily: 'var(--font-body)'
@@ -283,7 +290,6 @@ export default function Home() {
             {renderWords("We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune's leading consultancy group.", "subline", 1150, 22)}
           </p>
         </div>
-
       </section>
 
       {/* SEGMENT HUB PICKER */}
