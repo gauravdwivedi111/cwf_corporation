@@ -52,9 +52,8 @@ export default function Header() {
       ></div>
 
       <div className="container nav-container">
-        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Home">
-          <ShieldAlert size={28} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
-          CWF<span>Consulting Corporation</span>
+        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <img src="/logo.jpg" alt="CWF Consulting Corporation Logo" style={{ height: '36px', objectFit: 'contain', borderRadius: '2px' }} />
         </NavLink>
 
         {/* Business Segment Switcher */}

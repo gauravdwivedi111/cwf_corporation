@@ -46,8 +46,8 @@ export default function Login() {
     <div className="admin-login-wrapper">
       <div className="admin-login-card">
         <div className="admin-login-header">
-          <div className="admin-logo-circle">
-            <Shield className="admin-logo-icon" size={32} />
+          <div className="admin-logo-circle" style={{ backgroundColor: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <img src="/logo.jpg" alt="CWF Consulting Corporation Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <h1>CWF Consulting Corporation</h1>
           <p>Control Panel Authentication</p>

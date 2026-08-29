@@ -45,9 +45,8 @@ export default function Footer() {
       <div className="container">
         <div className="grid-4">
           <div>
-            <div className="logo" style={{ color: 'var(--panel)', marginBottom: '1rem' }}>
-              <ShieldAlert size={24} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
-              CWF<span>Consulting Corporation</span>
+            <div className="logo" style={{ marginBottom: '1rem', display: 'inline-flex', alignItems: 'center' }}>
+              <img src="/logo.jpg" alt="CWF Consulting Corporation Logo" style={{ height: '36px', objectFit: 'contain', backgroundColor: '#fff', padding: '2px', borderRadius: '4px' }} />
             </div>
             <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.88rem' }}>
               CWF Consulting Corporation Pune provides multi-disciplinary structural engineering diagnostics, high-performance software engineering, and corporate debt advisory.
