@@ -59,25 +59,55 @@ export default function Home() {
         style={{
           position: 'relative',
           padding: '8rem 0 5rem',
-          backgroundColor: '#050716',
-          borderBottom: '3px solid var(--ink)',
+          background: 'linear-gradient(to bottom, #090e18 0%, #10202a 100%)',
+          borderBottom: '1px solid rgba(138, 203, 193, 0.15)',
           overflow: 'hidden',
           textAlign: 'center'
         }}
       >
-        <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.12 }}></div>
+        <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.1 }}></div>
         
+        {/* Ambient backlight glow */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '550px',
+          height: '350px',
+          background: 'radial-gradient(circle, rgba(138, 203, 193, 0.08) 0%, rgba(219, 176, 87, 0.04) 50%, rgba(0,0,0,0) 80%)',
+          pointerEvents: 'none',
+          zIndex: 1,
+          filter: 'blur(30px)'
+        }}></div>
+
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '1rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
-            [CWF CONSULTING CORPORATION PUNE]
+          <span style={{ 
+            fontFamily: 'var(--font-data)', 
+            fontSize: '0.78rem', 
+            color: 'var(--volt)', 
+            fontWeight: 'bold', 
+            textTransform: 'uppercase', 
+            letterSpacing: '3px', 
+            display: 'inline-block',
+            padding: '0.35rem 0.95rem',
+            borderRadius: '100px',
+            border: '1px solid rgba(138, 203, 193, 0.25)',
+            backgroundColor: 'rgba(138, 203, 193, 0.06)',
+            marginBottom: '1.5rem', 
+            animation: 'fadeSlideUp 0.8s ease 0.2s both' 
+          }}>
+            CWF CONSULTING CORPORATION PUNE
           </span>
           <h1 
             style={{
               fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
-              fontWeight: 500,
-              lineHeight: '1.1',
+              fontWeight: 700,
+              lineHeight: '1.15',
               letterSpacing: '-0.02em',
-              color: '#fff',
+              background: 'linear-gradient(135deg, #ffffff 40%, #8acbc1 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
               marginBottom: '1.5rem',
               fontFamily: 'var(--font-heading)',
               textTransform: 'uppercase',
@@ -89,8 +119,8 @@ export default function Home() {
           <p
             style={{
               fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
-              lineHeight: '1.6',
-              color: 'rgba(255,255,255,0.7)',
+              lineHeight: '1.65',
+              color: 'rgba(238, 242, 243, 0.85)',
               maxWidth: '38rem',
               margin: '0 auto 2.5rem',
               fontWeight: 300,

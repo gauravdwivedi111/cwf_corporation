@@ -52,11 +52,11 @@ export default function Header() {
   if (isRoot) {
     return (
       <header className="app-header minimal-header" style={{ 
-        borderBottom: '3px solid var(--ink)', 
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)', 
         padding: '1.25rem 0', 
         position: 'relative', 
         overflow: 'hidden',
-        backgroundColor: '#050716'
+        backgroundColor: '#090e18'
       }}>
         {/* CSS Keyframes and styling scoped to first page header only */}
         <style dangerouslySetInnerHTML={{__html: `
