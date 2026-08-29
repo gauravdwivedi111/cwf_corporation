@@ -13,6 +13,7 @@ import Loader from './components/Loader.jsx';
 
 // Public Pages (Lazy Loaded)
 const Home = lazy(() => import('./pages/Home.jsx'));
+const SegmentHome = lazy(() => import('./pages/SegmentHome.jsx'));
 const About = lazy(() => import('./pages/About.jsx'));
 const ServicesList = lazy(() => import('./pages/ServicesList.jsx'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail.jsx'));
