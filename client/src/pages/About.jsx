@@ -137,7 +137,7 @@ export default function About() {
       </section>
 
       {/* 4. OUR CORE VALUES SECTION */}
-      <section className="section" style={{ borderBottom: '3px solid var(--ink)' }}>
+      <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
@@ -180,7 +180,7 @@ export default function About() {
             </div>
 
             {/* TRUST */}
-            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 6', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
               <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
                 TRUST
               </h3>
@@ -190,13 +190,134 @@ export default function About() {
             </div>
 
             {/* CLIENT FOCUS */}
-            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 6', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
               <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
                 CLIENT FOCUS
               </h3>
               <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
                 Every solution begins with understanding our client's requirements.
               </p>
+            </div>
+
+            {/* COLLABORATION */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
+                COLLABORATION
+              </h3>
+              <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
+                We believe the best results are achieved by connecting the right people, expertise, and opportunities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. WHY CWF? SECTION */}
+      <section className="section" style={{ borderBottom: '3px solid var(--ink)', background: 'var(--panel)', padding: '5rem 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '2rem', color: 'var(--white)', marginBottom: '0.5rem' }}>
+              Why CWF?
+            </h2>
+            <p style={{ fontFamily: 'var(--font-data)', fontSize: '0.9rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', margin: 0 }}>
+              Integrated Thinking. Connected Solutions.
+            </p>
+          </div>
+
+          <div style={{ maxWidth: '800px', margin: '0 auto 4rem', textAlign: 'center', color: 'rgba(255, 255, 255, 0.88)', lineHeight: '1.7', fontSize: '1.05rem' }}>
+            <p style={{ marginBottom: '1.25rem' }}>
+              Today's challenges do not exist in isolation. Infrastructure decisions, digital transformation, and financial planning increasingly require connected thinking.
+            </p>
+            <p style={{ margin: 0 }}>
+              CWF brings multiple areas of expertise together under one platform—helping clients access the right solution, right expertise, and right direction for their specific requirements.
+            </p>
+          </div>
+
+          {/* 5-item Feature Grid */}
+          <div className="bento-grid" style={{ gap: '1.5rem', justifyContent: 'center' }}>
+            {/* One Platform */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', minHeight: '180px', margin: 0 }}>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div style={{ color: 'var(--volt)', marginTop: '0.2rem' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.1rem', marginBottom: '0.5rem', marginTop: 0 }}>
+                    One Platform
+                  </h4>
+                  <p style={{ fontSize: '0.88rem', lineHeight: '1.5', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+                    Multiple professional solutions under one ecosystem.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Expert-Led Approach */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', minHeight: '180px', margin: 0 }}>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div style={{ color: 'var(--volt)', marginTop: '0.2rem' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.1rem', marginBottom: '0.5rem', marginTop: 0 }}>
+                    Expert-Led Approach
+                  </h4>
+                  <p style={{ fontSize: '0.88rem', lineHeight: '1.5', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+                    Connecting clients with specialized knowledge and professional expertise.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Technology-Enabled */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', minHeight: '180px', margin: 0 }}>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div style={{ color: 'var(--volt)', marginTop: '0.2rem' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.1rem', marginBottom: '0.5rem', marginTop: 0 }}>
+                    Technology-Enabled
+                  </h4>
+                  <p style={{ fontSize: '0.88rem', lineHeight: '1.5', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+                    Using digital tools, automation, and AI-enabled capabilities to improve efficiency and client experience.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Client-Centric */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 6', padding: '2rem', minHeight: '180px', margin: 0 }}>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div style={{ color: 'var(--volt)', marginTop: '0.2rem' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.1rem', marginBottom: '0.5rem', marginTop: 0 }}>
+                    Client-Centric
+                  </h4>
+                  <p style={{ fontSize: '0.88rem', lineHeight: '1.5', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+                    Solutions designed around individual requirements—not a one-size-fits-all approach.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Trust & Transparency */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 6', padding: '2rem', minHeight: '180px', margin: 0 }}>
+              <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+                <div style={{ color: 'var(--volt)', marginTop: '0.2rem' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.1rem', marginBottom: '0.5rem', marginTop: 0 }}>
+                    Trust & Transparency
+                  </h4>
+                  <p style={{ fontSize: '0.88rem', lineHeight: '1.5', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+                    Building long-term relationships through professional conduct and clear communication.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

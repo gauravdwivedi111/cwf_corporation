@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>CWF Consulting Corporation | Multi-Disciplinary Engineering & Financial Solutions</title>
+        <title>CWF Consulting Corporation | Integrated Expertise. Innovative Solutions. Lasting Value.</title>
         <meta
           name="description"
           content="CWF Consulting Corporation Pune provides scientific waterproofing diagnostics, custom software engineering, and corporate financial advisory. Learn more about our divisions."
