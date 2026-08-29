@@ -218,7 +218,7 @@ export default function ProjectsList() {
                           fontFamily: 'var(--font-data)'
                         }}
                       >
-                        {project.serviceCategory.replace('-', ' ')}
+                        {project.serviceCategory?.replace('-', ' ') || segment}
                       </span>
                       
                       <h3 style={{ fontSize: '1.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.75rem', flexGrow: 1 }}>
