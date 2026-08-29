@@ -2349,3 +2349,19 @@ select:focus-visible {
   0% { opacity: 0; letter-spacing: 0.4em; }
   100% { opacity: 0.85; letter-spacing: 0.25em; }
 }
+
+/* Custom premium styling for Why CWF Bento Grid cards */
+.why-cwf-card {
+  border: 1px solid rgba(138, 203, 193, 0.12) !important;
+  background: linear-gradient(135deg, rgba(27, 43, 50, 0.75) 0%, rgba(16, 32, 42, 0.9) 100%) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  border-radius: 12px !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.why-cwf-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: rgba(138, 203, 193, 0.4) !important;
+  box-shadow: 0 16px 40px rgba(138, 203, 193, 0.15) !important;
+}
+
