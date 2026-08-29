@@ -116,7 +116,7 @@ const seedAll = async () => {
       {
         segment: 'web',
         displayName: 'Software & Web Development',
-        tagline: 'High-Performance React/Next.js Platforms & Enterprise Cloud Applications',
+        tagline: 'CONNECT • DIGITALIZE • GROW',
         heroDescription: 'We engineer secure, scalable, and responsive React/Node.js web applications, e-commerce engines, and bespoke custom software solutions tailored for modern businesses.',
         icon: 'Code',
         order: 2,

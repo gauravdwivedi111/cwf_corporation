@@ -38,7 +38,7 @@ describe('Segment-Aware API Layer & Discriminator Validation', () => {
       {
         segment: 'web',
         displayName: 'Software & Web',
-        tagline: 'High-Performance React/Next.js Platforms',
+        tagline: 'CONNECT • DIGITALIZE • GROW',
         heroDescription: 'Web description',
         icon: 'Code',
         order: 2,
