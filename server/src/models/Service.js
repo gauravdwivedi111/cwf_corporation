@@ -93,6 +93,16 @@ const CivilService = mongoose.models.CivilService || Service.discriminator(
           'tank',
           'facade',
           'injection-grouting',
+          'waterproofing',
+          'flooring',
+          'landscaping',
+          'painting',
+          'repairs',
+          'rehabilitation',
+          'inspection',
+          'quality-assurance',
+          'boq-estimation',
+          'supervision'
         ],
         message: '{VALUE} is not a valid category for Civil segment',
       },
@@ -112,7 +122,11 @@ const WebService = mongoose.models.WebService || Service.discriminator(
       type: String,
       required: [true, 'Service category is required for Web segment'],
       enum: {
-        values: ['e-commerce', 'corporate-site', 'web-app', 'seo-maintenance', 'custom-development'],
+        values: [
+          'e-commerce', 'corporate-site', 'web-app', 'seo-maintenance', 'custom-development',
+          'website-development', 'business-portals', 'ecommerce-solutions', 'mobile-apps',
+          'digital-branding', 'digital-marketing', 'crm-automation', 'online-solutions'
+        ],
         message: '{VALUE} is not a valid category for Web segment',
       },
       trim: true,
@@ -143,7 +157,11 @@ const FinanceService = mongoose.models.FinanceService || Service.discriminator(
       type: String,
       required: [true, 'Service category is required for Finance segment'],
       enum: {
-        values: ['business-loan', 'personal-loan', 'investment-advisory', 'tax-consultancy', 'working-capital'],
+        values: [
+          'business-loan', 'personal-loan', 'investment-advisory', 'tax-consultancy', 'working-capital',
+          'investment-planning', 'insurance-solutions', 'loan-assistance', 'nri-corner',
+          'behavioural-profiling', 'risk-profiling', 'financial-planning', 'wealth-guidance'
+        ],
         message: '{VALUE} is not a valid category for Finance segment',
       },
       trim: true,
