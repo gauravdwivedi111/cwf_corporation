@@ -22,6 +22,15 @@ export default function SegmentHome() {
   const { data: teamData, request: fetchTeam } = useApi();
 
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     // Reset state on segment change
@@ -84,7 +93,17 @@ export default function SegmentHome() {
 
       {/* HERO SECTION */}
       <section 
-        style={{
+        style={segment === 'finance' ? {
+          position: 'relative',
+          padding: isMobile ? '6rem 0' : '10rem 0 8rem',
+          backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop")',
+          backgroundSize: 'cover',
+          backgroundPosition: isMobile ? 'center' : 'right center',
+          borderBottom: '3px solid var(--ink)',
+          overflow: 'hidden',
+          display: 'flex',
+          alignItems: 'center'
+        } : {
           position: 'relative',
           padding: '8rem 0 6rem',
           backgroundColor: '#050716',
@@ -92,17 +111,47 @@ export default function SegmentHome() {
           overflow: 'hidden'
         }}
       >
-        {/* Subtle grid lines background */}
-        <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.15 }}></div>
+        {/* Subtle grid lines background (only for non-finance segments) */}
+        {segment !== 'finance' ? (
+          <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.15 }}></div>
+        ) : (
+          /* Split-visibility gradient overlay for finance hero */
+          <div 
+            style={{ 
+              position: 'absolute', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              bottom: 0, 
+              background: isMobile 
+                ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.8) 0%, rgba(5, 7, 22, 0.96) 100%)'
+                : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
+              zIndex: 1 
+            }} 
+          />
+        )}
         
-        <div className="container" style={{ position: 'relative', zIndex: 5 }}>
+        <div 
+          className="container" 
+          style={segment === 'finance' ? {
+            position: 'relative', 
+            zIndex: 5,
+            textAlign: 'left',
+            marginLeft: 0,
+            marginRight: 'auto',
+            maxWidth: isMobile ? '100%' : '58%'
+          } : {
+            position: 'relative', 
+            zIndex: 5 
+          }}
+        >
           <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.75rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
             [DIVISION: {info.displayName.toUpperCase()}]
           </span>
-          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: '800px', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
+          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: segment === 'finance' ? 'none' : '800px', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
             {info.tagline}
           </h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: '650px', margin: '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
+          <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: segment === 'finance' ? 'none' : '650px', margin: '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
             {info.heroDescription}
           </p>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', animation: 'fadeSlideUp 0.8s ease 0.9s both' }}>
