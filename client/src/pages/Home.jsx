@@ -14,13 +14,11 @@ import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
  */
 export default function Home() {
   const { data: segmentsData, loading, error, request: fetchSegments } = useApi();
-  const { data: teamData, request: fetchTeam } = useApi();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
 
   useEffect(() => {
     fetchSegments('/segments').catch(() => {});
-    fetchTeam('/team').catch(() => {});
-  }, [fetchSegments, fetchTeam]);
+  }, [fetchSegments]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,7 +29,6 @@ export default function Home() {
   }, []);
 
   const segments = segmentsData?.data || [];
-  const team = teamData?.data || [];
 
   const getSegmentIcon = (iconName) => {
     switch (iconName) {
@@ -542,144 +539,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* 6. Technical Methodology */}
-        <div className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
-          <div className="container">
-            <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-              <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-                Our 4-Step Technical Methodology
-              </h2>
-              <p style={{ maxWidth: '650px', margin: '1rem auto 0', color: 'var(--graphite)' }}>
-                We apply scientific procedures to ensure the structural integrity of concrete slabs and waterproofing.
-              </p>
-            </div>
-
-            <div className="bento-grid" style={{ gap: '2rem' }}>
-              {/* SURVEY */}
-              <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '320px', margin: 0 }}>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
-                  STAGE 01 / SURVEY
-                </div>
-                <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
-                  FORENSIC SCANNING
-                </h3>
-                <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
-                  We inspect concrete slabs, joints, and facades using infrared thermal imaging, electrical impedance moisture scan meters, and core testing.
-                </p>
-              </div>
-
-              {/* REPORT */}
-              <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '320px', margin: 0 }}>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
-                  STAGE 02 / REPORT
-                </div>
-                <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
-                  PATHWAY ANALYSIS
-                </h3>
-                <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
-                  We deliver diagnostic CAD layout maps locating damp paths, failure points, and grading concrete thickness issues with moisture parameters.
-                </p>
-              </div>
-
-              {/* RECOMMEND */}
-              <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '320px', margin: 0 }}>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
-                  STAGE 03 / RECOMMEND
-                </div>
-                <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
-                  BOQ SPECIFICATION
-                </h3>
-                <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
-                  We draft custom technical waterproofing specifications, select compliant chemical slurries, and prepare standard Bill of Quantities (BOQ).
-                </p>
-              </div>
-
-              {/* SUPERVISE */}
-              <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '320px', margin: 0 }}>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
-                  STAGE 04 / SUPERVISE
-                </div>
-                <h3 style={{ fontSize: '1.3rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
-                  QUALITY AUDIT
-                </h3>
-                <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
-                  Our engineers monitor application, supervise concrete moisture levels, enforce curing cycles, and verify chemical film thickness rules.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 7. Lead Engineers */}
-        {team.length > 0 && (
-          <div className="section">
-            <div className="container">
-              <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-                  CWF Lead Engineers & Consultants
-                </h2>
-                <p style={{ maxWidth: '650px', margin: '1rem auto 0', color: 'var(--graphite)' }}>
-                  Meet the key professionals supervising audits, software architectures, and financial plans.
-                </p>
-              </div>
-
-              <div className="bento-grid">
-                {team.map((member, index) => (
-                  <div 
-                    key={member._id} 
-                    className="bento-cell solid-ink"
-                    style={{ 
-                      gridColumn: 'span 3',
-                      padding: '1.5rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      margin: 0
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: '100px',
-                        height: '100px',
-                        borderRadius: '50%',
-                        overflow: 'hidden',
-                        margin: '0 auto 1rem',
-                        border: '3px solid var(--ink)',
-                        backgroundColor: 'var(--panel)',
-                      }}
-                    >
-                      <img
-                        src={getOptimizedCloudinaryUrl(member.photo, 200)}
-                        alt={member.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        loading="lazy"
-                      />
-                    </div>
-                    <h3 style={{ color: 'var(--white)', fontSize: '1.1rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>
-                      {member.name}
-                    </h3>
-                    <p
-                      style={{
-                        color: 'var(--volt)',
-                        fontWeight: 'bold',
-                        fontSize: '0.78rem',
-                        marginBottom: '0.75rem',
-                        textTransform: 'uppercase',
-                        fontFamily: 'var(--font-data)'
-                      }}
-                    >
-                      {member.designation}
-                    </p>
-                    <p style={{ color: 'var(--white)', fontSize: '0.82rem', margin: 0, opacity: 0.85, lineHeight: '1.5' }}>
-                      {member.bio}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* LEAD CAPTURE FORM */}
