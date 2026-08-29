@@ -78,7 +78,7 @@ export default function SegmentHome() {
   return (
     <>
       <Helmet>
-        <title>{`${info.displayName} | CWF Corporation`}</title>
+        <title>{`${info.displayName} | CWF Consulting Corporation`}</title>
         <meta name="description" content={info.tagline + ' — ' + info.heroDescription} />
       </Helmet>
 

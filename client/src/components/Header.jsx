@@ -52,9 +52,9 @@ export default function Header() {
       ></div>
 
       <div className="container nav-container">
-        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Corporation Home">
+        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Home">
           <ShieldAlert size={28} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
-          CWF<span>Corporation</span>
+          CWF<span>Consulting Corporation</span>
         </NavLink>
 
         {/* Business Segment Switcher */}

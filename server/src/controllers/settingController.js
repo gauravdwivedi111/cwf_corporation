@@ -29,7 +29,7 @@ export const getSettings = async (req, res, next) => {
           youtube: '',
         },
         businessHours: 'Monday - Saturday: 9:00 AM - 6:00 PM',
-        aboutText: 'CWF Corporation Pune provides state of the art waterproofing consultation and structural inspection services.',
+        aboutText: 'CWF Consulting Corporation Pune provides state of the art waterproofing consultation and structural inspection services.',
         certifications: ['ISO 9001:2015 Structural Safety Certified'],
       });
     }

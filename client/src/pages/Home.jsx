@@ -46,10 +46,10 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>CWF Corporation | Multi-Disciplinary Engineering & Financial Solutions</title>
+        <title>CWF Consulting Corporation | Multi-Disciplinary Engineering & Financial Solutions</title>
         <meta
           name="description"
-          content="CWF Corporation Pune provides scientific waterproofing diagnostics, custom software engineering, and corporate financial advisory. Learn more about our divisions."
+          content="CWF Consulting Corporation Pune provides scientific waterproofing diagnostics, custom software engineering, and corporate financial advisory. Learn more about our divisions."
         />
       </Helmet>
 
@@ -68,7 +68,7 @@ export default function Home() {
         
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
           <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '1rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
-            [CWF CORPORATION PUNE]
+            [CWF CONSULTING CORPORATION PUNE]
           </span>
           <h1 
             style={{

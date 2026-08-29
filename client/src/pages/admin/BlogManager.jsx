@@ -64,7 +64,7 @@ export default function BlogManager() {
       
       // Auto-populate SEO title
       if (val.length <= 50) {
-        setSeoTitle(`${val} | CWF Corporation`);
+        setSeoTitle(`${val} | CWF Consulting Corporation`);
       }
     }
   };

@@ -10,7 +10,7 @@ export default function NotFound() {
   return (
     <>
       <Helmet>
-        <title>404 - Page Not Found | CWF Corporation Pune</title>
+        <title>404 - Page Not Found | CWF Consulting Corporation Pune</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

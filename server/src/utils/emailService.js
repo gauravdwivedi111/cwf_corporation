@@ -56,10 +56,10 @@ ${inquiry.message}
 ------------------------------------------
 
 Regards,
-CWF Corporation Notification System
+CWF Consulting Corporation Notification System
     `,
     html: `
-<h2>New Lead Captured - CWF Corporation</h2>
+<h2>New Lead Captured - CWF Consulting Corporation</h2>
 <p>A new lead has been submitted via the website contact form.</p>
 <table border="1" cellpadding="8" style="border-collapse: collapse; border: 1px solid #ddd;">
   <tr bgcolor="#f2f2f2"><td><strong>Field</strong></td><td><strong>Value</strong></td></tr>
@@ -94,11 +94,11 @@ export const sendCustomerAcknowledge = async (inquiry) => {
   const mailOptions = {
     from: process.env.EMAIL_FROM || 'no-reply@cwfcorporation.com',
     to: inquiry.email,
-    subject: 'We have received your waterproofing inquiry - CWF Corporation',
+    subject: 'We have received your waterproofing inquiry - CWF Consulting Corporation',
     text: `
 Dear ${inquiry.name},
 
-Thank you for reaching out to CWF Corporation, Pune. We have received your inquiry regarding our "${inquiry.serviceInterested}" waterproofing solutions.
+Thank you for reaching out to CWF Consulting Corporation, Pune. We have received your inquiry regarding our "${inquiry.serviceInterested}" waterproofing solutions.
 
 Our technical expert will review your requirements and get in touch with you at ${inquiry.phone} shortly to schedule a site inspection.
 
@@ -107,16 +107,16 @@ Your Inquiry message:
 
 Best regards,
 Customer Relations Team
-CWF Corporation, Pune
+CWF Consulting Corporation, Pune
     `,
     html: `
-<h3>Thank you for reaching out to CWF Corporation, Pune!</h3>
+<h3>Thank you for reaching out to CWF Consulting Corporation, Pune!</h3>
 <p>Dear ${inquiry.name},</p>
 <p>We have successfully received your inquiry regarding our <strong>${inquiry.serviceInterested}</strong> waterproofing services.</p>
 <p>One of our technical experts will review your request and contact you at <strong>${inquiry.phone}</strong> shortly to schedule a detailed site-visit and consultation.</p>
 <br/>
 <p>Best regards,</p>
-<p><strong>Customer Relations Team</strong><br/>CWF Corporation, Pune</p>
+<p><strong>Customer Relations Team</strong><br/>CWF Consulting Corporation, Pune</p>
     `,
   };
 

@@ -25,10 +25,10 @@ export default function About() {
   return (
     <>
       <Helmet>
-        <title>About CWF Corporation | Waterproofing Consultants Pune</title>
+        <title>About CWF Consulting Corporation | Waterproofing Consultants Pune</title>
         <meta
           name="description"
-          content="Learn about CWF Corporation's scientific waterproofing audit methodology (Survey, Report, Recommend, Supervise) and our team of Pune structural consultants."
+          content="Learn about CWF Consulting Corporation's scientific waterproofing audit methodology (Survey, Report, Recommend, Supervise) and our team of Pune structural consultants."
         />
       </Helmet>
 
@@ -39,7 +39,7 @@ export default function About() {
             [PROFILE: CIVIL ENGINEERING CONSULTANTS]
           </span>
           <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', fontSize: '2.5rem', lineHeight: 1.1, marginBottom: '0.5rem' }}>
-            About CWF Corporation
+            About CWF Consulting Corporation
           </h1>
           <p style={{ color: 'var(--graphite)', margin: 0, fontFamily: 'var(--font-body)' }}>
             Scientific Diagnostic Waterproofing Consultants in Pune, India
@@ -55,7 +55,7 @@ export default function About() {
               Diagnosing Waterproofing Deficiencies Since 2011
             </h2>
             <p style={{ lineHeight: '1.6', fontSize: '0.98rem', marginBottom: '1rem' }}>
-              CWF Corporation was founded to solve a critical issue in Pune&apos;s construction market: the lack of engineering diagnostics in waterproofing repairs. Standard contractors often apply sealants to surface areas without identifying the structural pathway of water ingress.
+              CWF Consulting Corporation was founded to solve a critical issue in Pune&apos;s construction market: the lack of engineering diagnostics in waterproofing repairs. Standard contractors often apply sealants to surface areas without identifying the structural pathway of water ingress.
             </p>
             <p style={{ lineHeight: '1.6', fontSize: '0.98rem', margin: 0 }}>
               We operate as independent consultants. Our certified civil engineers conduct forensic testing on slab cracks, basement joints, and external facade pathways using moisture meters, thermal imagers, and core tests. We provide structural drawings and specifications, then supervise the execution phase to guarantee standard compliance.
@@ -65,7 +65,7 @@ export default function About() {
             <div style={{ border: '3px solid var(--ink)', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'var(--panel)', padding: '1.5rem', display: 'inline-block', width: '100%', maxWidth: '380px' }}>
               <img
                 src="/owner.webp"
-                alt="Ashok Dwivedi, Owner of CWF Corporation"
+                alt="Ashok Dwivedi, Owner of CWF Consulting Corporation"
                 style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}
                 loading="lazy"
               />

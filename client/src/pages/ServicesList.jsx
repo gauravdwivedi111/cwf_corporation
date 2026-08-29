@@ -26,7 +26,7 @@ export default function ServicesList() {
       title: 'Waterproofing & Structural Services',
       subtitle: 'Scientific Diagnostic Solutions and Supervised Repair Execution',
       bannerLabel: '[CATALOG: COATINGS & GROUTING]',
-      description: 'Browse CWF Corporation\'s core waterproofing services, including Terrace sealing, Basement grouting, external facades, and Water Tank linings in Pune.'
+      description: 'Browse CWF Consulting Corporation\'s core waterproofing services, including Terrace sealing, Basement grouting, external facades, and Water Tank linings in Pune.'
     },
     web: {
       title: 'Software & Web Development',
@@ -47,7 +47,7 @@ export default function ServicesList() {
   return (
     <>
       <Helmet>
-        <title>{`${currentMeta.title} | CWF Corporation`}</title>
+        <title>{`${currentMeta.title} | CWF Consulting Corporation`}</title>
         <meta name="description" content={currentMeta.description} />
       </Helmet>
 

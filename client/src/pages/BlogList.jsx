@@ -30,7 +30,7 @@ export default function BlogList() {
       title: 'Waterproofing Insights & Advice',
       subtitle: 'Scientific Engineering articles to preserve concrete integrity',
       bannerLabel: '[ENGINEERING: KNOWLEDGE BASE]',
-      description: 'Read structural waterproofing repair advice, leakage diagnostics case studies, and chemical sealing insights from CWF Corporation Pune engineers.'
+      description: 'Read structural waterproofing repair advice, leakage diagnostics case studies, and chemical sealing insights from CWF Consulting Corporation Pune engineers.'
     },
     web: {
       title: 'Software & Web Development Articles',
@@ -51,7 +51,7 @@ export default function BlogList() {
   return (
     <>
       <Helmet>
-        <title>{`${currentMeta.title} | CWF Corporation`}</title>
+        <title>{`${currentMeta.title} | CWF Consulting Corporation`}</title>
         <meta name="description" content={currentMeta.description} />
       </Helmet>
 

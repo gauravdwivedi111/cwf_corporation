@@ -47,10 +47,10 @@ export default function Footer() {
           <div>
             <div className="logo" style={{ color: 'var(--panel)', marginBottom: '1rem' }}>
               <ShieldAlert size={24} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
-              CWF<span>Corporation</span>
+              CWF<span>Consulting Corporation</span>
             </div>
             <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.88rem' }}>
-              CWF Corporation Pune provides multi-disciplinary structural engineering diagnostics, high-performance software engineering, and corporate debt advisory.
+              CWF Consulting Corporation Pune provides multi-disciplinary structural engineering diagnostics, high-performance software engineering, and corporate debt advisory.
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1.25rem' }}>
               {settings.socialLinks?.facebook && (
@@ -135,7 +135,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; <span className="data-num">{new Date().getFullYear()}</span> CWF Corporation. All rights reserved.</p>
+          <p>&copy; <span className="data-num">{new Date().getFullYear()}</span> CWF Consulting Corporation. All rights reserved.</p>
           <p>Scientific Solutions across Civil, Web, and Finance Segments</p>
         </div>
       </div>

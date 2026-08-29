@@ -34,10 +34,10 @@ export default function Contact() {
   return (
     <>
       <Helmet>
-        <title>Contact Waterproofing Experts | CWF Corporation Pune</title>
+        <title>Contact Waterproofing Experts | CWF Consulting Corporation Pune</title>
         <meta
           name="description"
-          content="Contact CWF Corporation in Pune for waterproofing audits, moisture scans, and injection grouting quotes. View office map and business hours."
+          content="Contact CWF Consulting Corporation in Pune for waterproofing audits, moisture scans, and injection grouting quotes. View office map and business hours."
         />
       </Helmet>
 
@@ -48,7 +48,7 @@ export default function Contact() {
             [HQ: DIRECT CHANNEL]
           </span>
           <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', fontSize: '2.5rem', lineHeight: 1.1, marginBottom: '0.5rem' }}>
-            Contact CWF Corporation
+            Contact CWF Consulting Corporation
           </h1>
           <p style={{ color: 'var(--graphite)', margin: 0, fontFamily: 'var(--font-body)' }}>
             Schedule a diagnostic inspection or consult our structural engineers

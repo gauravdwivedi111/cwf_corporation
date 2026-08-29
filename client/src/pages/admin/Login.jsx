@@ -49,7 +49,7 @@ export default function Login() {
           <div className="admin-logo-circle">
             <Shield className="admin-logo-icon" size={32} />
           </div>
-          <h1>CWF Corporation</h1>
+          <h1>CWF Consulting Corporation</h1>
           <p>Control Panel Authentication</p>
         </div>
 

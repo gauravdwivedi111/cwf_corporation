@@ -77,7 +77,7 @@ export default function ProjectsList() {
       title: 'Waterproofing Project Case Studies',
       subtitle: 'Scientific Sealing Case Studies across Pune City',
       bannerLabel: '[PORTFOLIO: COMPLETED WATERPROOFING AUDITS]',
-      description: 'Explore CWF Corporation Pune\'s completed waterproofing project portfolio. Compare before/after results for terraces, basements, and commercial facades.'
+      description: 'Explore CWF Consulting Corporation Pune\'s completed waterproofing project portfolio. Compare before/after results for terraces, basements, and commercial facades.'
     },
     web: {
       title: 'Software & Web Portfolio',
@@ -98,7 +98,7 @@ export default function ProjectsList() {
   return (
     <>
       <Helmet>
-        <title>{`${currentMeta.title} | CWF Corporation`}</title>
+        <title>{`${currentMeta.title} | CWF Consulting Corporation`}</title>
         <meta name="description" content={currentMeta.description} />
       </Helmet>
 
