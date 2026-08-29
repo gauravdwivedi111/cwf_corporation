@@ -6,6 +6,7 @@ import { useApi } from '../hooks/useApi.js';
 import LeadForm from '../components/LeadForm.jsx';
 import CountUp from '../components/CountUp.jsx';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
+import StaggeredEntrance from '../components/StaggeredEntrance.jsx';
 
 /**
  * Public Home Page (Segment Hub).
@@ -82,54 +83,59 @@ export default function Home() {
         }}></div>
 
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <span style={{ 
-            fontFamily: 'var(--font-data)', 
-            fontSize: '0.78rem', 
-            color: 'var(--volt)', 
-            fontWeight: 'bold', 
-            textTransform: 'uppercase', 
-            letterSpacing: '3px', 
-            display: 'inline-block',
-            padding: '0.35rem 0.95rem',
-            borderRadius: '100px',
-            border: '1px solid rgba(138, 203, 193, 0.25)',
-            backgroundColor: 'rgba(138, 203, 193, 0.06)',
-            marginBottom: '1.5rem', 
-            animation: 'fadeSlideUp 0.8s ease 0.2s both' 
-          }}>
-            CWF CONSULTING CORPORATION PUNE
-          </span>
-          <h1 
-            style={{
-              fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
-              fontWeight: 700,
-              lineHeight: '1.15',
-              letterSpacing: '-0.02em',
-              background: 'linear-gradient(135deg, #ffffff 40%, #8acbc1 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              marginBottom: '1.5rem',
-              fontFamily: 'var(--font-heading)',
-              textTransform: 'uppercase',
-              animation: 'fadeSlideUp 0.8s ease 0.4s both'
-            }}
-          >
-            One Standard of Integrity.<br />Three Business Lines.
-          </h1>
-          <p
-            style={{
-              fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
-              lineHeight: '1.65',
-              color: 'rgba(238, 242, 243, 0.85)',
-              maxWidth: '38rem',
-              margin: '0 auto 2.5rem',
-              fontWeight: 300,
-              fontFamily: 'var(--font-body)',
-              animation: 'fadeSlideUp 0.8s ease 0.7s both'
-            }}
-          >
-            We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune&apos;s leading consultancy group.
-          </p>
+          <StaggeredEntrance delay={200}>
+            <span style={{ 
+              fontFamily: 'var(--font-data)', 
+              fontSize: '0.78rem', 
+              color: 'var(--volt)', 
+              fontWeight: 'bold', 
+              textTransform: 'uppercase', 
+              letterSpacing: '3px', 
+              display: 'inline-block',
+              padding: '0.35rem 0.95rem',
+              borderRadius: '100px',
+              border: '1px solid rgba(138, 203, 193, 0.25)',
+              backgroundColor: 'rgba(138, 203, 193, 0.06)',
+              marginBottom: '1.5rem'
+            }}>
+              CWF CONSULTING CORPORATION PUNE
+            </span>
+          </StaggeredEntrance>
+
+          <StaggeredEntrance delay={400}>
+            <h1 
+              style={{
+                fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
+                fontWeight: 700,
+                lineHeight: '1.15',
+                letterSpacing: '-0.02em',
+                background: 'linear-gradient(135deg, #ffffff 40%, #8acbc1 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                marginBottom: '1.5rem',
+                fontFamily: 'var(--font-heading)',
+                textTransform: 'uppercase'
+              }}
+            >
+              One Standard of Integrity.<br />Three Business Lines.
+            </h1>
+          </StaggeredEntrance>
+
+          <StaggeredEntrance delay={700}>
+            <p
+              style={{
+                fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
+                lineHeight: '1.65',
+                color: 'rgba(238, 242, 243, 0.85)',
+                maxWidth: '38rem',
+                margin: '0 auto 2.5rem',
+                fontWeight: 300,
+                fontFamily: 'var(--font-body)'
+              }}
+            >
+              We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune&apos;s leading consultancy group.
+            </p>
+          </StaggeredEntrance>
         </div>
       </section>
 
