@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react';
 
 /**
  * Mobile-responsive Header component featuring:
- * 1. Minimal Mode (on root "/" route): Centered logo only, no links, no switcher.
+ * 1. Minimal Mode (on root "/" route): Centered logo + corporate text, with animated swimming fish SVGs.
  * 2. Full Mode (on all other routes): Logo linking back to "/", segment-scoped navigation links,
  *    and a segment switcher that preserves sub-page path context.
  */
@@ -47,17 +47,75 @@ export default function Header() {
 
   const isRoot = pathname === '/';
 
-  // 1. MINIMAL HEADER VARIANT (Root gateway page only)
+  // 1. MINIMAL HEADER VARIANT (Root gateway page only - with corporate name, logo, and swimming fish animation)
   if (isRoot) {
     return (
-      <header className="app-header minimal-header" style={{ borderBottom: '3px solid var(--ink)', padding: '1.25rem 0' }}>
-        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <NavLink to="/" aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center' }}>
+      <header className="app-header minimal-header" style={{ 
+        borderBottom: '3px solid var(--ink)', 
+        padding: '1.25rem 0', 
+        position: 'relative', 
+        overflow: 'hidden',
+        backgroundColor: '#050716'
+      }}>
+        {/* CSS Keyframes and styling scoped to first page header only */}
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes swim-right {
+            0% { left: -100px; top: 12px; transform: scale(0.65) translateY(0px) rotate(0deg); }
+            50% { transform: scale(0.65) translateY(-8px) rotate(6deg); }
+            100% { left: 100%; top: 12px; transform: scale(0.65) translateY(0px) rotate(0deg); }
+          }
+          @keyframes swim-left {
+            0% { right: -100px; top: 28px; transform: scale(0.45) scaleX(-1) translateY(0px) rotate(0deg); }
+            50% { transform: scale(0.45) scaleX(-1) translateY(6px) rotate(-4deg); }
+            100% { right: 100%; top: 28px; transform: scale(0.45) scaleX(-1) translateY(0px) rotate(0deg); }
+          }
+          .swimming-fish-right {
+            position: absolute;
+            animation: swim-right 16s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.22;
+          }
+          .swimming-fish-left {
+            position: absolute;
+            animation: swim-left 22s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.16;
+          }
+        `}} />
+
+        {/* Animated SVGs of swimming fish */}
+        <div className="swimming-fish-right">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="80" height="40">
+            <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--volt)" />
+            <circle cx="22" cy="22" r="1.5" fill="#050716" />
+          </svg>
+        </div>
+        <div className="swimming-fish-left">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="80" height="40">
+            <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--treated)" />
+            <circle cx="22" cy="22" r="1.5" fill="#050716" />
+          </svg>
+        </div>
+
+        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: 5 }}>
+          <NavLink to="/" aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.85rem', textDecoration: 'none' }}>
             <img 
               src="/logo.jpg" 
               alt="CWF Consulting Corporation Logo" 
-              style={{ height: '42px', objectFit: 'contain', borderRadius: '2px' }} 
+              style={{ height: '42px', objectFit: 'contain', borderRadius: '4px', border: '1.5px solid var(--ink)', backgroundColor: '#fff', padding: '2px' }} 
             />
+            <span style={{ 
+              fontFamily: 'var(--font-heading)', 
+              fontSize: '1.35rem', 
+              fontWeight: '700', 
+              color: 'var(--white)',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}>
+              CWF <span style={{ color: 'var(--volt)' }}>Consulting Corporation</span>
+            </span>
           </NavLink>
         </div>
       </header>
