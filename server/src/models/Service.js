@@ -14,20 +14,19 @@ const serviceSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    segment: {
+      type: String,
+      required: [true, 'Segment is required'],
+      enum: {
+        values: ['civil', 'web', 'finance'],
+        message: '{VALUE} is not a valid segment',
+      },
+      default: 'civil',
+    },
     category: {
       type: String,
       required: [true, 'Service category is required'],
-      enum: {
-        values: [
-          'terrace',
-          'basement',
-          'bathroom',
-          'tank',
-          'facade',
-          'injection-grouting',
-        ],
-        message: '{VALUE} is not a valid category',
-      },
+      trim: true,
     },
     shortDescription: {
       type: String,
@@ -74,7 +73,100 @@ const serviceSchema = new mongoose.Schema(
 
 // Indexes for performance
 serviceSchema.index({ category: 1 });
+serviceSchema.index({ segment: 1 });
 serviceSchema.index({ isPublished: 1, order: 1 });
 
-const Service = mongoose.model('Service', serviceSchema);
-export default Service;
+const Service = mongoose.models.Service || mongoose.model('Service', serviceSchema);
+
+// Define Discriminators
+const CivilService = mongoose.models.CivilService || Service.discriminator(
+  'CivilService',
+  new mongoose.Schema({
+    category: {
+      type: String,
+      required: [true, 'Service category is required for Civil segment'],
+      enum: {
+        values: [
+          'terrace',
+          'basement',
+          'bathroom',
+          'tank',
+          'facade',
+          'injection-grouting',
+        ],
+        message: '{VALUE} is not a valid category for Civil segment',
+      },
+      trim: true,
+    },
+    warrantyYears: {
+      type: Number,
+      default: 0,
+    },
+  })
+);
+
+const WebService = mongoose.models.WebService || Service.discriminator(
+  'WebService',
+  new mongoose.Schema({
+    category: {
+      type: String,
+      required: [true, 'Service category is required for Web segment'],
+      enum: {
+        values: ['e-commerce', 'corporate-site', 'web-app', 'seo-maintenance', 'custom-development'],
+        message: '{VALUE} is not a valid category for Web segment',
+      },
+      trim: true,
+    },
+    techStack: {
+      type: [String],
+      default: [],
+    },
+    projectTimeline: {
+      type: String,
+      trim: true,
+    },
+    pricingModel: {
+      type: String,
+      required: [true, 'Pricing model is required for Web segment'],
+      enum: {
+        values: ['fixed', 'hourly', 'retainer'],
+        message: '{VALUE} is not a valid pricing model',
+      },
+    },
+  })
+);
+
+const FinanceService = mongoose.models.FinanceService || Service.discriminator(
+  'FinanceService',
+  new mongoose.Schema({
+    category: {
+      type: String,
+      required: [true, 'Service category is required for Finance segment'],
+      enum: {
+        values: ['business-loan', 'personal-loan', 'investment-advisory', 'tax-consultancy'],
+        message: '{VALUE} is not a valid category for Finance segment',
+      },
+      trim: true,
+    },
+    loanRangeMin: {
+      type: Number,
+      default: null,
+    },
+    loanRangeMax: {
+      type: Number,
+      default: null,
+    },
+    interestRateInfo: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    eligibilityNotes: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+  })
+);
+
+export { Service as default, CivilService, WebService, FinanceService };

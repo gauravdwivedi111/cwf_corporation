@@ -16,6 +16,15 @@ const testimonialSchema = new mongoose.Schema(
       },
       default: 'individual',
     },
+    segment: {
+      type: String,
+      required: [true, 'Segment is required'],
+      enum: {
+        values: ['civil', 'web', 'finance'],
+        message: '{VALUE} is not a valid segment',
+      },
+      default: 'civil',
+    },
     rating: {
       type: Number,
       required: [true, 'Rating is required'],
@@ -48,6 +57,7 @@ const testimonialSchema = new mongoose.Schema(
 
 // Indexes
 testimonialSchema.index({ isPublished: 1 });
+testimonialSchema.index({ segment: 1 });
 
-const Testimonial = mongoose.model('Testimonial', testimonialSchema);
+const Testimonial = mongoose.models.Testimonial || mongoose.model('Testimonial', testimonialSchema);
 export default Testimonial;

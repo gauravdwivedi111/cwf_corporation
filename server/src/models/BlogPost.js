@@ -14,6 +14,15 @@ const blogPostSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    segment: {
+      type: String,
+      required: [true, 'Segment is required'],
+      enum: {
+        values: ['civil', 'web', 'finance', 'general'],
+        message: '{VALUE} is not a valid segment',
+      },
+      default: 'civil',
+    },
     coverImage: {
       type: String,
       required: [true, 'Cover image URL is required'],
@@ -58,6 +67,7 @@ const blogPostSchema = new mongoose.Schema(
 // Indexes
 blogPostSchema.index({ isPublished: 1, publishedAt: -1 });
 blogPostSchema.index({ tags: 1 });
+blogPostSchema.index({ segment: 1 });
 
-const BlogPost = mongoose.model('BlogPost', blogPostSchema);
+const BlogPost = mongoose.models.BlogPost || mongoose.model('BlogPost', blogPostSchema);
 export default BlogPost;

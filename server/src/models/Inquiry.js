@@ -35,9 +35,21 @@ const inquirySchema = new mongoose.Schema(
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
     },
+    segment: {
+      type: String,
+      required: [true, 'Segment is required'],
+      enum: {
+        values: ['civil', 'web', 'finance'],
+        message: '{VALUE} is not a valid segment',
+      },
+      default: 'civil',
+    },
+    segmentDetails: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
     propertyType: {
       type: String,
-      required: [true, 'Property type is required'],
       enum: {
         values: ['residential', 'commercial', 'industrial', 'other'],
         message: '{VALUE} is not a valid property type',
@@ -46,7 +58,6 @@ const inquirySchema = new mongoose.Schema(
     },
     serviceInterested: {
       type: String,
-      required: [true, 'Service of interest is required'],
       enum: {
         values: [
           'terrace',
@@ -104,6 +115,7 @@ const inquirySchema = new mongoose.Schema(
 // Indexes
 inquirySchema.index({ status: 1, createdAt: -1 });
 inquirySchema.index({ assignedTo: 1 });
+inquirySchema.index({ segment: 1 });
 
-const Inquiry = mongoose.model('Inquiry', inquirySchema);
+const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', inquirySchema);
 export default Inquiry;

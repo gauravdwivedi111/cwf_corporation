@@ -20,6 +20,10 @@ const teamMemberSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    segments: {
+      type: [String],
+      default: ['civil'],
+    },
     order: {
       type: Number,
       default: 0,
@@ -33,5 +37,5 @@ const teamMemberSchema = new mongoose.Schema(
 // Indexes
 teamMemberSchema.index({ order: 1 });
 
-const TeamMember = mongoose.model('TeamMember', teamMemberSchema);
+const TeamMember = mongoose.models.TeamMember || mongoose.model('TeamMember', teamMemberSchema);
 export default TeamMember;
