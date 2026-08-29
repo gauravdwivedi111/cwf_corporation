@@ -105,7 +105,7 @@ export default function App() {
             <Routes>
               {/* 1. Public Pages Group (Wrapped in Header/Footer Layout) */}
               <Route path="/" element={<Layout><Home /></Layout>} />
-              <Route path="/about" element={<Layout><About /></Layout>} />
+              <Route path="/about" element={<Navigate to="/#about" replace />} />
               
               {/* Compatibility Redirects */}
               <Route path="/services" element={<Navigate to="/civil/services" replace />} />
