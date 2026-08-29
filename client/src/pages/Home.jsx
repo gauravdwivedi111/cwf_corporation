@@ -190,11 +190,10 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <section 
-        className="flowstate-hero" 
         style={{ 
           position: 'relative',
-          minHeight: '70lvh', 
-          padding: isMobile ? '6rem 0 4rem' : '10rem 0 7rem',
+          minHeight: isMobile ? 'auto' : '65vh', 
+          padding: isMobile ? '4rem 0' : '8rem 0',
           backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop")',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center' : 'right center',
@@ -241,14 +240,14 @@ export default function Home() {
             borderRadius: '9999px',
             border: '1px solid rgba(255,255,255,0.16)',
             background: 'rgba(255,255,255,0.08)',
-            padding: '0.4em 0.875em',
-            fontSize: isSm ? '0.8em' : '0.72em',
+            padding: '0.45rem 0.9rem',
+            fontSize: '0.75rem',
             color: '#b9becf',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             margin: 0,
             textTransform: 'uppercase',
-            letterSpacing: '3px',
+            letterSpacing: '2px',
             fontFamily: 'var(--font-data)',
             fontWeight: 'bold',
             ...fadeUpStyle(320)
@@ -258,9 +257,9 @@ export default function Home() {
 
           {/* Heading */}
           <h1 style={{
-            marginTop: isSm ? '1.75em' : '1.25em',
+            marginTop: '1.25rem',
             maxWidth: 'none',
-            fontSize: isLg ? '5em' : (isSm ? '3.5em' : '2em'),
+            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
             fontWeight: 500,
             lineHeight: 1.1,
             letterSpacing: '-0.02em',
@@ -276,10 +275,10 @@ export default function Home() {
 
           {/* Sub-line */}
           <p style={{
-            marginTop: isSm ? '1.25em' : '1em',
+            marginTop: '1.25rem',
             maxWidth: 'none',
-            fontSize: isLg ? '1.2em' : (isSm ? '1.1em' : '1em'),
-            lineHeight: 1.5,
+            fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+            lineHeight: 1.6,
             color: '#b9becf',
             textAlign: 'left',
             marginInline: '0',
