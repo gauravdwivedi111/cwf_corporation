@@ -6,7 +6,7 @@ import { useApi } from '../hooks/useApi.js';
 import LeadForm from '../components/LeadForm.jsx';
 import CountUp from '../components/CountUp.jsx';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
-import StaggeredEntrance from '../components/StaggeredEntrance.jsx';
+import StaggeredEntrance from '../components/animation/StaggeredEntrance.jsx';
 
 /**
  * Public Home Page (Segment Hub).
