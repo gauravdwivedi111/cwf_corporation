@@ -67,7 +67,7 @@ export default function Home() {
         <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.12 }}></div>
         
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '1rem' }}>
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '1rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
             [CWF CORPORATION PUNE]
           </span>
           <h1 
@@ -79,7 +79,8 @@ export default function Home() {
               color: '#fff',
               marginBottom: '1.5rem',
               fontFamily: 'var(--font-heading)',
-              textTransform: 'uppercase'
+              textTransform: 'uppercase',
+              animation: 'fadeSlideUp 0.8s ease 0.4s both'
             }}
           >
             One Standard of Integrity.<br />Three Business Lines.
@@ -92,7 +93,8 @@ export default function Home() {
               maxWidth: '38rem',
               margin: '0 auto 2.5rem',
               fontWeight: 300,
-              fontFamily: 'var(--font-body)'
+              fontFamily: 'var(--font-body)',
+              animation: 'fadeSlideUp 0.8s ease 0.7s both'
             }}
           >
             We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune&apos;s leading consultancy group.
@@ -123,7 +125,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="bento-grid" style={{ gap: '2rem' }}>
-              {segments.map((seg) => (
+              {segments.map((seg, index) => (
                 <div
                   key={seg._id}
                   className="bento-cell solid-ink"
@@ -134,7 +136,8 @@ export default function Home() {
                     justifyContent: 'space-between',
                     padding: '2.5rem 2rem',
                     margin: 0,
-                    minHeight: '380px'
+                    minHeight: '380px',
+                    animation: `fadeSlideUp 0.8s ease ${0.9 + index * 0.15}s both`
                   }}
                 >
                   <div>

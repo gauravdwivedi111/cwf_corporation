@@ -96,16 +96,16 @@ export default function SegmentHome() {
         <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.15 }}></div>
         
         <div className="container" style={{ position: 'relative', zIndex: 5 }}>
-          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.75rem' }}>
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.75rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
             [DIVISION: {info.displayName.toUpperCase()}]
           </span>
-          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: '800px' }}>
+          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: '800px', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
             {info.tagline}
           </h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: '650px', margin: '0 0 2rem' }}>
+          <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: '650px', margin: '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
             {info.heroDescription}
           </p>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', animation: 'fadeSlideUp 0.8s ease 0.9s both' }}>
             <a href="#services" className="btn btn-primary">Our Services</a>
             <a href="#contact" className="btn btn-secondary">Get a Proposal</a>
           </div>
