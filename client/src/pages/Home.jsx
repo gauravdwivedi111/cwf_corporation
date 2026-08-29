@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* SEGMENT HUB PICKER */}
-      <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
+      <section id="services" className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
@@ -168,7 +168,7 @@ export default function Home() {
       </section>
 
       {/* TRUST STATISTICS */}
-      <section className="section" style={{ padding: '5rem 0', borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
+      <section id="company" className="section" style={{ padding: '5rem 0', borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
@@ -232,7 +232,7 @@ export default function Home() {
       </section>
 
       {/* LEAD CAPTURE FORM */}
-      <section className="section">
+      <section id="contact" className="section">
         <div className="container" style={{ maxWidth: '650px' }}>
           <div className="bento-cell" style={{ padding: '2.5rem', border: '3px solid var(--ink)', backgroundColor: 'var(--panel)', margin: 0 }}>
             <LeadForm />

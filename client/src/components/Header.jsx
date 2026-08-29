@@ -4,7 +4,8 @@ import { Menu, X } from 'lucide-react';
 
 /**
  * Mobile-responsive Header component featuring:
- * 1. Minimal Mode (on root "/" route): Centered logo + corporate text, with animated swimming fish SVGs.
+ * 1. Minimal Mode (on root "/" route): Centered logo + corporate text, with animated swimming fish SVGs,
+ *    and anchor links to '#company', '#services', and '#contact' sections.
  * 2. Full Mode (on all other routes): Logo linking back to "/", segment-scoped navigation links,
  *    and a segment switcher that preserves sub-page path context.
  */
@@ -47,7 +48,7 @@ export default function Header() {
 
   const isRoot = pathname === '/';
 
-  // 1. MINIMAL HEADER VARIANT (Root gateway page only - with corporate name, logo, and swimming fish animation)
+  // 1. ROOT HEADER VARIANT (Root gateway page only - with corporate name, logo, swimming fish, and landing anchors)
   if (isRoot) {
     return (
       <header className="app-header minimal-header" style={{ 
@@ -99,7 +100,13 @@ export default function Header() {
           </svg>
         </div>
 
-        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: 5 }}>
+        {/* Mobile menu overlay */}
+        <div 
+          className={`nav-overlay ${isOpen ? 'open' : ''}`} 
+          onClick={closeMenu}
+        ></div>
+
+        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 5 }}>
           <NavLink to="/" aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.85rem', textDecoration: 'none' }}>
             <img 
               src="/logo.jpg" 
@@ -117,6 +124,42 @@ export default function Header() {
               CWF <span style={{ color: 'var(--volt)' }}>Consulting Corporation</span>
             </span>
           </NavLink>
+
+          <button
+            className="mobile-nav-toggle"
+            onClick={toggleMenu}
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer' }}
+          >
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+
+          <nav>
+            <ul className={`nav-menu ${isOpen ? 'open' : ''}`}>
+              <li className="mobile-menu-header">
+                <span>Navigation</span>
+                <button onClick={closeMenu} aria-label="Close navigation menu">
+                  <X size={24} />
+                </button>
+              </li>
+              <li>
+                <a href="#company" className="nav-link" onClick={closeMenu}>
+                  Company
+                </a>
+              </li>
+              <li>
+                <a href="#services" className="nav-link" onClick={closeMenu}>
+                  Services
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="nav-link" onClick={closeMenu}>
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </header>
     );
