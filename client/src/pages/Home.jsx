@@ -192,8 +192,8 @@ export default function Home() {
       <section 
         style={{ 
           position: 'relative',
-          minHeight: isMobile ? 'auto' : '65vh', 
-          padding: isMobile ? '4rem 0' : '8rem 0',
+          minHeight: isMobile ? 'auto' : '75vh', 
+          padding: isMobile ? '6rem 0 4rem' : '10rem 0 9rem',
           backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop")',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center' : 'right center',
@@ -205,7 +205,7 @@ export default function Home() {
       >
         <style dangerouslySetInnerHTML={{ __html: styleTag }} />
         
-        {/* Split-visibility gradient overlay for root page hero */}
+        {/* Split-visibility gradient overlay: dark left, clear right */}
         <div 
           style={{ 
             position: 'absolute', 
@@ -214,7 +214,7 @@ export default function Home() {
             right: 0, 
             bottom: 0, 
             background: isMobile 
-              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.8) 0%, rgba(5, 7, 22, 0.96) 100%)'
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.85) 0%, rgba(5, 7, 22, 0.98) 100%)'
               : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
             zIndex: 1 
           }} 
@@ -231,62 +231,87 @@ export default function Home() {
           width: '100%',
           marginLeft: 0,
           marginRight: 'auto',
-          maxWidth: isMobile ? '100%' : '58%'
+          maxWidth: isMobile ? '100%' : '44%',
+          paddingLeft: isMobile ? '1rem' : '2rem'
         }}>
-          {/* Badge pill */}
+          {/* 1. Parent Company Name (fades/slides in first) */}
           <span style={{ 
-            display: 'inline-flex',
-            alignItems: 'center',
-            borderRadius: '9999px',
-            border: '1px solid rgba(255,255,255,0.16)',
-            background: 'rgba(255,255,255,0.08)',
-            padding: '0.45rem 0.9rem',
-            fontSize: '0.75rem',
-            color: '#b9becf',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            margin: 0,
-            textTransform: 'uppercase',
-            letterSpacing: '2px',
+            display: 'inline-block',
+            fontSize: '0.85rem',
+            color: 'var(--volt)',
             fontFamily: 'var(--font-data)',
             fontWeight: 'bold',
-            ...fadeUpStyle(320)
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            marginBottom: '1rem',
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 0.2s both'
           }}>
-            CWF CONSULTING CORPORATION PUNE
+            CWF CONSULTING CORPORATION
           </span>
 
-          {/* Heading */}
+          {/* 2. Main Brand Statement Headline (strongest visual element) */}
           <h1 style={{
-            marginTop: '1.25rem',
-            maxWidth: 'none',
-            fontSize: 'clamp(2.2rem, 5vw, 3.8rem)',
-            fontWeight: 500,
-            lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            color: '#eef0f6',
-            textAlign: 'left',
-            marginInline: '0',
-            marginBottom: 0,
             fontFamily: 'var(--font-heading)',
-            textTransform: 'uppercase'
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: 700,
+            lineHeight: 1.15,
+            color: '#eef0f6',
+            letterSpacing: '-0.02em',
+            textTransform: 'uppercase',
+            marginBottom: '2rem',
+            marginInline: '0',
+            maxWidth: '100%',
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 0.5s both'
           }}>
-            {renderWords("One Standard of Integrity. Three Business Lines.", "heading", 480, 85)}
+            ONE PARTNER.<br/>
+            INFINITE POSSIBILITIES.
           </h1>
 
-          {/* Sub-line */}
+          {/* 3. Business Verticals Navigation/Identity element */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            fontFamily: 'var(--font-data)',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+            fontWeight: 600,
+            color: 'rgba(255, 255, 255, 0.9)',
+            letterSpacing: '4px',
+            textTransform: 'uppercase',
+            borderTop: '1px solid rgba(255, 255, 255, 0.15)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+            padding: '0.75rem 0',
+            width: '100%',
+            marginBottom: '2rem',
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 0.8s both'
+          }}>
+            <span>CIVIL</span>
+            <span style={{ color: 'var(--volt)', opacity: 0.6 }}>|</span>
+            <span>WEB</span>
+            <span style={{ color: 'var(--volt)', opacity: 0.6 }}>|</span>
+            <span>FINANCE</span>
+          </div>
+
+          {/* 4. Supporting statement tagline */}
           <p style={{
-            marginTop: '1.25rem',
-            maxWidth: 'none',
-            fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+            fontFamily: 'var(--font-body)',
+            fontSize: 'clamp(0.9rem, 1.5vw, 1.05rem)',
             lineHeight: 1.6,
             color: '#b9becf',
-            textAlign: 'left',
+            fontWeight: 300,
             marginInline: '0',
             marginBottom: 0,
-            fontWeight: 300,
-            fontFamily: 'var(--font-body)'
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 1.1s both'
           }}>
-            {renderWords("We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune's leading consultancy group.", "subline", 1150, 22)}
+            Protecting Assets <span style={{ color: 'var(--volt)', margin: '0 0.25rem' }}>•</span> Powering Digital Growth <span style={{ color: 'var(--volt)', margin: '0 0.25rem' }}>•</span> Building Financial Futures
           </p>
         </div>
       </section>
