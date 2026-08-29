@@ -231,6 +231,44 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ABOUT US SECTION */}
+      <section id="about" className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
+        <div className="container grid-2" style={{ alignItems: 'center', gap: '3rem' }}>
+          <div>
+            <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>
+              [PROFILE: CORPORATE FOUNDATION]
+            </span>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.75rem', marginBottom: '1.25rem' }}>
+              Diagnosing Waterproofing & Engineering Deficiencies Since 2011
+            </h2>
+            <p style={{ lineHeight: '1.6', fontSize: '0.98rem', marginBottom: '1rem', color: 'rgba(255, 255, 255, 0.85)' }}>
+              CWF Consulting Corporation was founded to solve a critical issue in Pune&apos;s construction market: the lack of engineering diagnostics in waterproofing repairs and corporate development operations. Standard contractors often apply surface solutions without identifying the structural pathway of water ingress.
+            </p>
+            <p style={{ lineHeight: '1.6', fontSize: '0.98rem', margin: 0, color: 'rgba(255, 255, 255, 0.85)' }}>
+              Operating as independent consultants, our certified engineers perform forensic concrete testing, scalable software designs, and corporate debt advisory. We provide rigorous drawings, specifications, and project management oversight to guarantee standard compliance across all three business divisions.
+            </p>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ border: '3px solid var(--ink)', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'var(--panel)', padding: '1.5rem', display: 'inline-block', width: '100%', maxWidth: '380px' }}>
+              <img
+                src="/owner.webp"
+                alt="Ashok Dwivedi, Owner of CWF Consulting Corporation"
+                style={{ width: '100%', height: '280px', objectFit: 'cover', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}
+                loading="lazy"
+              />
+              <div style={{ marginTop: '1.25rem' }}>
+                <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', margin: '0 0 0.25rem' }}>
+                  Ashok Dwivedi
+                </h3>
+                <p style={{ color: 'var(--volt)', fontWeight: 'bold', fontSize: '0.85rem', textTransform: 'uppercase', fontFamily: 'var(--font-data)', margin: 0 }}>
+                  Founder & Managing Director
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* LEAD CAPTURE FORM */}
       <section id="contact" className="section">
         <div className="container" style={{ maxWidth: '650px' }}>

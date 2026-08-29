@@ -35,7 +35,7 @@ export default function Loader() {
         <div className="loader__logo">
           CWF<span>.</span>
         </div>
-        <div className="loader__tag">Diagnose · Waterproof · Protect</div>
+        <div className="loader__tag">PLAN • PROTECT • PROSPER</div>
         <div className="loader__bar">
           <div className="loader__comet"></div>
         </div>

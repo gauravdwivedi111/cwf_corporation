@@ -144,8 +144,8 @@ export default function Header() {
                 </button>
               </li>
               <li>
-                <a href="#company" className="nav-link" onClick={closeMenu}>
-                  Company
+                <a href="#about" className="nav-link" onClick={closeMenu}>
+                  About
                 </a>
               </li>
               <li>
@@ -252,15 +252,7 @@ export default function Header() {
                 Projects
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/about"
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                onClick={closeMenu}
-              >
-                About
-              </NavLink>
-            </li>
+
             <li>
               <NavLink
                 to={`/${activeSegment}/blog`}
