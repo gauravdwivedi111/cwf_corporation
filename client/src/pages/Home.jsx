@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, Code, TrendingUp, HelpCircle, ClipboardList, ShieldAlert } from 'lucide-react';
@@ -7,6 +7,7 @@ import LeadForm from '../components/LeadForm.jsx';
 import CountUp from '../components/CountUp.jsx';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import StaggeredEntrance from '../components/animation/StaggeredEntrance.jsx';
+import { fluidSimulation } from '../components/animation/fluidSim.js';
 
 /**
  * Public Home Page (Segment Hub).
@@ -16,6 +17,8 @@ import StaggeredEntrance from '../components/animation/StaggeredEntrance.jsx';
 export default function Home() {
   const { data: segmentsData, loading, error, request: fetchSegments } = useApi();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+  const [windowWidth, setWindowWidth] = useState(() => typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
     fetchSegments('/segments').catch(() => {});
@@ -23,13 +26,143 @@ export default function Home() {
 
   useEffect(() => {
     const handleResize = () => {
+      setWindowWidth(window.innerWidth);
       setIsMobile(window.innerWidth < 768);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const destroy = fluidSimulation(canvas);
+    return () => {
+      destroy();
+    };
+  }, []);
+
   const segments = segmentsData?.data || [];
+
+  const renderWords = (text, type, baseDelay, stagger) => {
+    const words = text.split(' ');
+    return words.map((word, index) => {
+      const delay = baseDelay + index * stagger;
+      return (
+        <span
+          key={index}
+          className={type === 'heading' ? 'word-heading' : 'word-subline'}
+          style={{
+            animationDelay: `${delay}ms`,
+            display: 'inline-block',
+            whiteSpace: 'pre'
+          }}
+        >
+          {word}{index < words.length - 1 ? ' ' : ''}
+        </span>
+      );
+    });
+  };
+
+  const fadeUpStyle = (delay) => ({
+    opacity: 0,
+    transform: 'translateY(1.25rem)',
+    animation: `flowstateFadeIn 700ms cubic-bezier(0.2, 0, 0, 1) ${delay}ms forwards`
+  });
+
+  const fadeDownStyle = (delay) => ({
+    opacity: 0,
+    transform: 'translateY(-0.75rem)',
+    animation: `flowstateFadeIn 700ms cubic-bezier(0.2, 0, 0, 1) ${delay}ms forwards`
+  });
+
+  const isLg = windowWidth >= 1024;
+  const isSm = windowWidth >= 640;
+
+  const styleTag = `
+    .flowstate-hero {
+      --hero-base:            #04050c;
+      --heading:             #eef0f6;
+      --body-muted:          #b9becf;
+      --on-media:            #ffffff;
+      --action-inverse:      #ffffff;
+      --action-inverse-fg:   #2f2f33;
+      --glass-fill:          rgba(255,255,255,0.08);
+      --glass-border:        rgba(255,255,255,0.16);
+      --scrim:               rgba(4,5,12,0.46);
+      --scrim-strong:        rgba(4,5,12,0.68);
+      --scrim-soft:          rgba(4,5,12,0.12);
+      --duration-fast:       150ms;
+      --ease-entrance:       cubic-bezier(0.2, 0, 0, 1);
+
+      font-family: "Onest", sans-serif;
+      font-size: 16px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100lvh;
+      width: 100vw;
+      overflow: hidden;
+      background: var(--hero-base);
+      text-align: center;
+      padding: 0 1.25rem;
+      box-sizing: border-box;
+    }
+    @media (max-width: 1920px) { .flowstate-hero { font-size: 0.833333vw; } }
+    @media (max-width: 1440px) { .flowstate-hero { font-size: 1.111111vw; } }
+    @media (max-width: 1024px) { .flowstate-hero { font-size: 1.5625vw;   } }
+    @media (max-width: 640px)  { 
+      .flowstate-hero { font-size: 4.444444vw; padding: 0 2.5rem; }
+    }
+    
+    /* Word reveal animations */
+    .word-heading {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(26px);
+      animation: headingWordKeyframe 720ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+    @keyframes headingWordKeyframe {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .word-subline {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: sublineWordKeyframe 600ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+    @keyframes sublineWordKeyframe {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes flowstateFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .flowstate-input::placeholder {
+      color: var(--body-muted);
+    }
+    .flowstate-input:focus {
+      outline: none;
+    }
+    
+    .flowstate-pill-button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.7) !important;
+    }
+  `;
 
   const getSegmentIcon = (iconName) => {
     switch (iconName) {
@@ -56,87 +189,266 @@ export default function Home() {
       </Helmet>
 
       {/* HERO SECTION */}
-      <section 
-        style={{
-          position: 'relative',
-          padding: '8rem 0 5rem',
-          background: 'linear-gradient(to bottom, #090e18 0%, #10202a 100%)',
-          borderBottom: '1px solid rgba(138, 203, 193, 0.15)',
-          overflow: 'hidden',
-          textAlign: 'center'
-        }}
-      >
-        <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.1 }}></div>
+      <section className="flowstate-hero">
+        <style dangerouslySetInnerHTML={{ __html: styleTag }} />
         
-        {/* Ambient backlight glow */}
-        <div style={{
+        {/* 1. Fluid canvas (z-0) */}
+        <canvas 
+          ref={canvasRef} 
+          aria-hidden="true" 
+          style={{ 
+            position: 'absolute', 
+            inset: 0, 
+            width: '100%', 
+            height: '100%', 
+            zIndex: 0, 
+            pointerEvents: 'none' 
+          }} 
+        />
+
+        {/* 2. Scrim (z-1) */}
+        <div 
+          aria-hidden="true" 
+          style={{ 
+            position: 'absolute', 
+            inset: 0, 
+            zIndex: 1, 
+            pointerEvents: 'none', 
+            background: 'radial-gradient(115% 95% at 50% 46%, rgba(4,5,12,0.68) 0%, rgba(4,5,12,0.68) 24%, rgba(4,5,12,0.46) 52%, rgba(4,5,12,0.12) 100%)' 
+          }} 
+        />
+
+        {/* 3. Top nav (<header>, z-20) */}
+        <header style={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '550px',
-          height: '350px',
-          background: 'radial-gradient(circle, rgba(138, 203, 193, 0.08) 0%, rgba(219, 176, 87, 0.04) 50%, rgba(0,0,0,0) 80%)',
-          pointerEvents: 'none',
-          zIndex: 1,
-          filter: 'blur(30px)'
-        }}></div>
+          left: 0,
+          right: 0,
+          top: 0,
+          zIndex: 20,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: isSm ? '1.75em 2.5em' : '1.25em',
+          boxSizing: 'border-box',
+          ...fadeDownStyle(150)
+        }}>
+          {/* Left - brand link */}
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6em', fontWeight: 500, fontSize: isSm ? '1.375em' : '1.15em', color: '#ffffff', letterSpacing: '-0.01em', textDecoration: 'none' }}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ width: isSm ? '1.5em' : '1.35em', height: isSm ? '1.5em' : '1.35em', stroke: 'currentColor' }}>
+              <path d="M2.5 9c2.5 0 2.5 4.2 5 4.2S10 9 12 9s2.5 4.2 5 4.2S19.5 9 21.5 9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d="M2.5 15c2.5 0 2.5 4.2 5 4.2S10 15 12 15s2.5 4.2 5 4.2S19.5 15 21.5 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" opacity="0.5"/>
+            </svg>
+            <span>Flowstate</span>
+          </a>
 
-        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-          <StaggeredEntrance delay={200}>
-            <span style={{ 
-              fontFamily: 'var(--font-data)', 
-              fontSize: '0.78rem', 
-              color: 'var(--volt)', 
-              fontWeight: 'bold', 
-              textTransform: 'uppercase', 
-              letterSpacing: '3px', 
-              display: 'inline-block',
-              padding: '0.35rem 0.95rem',
-              borderRadius: '100px',
-              border: '1px solid rgba(138, 203, 193, 0.25)',
-              backgroundColor: 'rgba(138, 203, 193, 0.06)',
-              marginBottom: '1.5rem'
+          {/* Center - glass link pill (hidden below sm: 640px) */}
+          {isSm && (
+            <nav style={{
+              position: 'absolute',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              height: '3em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2.25em',
+              borderRadius: '9999px',
+              border: '1px solid rgba(255,255,255,0.16)',
+              background: 'rgba(255,255,255,0.08)',
+              padding: '0 1.75em',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)'
             }}>
-              CWF CONSULTING CORPORATION PUNE
-            </span>
-          </StaggeredEntrance>
+              {['How it works?', 'Pricing', 'Products', 'Blog'].map((link) => (
+                <a 
+                  key={link}
+                  href={`#${link.toLowerCase().replace(/[^\w]/g, '-')}`}
+                  style={{
+                    fontSize: '0.95em',
+                    color: '#b9becf',
+                    textDecoration: 'none',
+                    whiteSpace: 'nowrap',
+                    transition: 'color 150ms cubic-bezier(0.2, 0, 0, 1)'
+                  }}
+                  onMouseEnter={(e) => e.target.style.color = '#eef0f6'}
+                  onMouseLeave={(e) => e.target.style.color = '#b9becf'}
+                >
+                  {link}
+                </a>
+              ))}
+            </nav>
+          )}
 
-          <StaggeredEntrance delay={400}>
-            <h1 
-              style={{
-                fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
-                fontWeight: 700,
-                lineHeight: '1.15',
-                letterSpacing: '-0.02em',
-                background: 'linear-gradient(135deg, #ffffff 40%, #8acbc1 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                marginBottom: '1.5rem',
-                fontFamily: 'var(--font-heading)',
-                textTransform: 'uppercase'
-              }}
-            >
-              One Standard of Integrity.<br />Three Business Lines.
-            </h1>
-          </StaggeredEntrance>
+          {/* Right - CTA button */}
+          <a 
+            href="#get-started" 
+            className="flowstate-pill-button"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: isSm ? '2.75em' : '2.5em',
+              borderRadius: '9999px',
+              background: '#ffffff',
+              padding: isSm ? '0 1.375em' : '0 1.125em',
+              fontSize: isSm ? '0.95em' : '0.85em',
+              fontWeight: 500,
+              color: '#2f2f33',
+              textDecoration: 'none',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              transition: 'background 150ms cubic-bezier(0.2, 0, 0, 1)'
+            }}
+            onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.85)'}
+            onMouseLeave={(e) => e.target.style.background = '#ffffff'}
+          >
+            Get Started
+          </a>
+        </header>
 
-          <StaggeredEntrance delay={700}>
-            <p
-              style={{
-                fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
-                lineHeight: '1.65',
-                color: 'rgba(238, 242, 243, 0.85)',
-                maxWidth: '38rem',
-                margin: '0 auto 2.5rem',
-                fontWeight: 300,
-                fontFamily: 'var(--font-body)'
-              }}
+        {/* 4. Center column (z-10) */}
+        <div style={{
+          position: 'relative',
+          zIndex: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+          maxWidth: isLg ? '52em' : (isSm ? '40em' : '22em')
+        }}>
+          {/* Badge pill */}
+          <p style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            borderRadius: '9999px',
+            border: '1px solid rgba(255,255,255,0.16)',
+            background: 'rgba(255,255,255,0.08)',
+            padding: '0.4em 0.875em',
+            fontSize: isSm ? '0.8em' : '0.72em',
+            color: '#b9becf',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            margin: 0,
+            ...fadeUpStyle(320)
+          }}>
+            10K+ already in flow
+          </p>
+
+          {/* Heading */}
+          <h1 style={{
+            marginTop: isSm ? '1.75em' : '1.25em',
+            maxWidth: isLg ? '46em' : (isSm ? '34em' : '20em'),
+            fontSize: isLg ? '5em' : (isSm ? '3.5em' : '2em'),
+            fontWeight: 500,
+            lineHeight: 1.1,
+            letterSpacing: '-0.02em',
+            color: '#eef0f6',
+            textAlign: 'center',
+            marginInline: 'auto',
+            marginBottom: 0
+          }}>
+            {renderWords("Deep Work in a Distracted World", "heading", 480, 85)}
+          </h1>
+
+          {/* Sub-line */}
+          <p style={{
+            marginTop: isSm ? '1.25em' : '1em',
+            maxWidth: isLg ? 'none' : (isSm ? '34em' : '20em'),
+            fontSize: isLg ? '1.2em' : (isSm ? '1.1em' : '1em'),
+            lineHeight: 1.5,
+            color: '#b9becf',
+            marginInline: 'auto',
+            marginBottom: 0
+          }}>
+            {renderWords("Cut through the noise, reclaim your attention, and do work that truly matters.", "subline", 1150, 22)}
+          </p>
+
+          {/* Waitlist form */}
+          <div style={{
+            marginTop: isSm ? '2.5em' : '1.75em',
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            ...fadeUpStyle(1450)
+          }}>
+            <form 
+              onSubmit={(e) => e.preventDefault()}
+              style={{ width: '37em', maxWidth: '100%' }}
             >
-              We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune&apos;s leading consultancy group.
-            </p>
-          </StaggeredEntrance>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: isSm ? '4em' : '3.5em',
+                borderRadius: '9999px',
+                border: '1px solid rgba(255,255,255,0.16)',
+                background: 'rgba(255,255,255,0.08)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                paddingLeft: isSm ? '1.5em' : '1.25em',
+                paddingRight: isSm ? '0.4em' : '0.35em'
+              }}>
+                <input 
+                  type="email" 
+                  required 
+                  placeholder="Enter your email"
+                  className="flowstate-input"
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                    height: '100%',
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#eef0f6',
+                    fontSize: isSm ? '1.15em' : '0.95em',
+                    fontFamily: '"Onest", sans-serif'
+                  }}
+                />
+                <button 
+                  type="submit"
+                  className="flowstate-pill-button"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: isSm ? '2.75em' : '2.5em',
+                    borderRadius: '9999px',
+                    background: '#ffffff',
+                    border: 'none',
+                    padding: isSm ? '0 1.375em' : '0 1.125em',
+                    fontSize: isSm ? '0.95em' : '0.85em',
+                    fontWeight: 500,
+                    color: '#2f2f33',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                    transition: 'background 150ms cubic-bezier(0.2, 0, 0, 1)'
+                  }}
+                  onMouseEnter={(e) => e.target.style.background = 'rgba(255,255,255,0.85)'}
+                  onMouseLeave={(e) => e.target.style.background = '#ffffff'}
+                >
+                  Join Waitlist
+                </button>
+              </div>
+            </form>
+          </div>
+
         </div>
+
+        {/* 5. Footer (z-20) */}
+        <footer style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 20,
+          display: 'flex',
+          justifyContent: 'center',
+          padding: isSm ? '1.5em 2.5em' : '1.25em',
+          fontSize: isSm ? '0.8em' : '0.72em',
+          color: '#b9becf',
+          ...fadeUpStyle(1650)
+        }}>
+          &copy; 2026 Flowstate &mdash; engineered for deep work.
+        </footer>
+
       </section>
 
       {/* SEGMENT HUB PICKER */}
