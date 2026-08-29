@@ -1,66 +1,23 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ChevronLeft, ChevronRight, Activity } from 'lucide-react';
+import { ShieldCheck, Code, TrendingUp, HelpCircle, ClipboardList, ShieldAlert } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
-import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 import LeadForm from '../components/LeadForm.jsx';
-import CategoryIcon from '../components/CategoryIcon.jsx';
 import CountUp from '../components/CountUp.jsx';
 
 /**
- * Public Home Page.
- * Displays bento hero segment, dynamically pulls services and testimonials,
- * lists trust milestones, and hooks up the lead contact form.
+ * Public Home Page (Segment Hub).
+ * Serves as the gateway for CWF Corporation's three business lines.
+ * Lists the divisions in equal-weight panels and shows company-wide stats.
  */
 export default function Home() {
-  const { data: servicesData, loading: servicesLoading, error: servicesError, request: fetchServices } = useApi();
-  const { data: testimonialsData, request: fetchTestimonials } = useApi();
-  
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: segmentsData, loading, error, request: fetchSegments } = useApi();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
-  const [touchStart, setTouchStart] = useState(null);
-
-  // Statically force all content blocks to be visible immediately on all viewports,
-  // bypassing IntersectionObserver timing delays and hydration mismatch bugs.
-  const prefersReduced = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
-  const statsRef = null;
-  const servicesRef = null;
-  const comparisonRef = null;
-  const testimonialsRef = null;
-  const leadRef = null;
-  const showStats = true;
-  const showServices = true;
-  const showComparison = true;
-  const showTestimonials = true;
-  const showLead = true;
-
-  const handleTouchStartTestimonial = (e) => {
-    setTouchStart(e.touches[0].clientX);
-  };
-
-  const handleTouchEndTestimonial = (e) => {
-    if (touchStart === null) return;
-    const touchEnd = e.changedTouches[0].clientX;
-    const diff = touchStart - touchEnd;
-    
-    // Swipe left (next)
-    if (diff > 50) {
-      handleNextTestimonial();
-    }
-    // Swipe right (prev)
-    if (diff < -50) {
-      handlePrevTestimonial();
-    }
-    setTouchStart(null);
-  };
 
   useEffect(() => {
-    fetchServices('/services').catch(() => {});
-    fetchTestimonials('/testimonials').catch(() => {});
-  }, [fetchServices, fetchTestimonials]);
+    fetchSegments('/segments').catch(() => {});
+  }, [fetchSegments]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,219 +27,157 @@ export default function Home() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const services = servicesData?.data || [];
-  const testimonials = testimonialsData?.data || [];
+  const segments = segmentsData?.data || [];
 
-  const handleNextTestimonial = () => {
-    if (testimonials.length === 0) return;
-    setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
+  const getSegmentIcon = (iconName) => {
+    switch (iconName) {
+      case 'ShieldAlert':
+      case 'Shield':
+        return <ShieldCheck size={40} style={{ color: 'var(--volt)' }} />;
+      case 'Code':
+        return <Code size={40} style={{ color: 'var(--volt)' }} />;
+      case 'TrendingUp':
+        return <TrendingUp size={40} style={{ color: 'var(--volt)' }} />;
+      default:
+        return <ShieldCheck size={40} style={{ color: 'var(--volt)' }} />;
+    }
   };
-
-  const handlePrevTestimonial = () => {
-    if (testimonials.length === 0) return;
-    setActiveTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
-
-  // Static fallback sample projects to demonstrate the before/after sweeps instantly
-  const demoProjects = [
-    {
-      title: 'Terrace Slab Waterproofing & Leakage Repair',
-      location: 'Kothrud, Pune',
-      description: 'Active slab seepage resolved using scientific polyurethane injection and concrete coatings.',
-    },
-  ];
 
   return (
     <>
       <Helmet>
-        <title>Scientific Waterproofing & Inspection | CWF Corporation Pune</title>
+        <title>CWF Corporation | Multi-Disciplinary Engineering & Financial Solutions</title>
         <meta
           name="description"
-          content="CWF Corporation Pune provides structural inspections, terrace waterproofing, basement grouting, and water tank sealant services. Book a certified technical site visit."
+          content="CWF Corporation Pune provides scientific waterproofing diagnostics, custom software engineering, and corporate financial advisory. Learn more about our divisions."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Scientific Waterproofing & Inspection | CWF Corporation Pune" />
-        <meta property="og:description" content="CWF Corporation Pune provides structural inspections, terrace waterproofing, basement grouting, and water tank sealant services. Book a certified technical site visit." />
-        <meta property="og:image" content="https://res.cloudinary.com/demo/image/upload/w_1200,h_630,c_fill/canyon.jpg" />
-        <meta property="og:url" content="https://cwfcorporation.com" />
       </Helmet>
 
-      {/* SECTION 1: HERO */}
+      {/* HERO SECTION */}
       <section 
         style={{
           position: 'relative',
-          minHeight: isMobile ? 'calc(100vh - 4.5rem)' : '100vh',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
+          padding: '8rem 0 5rem',
+          backgroundColor: '#050716',
+          borderBottom: '3px solid var(--ink)',
           overflow: 'hidden',
-          backgroundColor: '#000',
-          fontFamily: 'var(--font-heading)'
+          textAlign: 'center'
         }}
       >
-        {/* Background video loop - Enabled on mobile for animated visual experience */}
-        <video
-          src="/hero-bg.mp4"
-          poster="/hero-poster.jpg"
-          preload="metadata"
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: '70% center',
-            opacity: 0.55 // Adds contrast overlay for readability
-          }}
-        />
-
-        {/* Hero content filling height */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 10,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: isMobile ? 'center' : 'space-between',
-            alignItems: isMobile ? 'center' : 'flex-start',
-            textAlign: isMobile ? 'center' : 'left',
-            height: isMobile ? 'auto' : 'calc(100vh - 4.5rem)',
-            padding: isMobile ? '3rem 1.5rem' : '4rem 1.5rem 3.5rem',
-            width: '100%'
-          }}
-          className="container"
-        >
-          {/* Top Section */}
-          <div style={{ maxWidth: '48rem', width: '100%' }}>
-            {/* Badge pill */}
-            <div 
-              style={{
-                fontSize: '0.875rem',
-                color: 'rgba(255,255,255,0.9)',
-                marginBottom: '1rem',
-                animation: 'fadeSlideUp 0.8s ease 0.2s both',
-                letterSpacing: '0.5px'
-              }}
-            >
-              Brand & Waterproofing Diagnostics
-            </div>
-
-            {/* Heading */}
-            <h1 
-              style={{
-                fontSize: 'clamp(2rem, 6vw, 4.5rem)',
-                fontWeight: 500,
-                lineHeight: '1.1',
-                letterSpacing: '-0.02em',
-                color: '#fff',
-                animation: 'fadeSlideUp 0.8s ease 0.4s both',
-                margin: 0
-              }}
-            >
-              We don&apos;t chase leaks.<br />We prevent them.
-            </h1>
-          </div>
-
-          {/* Bottom Section */}
-          <div style={{ width: '100%', marginTop: isMobile ? '2rem' : '0' }}>
-            {/* Paragraph */}
-            <p
-              style={{
-                fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)',
-                lineHeight: '1.6',
-                color: 'rgba(255,255,255,0.7)',
-                maxWidth: isMobile ? '100%' : '32rem',
-                margin: isMobile ? '0 auto 1.5rem' : '0 0 1.5rem',
-                animation: 'fadeSlideUp 0.8s ease 0.7s both',
-                fontWeight: 300
-              }}
-            >
-              From new construction to existing structures, we provide expert waterproofing consultancy to help you select the right systems, materials, and application strategies.
-            </p>
-
-            {/* CTA Button */}
-            <div style={{ animation: 'fadeSlideUp 0.8s ease 0.9s both' }}>
-              <a
-                href="#comparison-section"
-                style={{
-                  borderRadius: '8px',
-                  backgroundColor: '#fff',
-                  color: '#000',
-                  padding: '0.75rem 1.5rem',
-                  fontSize: '0.875rem',
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  transition: 'transform 0.2s'
-                }}
-                onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-              >
-                Explore Work 
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
-            </div>
-
-            {/* Mobile Hero Trust Badges (Fills vacant space with premium trust data) */}
-            {isMobile && (
-              <div 
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '1rem',
-                  width: '100%',
-                  marginTop: '2.5rem',
-                  animation: 'fadeSlideUp 0.8s ease 1.1s both'
-                }}
-              >
-                <div style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(138, 203, 193, 0.15)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--volt)', fontFamily: 'var(--font-data)' }}>15+</div>
-                  <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.5px', marginTop: '0.25rem', fontFamily: 'var(--font-heading)' }}>Years in Pune</div>
-                </div>
-                <div style={{ background: 'rgba(255,255,255,0.03)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(138, 203, 193, 0.15)', borderRadius: '12px', padding: '1rem 0.5rem', textAlign: 'center' }}>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 'bold', color: 'var(--white)', fontFamily: 'var(--font-data)' }}>1200+</div>
-                  <div style={{ fontSize: '0.68rem', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.5px', marginTop: '0.25rem', fontFamily: 'var(--font-heading)' }}>Slab Audits</div>
-                </div>
-              </div>
-            )}
-          </div>
+        <div className="bento-canvas" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, opacity: 0.12 }}></div>
+        
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '1rem' }}>
+            [CWF CORPORATION PUNE]
+          </span>
+          <h1 
+            style={{
+              fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
+              fontWeight: 500,
+              lineHeight: '1.1',
+              letterSpacing: '-0.02em',
+              color: '#fff',
+              marginBottom: '1.5rem',
+              fontFamily: 'var(--font-heading)',
+              textTransform: 'uppercase'
+            }}
+          >
+            One Standard of Integrity.<br />Three Business Lines.
+          </h1>
+          <p
+            style={{
+              fontSize: 'clamp(0.95rem, 2.5vw, 1.15rem)',
+              lineHeight: '1.6',
+              color: 'rgba(255,255,255,0.7)',
+              maxWidth: '38rem',
+              margin: '0 auto 2.5rem',
+              fontWeight: 300,
+              fontFamily: 'var(--font-body)'
+            }}
+          >
+            We bridge scientific concrete waterproofing inspections, custom software engineering, and corporate finance advisory solutions under Pune&apos;s leading consultancy group.
+          </p>
         </div>
       </section>
 
-      {/* Trust Signal Milestones - Asymmetric Bento Cells */}
-      <section ref={statsRef} className="section" style={{ padding: '5rem 0', borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
+      {/* SEGMENT HUB PICKER */}
+      <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
-              Why Engineers Choose <span style={{ color: 'var(--volt)' }}>CWF</span>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+              Select a Division
             </h2>
-            <p style={{ maxWidth: '600px', margin: '1rem auto 0' }}>
-              Our diagnostic checklists, core drill scans, and supervisor logs guarantee absolute waterproofing success.
+            <p style={{ maxWidth: '600px', margin: '0.5rem auto 0' }}>
+              Select one of our specialized divisions to view diagnostic services, portfolios, and case studies:
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="spinner-wrapper">
+              <div className="spinner" aria-label="Loading segments"></div>
+            </div>
+          ) : error ? (
+            <div className="error-panel" style={{ maxWidth: '600px', margin: '0 auto' }}>
+              <h3 className="error-title">Unable to load business divisions</h3>
+              <p>{error.message}</p>
+            </div>
+          ) : (
+            <div className="bento-grid" style={{ gap: '2rem' }}>
+              {segments.map((seg) => (
+                <div
+                  key={seg._id}
+                  className="bento-cell solid-ink"
+                  style={{
+                    gridColumn: isMobile ? 'span 12' : 'span 4',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    padding: '2.5rem 2rem',
+                    margin: 0,
+                    minHeight: '380px'
+                  }}
+                >
+                  <div>
+                    <div style={{ marginBottom: '1.5rem' }}>
+                      {getSegmentIcon(seg.icon)}
+                    </div>
+                    <h3 style={{ fontSize: '1.4rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+                      {seg.displayName}
+                    </h3>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', fontFamily: 'var(--font-data)', textTransform: 'uppercase', marginBottom: '1rem', letterSpacing: '0.5px' }}>
+                      {seg.tagline}
+                    </p>
+                    <p style={{ fontSize: '0.92rem', color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-body)', lineHeight: '1.5', margin: 0 }}>
+                      {seg.heroDescription}
+                    </p>
+                  </div>
+
+                  <div style={{ marginTop: '2rem' }}>
+                    <Link to={`/${seg.segment}`} className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>
+                      Enter Division
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* TRUST STATISTICS */}
+      <section className="section" style={{ padding: '5rem 0', borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+              CWF Group Milestones
+            </h2>
+            <p style={{ maxWidth: '600px', margin: '0.5rem auto 0' }}>
+              Delivering verified diagnostic excellence and business consultations across Pune since 2011.
             </p>
           </div>
 
           <div className="bento-grid">
-            
-            {/* Stat 1: Years (Neutral Panel) */}
-            <div 
-              className="bento-cell"
-              style={{
-                gridColumn: 'span 3',
-                opacity: showStats ? 1 : 0,
-                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 50ms, transform 0.4s ease-out 50ms'
-              }}
-            >
+            <div className="bento-cell" style={{ gridColumn: isMobile ? 'span 12' : 'span 3', margin: 0 }}>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
                 <CountUp end={15} isStart={true} />+
               </div>
@@ -290,340 +185,53 @@ export default function Home() {
                 Years in Pune
               </h4>
               <p style={{ fontSize: '0.88rem', margin: 0, color: 'var(--graphite)' }}>
-                Serving housing societies and industrial plants in Pune since 2011.
+                Established consultancy operations serving local enterprises and societies.
               </p>
             </div>
 
-            {/* Stat 2: Projects (Neutral Panel) */}
-            <div 
-              className="bento-cell"
-              style={{
-                gridColumn: 'span 3',
-                opacity: showStats ? 1 : 0,
-                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 100ms, transform 0.4s ease-out 100ms'
-              }}
-            >
+            <div className="bento-cell" style={{ gridColumn: isMobile ? 'span 12' : 'span 3', margin: 0 }}>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
                 <CountUp end={1200} isStart={true} />+
               </div>
               <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                Slab Audits Completed
+                Audits & Implementations
               </h4>
               <p style={{ fontSize: '0.88rem', margin: 0, color: 'var(--graphite)' }}>
-                Core scanning, moisture mappings, and injection oversight.
+                Concrete diagnostic inspections, web platform releases, and debt facilitations.
               </p>
             </div>
 
-            {/* Stat 3: Report Accuracy (Neutral Panel) */}
-            <div 
-              className="bento-cell"
-              style={{
-                gridColumn: 'span 3',
-                opacity: showStats ? 1 : 0,
-                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 150ms, transform 0.4s ease-out 150ms'
-              }}
-            >
+            <div className="bento-cell" style={{ gridColumn: isMobile ? 'span 12' : 'span 3', margin: 0 }}>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
-                <CountUp end={100} isStart={true} />%
+                3
               </div>
               <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                Scientific Reports
+                Core Segments
               </h4>
               <p style={{ fontSize: '0.88rem', margin: 0, color: 'var(--graphite)' }}>
-                Visual pathways, concrete condition data, and execution blueprints.
+                Specialized engineering divisions operating with symmetric quality parameters.
               </p>
             </div>
 
-            {/* Stat 4: Certification (Neutral Panel) */}
-            <div 
-              className="bento-cell"
-              style={{
-                gridColumn: 'span 3',
-                opacity: showStats ? 1 : 0,
-                transform: showStats ? 'translateY(0)' : 'translateY(20px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.4s ease-out 200ms, transform 0.4s ease-out 200ms'
-              }}
-            >
+            <div className="bento-cell" style={{ gridColumn: isMobile ? 'span 12' : 'span 3', margin: 0 }}>
               <div style={{ fontFamily: 'var(--font-data)', fontSize: '3rem', fontWeight: 'bold', color: 'var(--volt)', marginBottom: '0.5rem' }}>
                 ISO 9001
               </div>
               <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                Certified Consultancy
+                Certified Quality
               </h4>
               <p style={{ fontSize: '0.88rem', margin: 0, color: 'var(--graphite)' }}>
-                Formally audited processes for moisture diagnostic engineering.
+                Standardized processes for inspection supervision and risk verification.
               </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Waterproofing Services Overview - Alternating Bento Cards */}
-      <section ref={servicesRef} className="section">
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-              Services Overview
-            </h2>
-            <p style={{ maxWidth: '650px', margin: '1rem auto 0' }}>
-              We inspect water pathways and supervise execution. Our categories represent specialized structural treatments:
-            </p>
-          </div>
-
-          {servicesLoading ? (
-            <div className="spinner-wrapper">
-              <div className="spinner" aria-label="Loading Services"></div>
-            </div>
-          ) : servicesError ? (
-            <div className="error-panel">
-              <h3 className="error-title">Unable to load services</h3>
-              <p>{servicesError.message}</p>
-            </div>
-          ) : (
-            <div className="bento-grid">
-              {services.slice(0, 3).map((service, index) => {
-                // Uniform premium dark bento cell styling and gold buttons
-                const cellClass = 'bento-cell solid-ink';
-                const textStyle = { color: 'var(--white)' };
-                const categoryColor = 'var(--volt)';
-                const btnClass = 'btn btn-primary';
-
-                return (
-                  <div 
-                    key={service._id} 
-                    className={cellClass}
-                    style={{ 
-                      gridColumn: 'span 4',
-                      display: 'flex', 
-                      flexDirection: 'column', 
-                      height: '100%',
-                      opacity: showServices ? 1 : 0,
-                      transform: showServices ? 'translateY(0)' : 'translateY(25px)',
-                      transition: prefersReduced ? 'none' : `opacity 0.5s ease-out ${index * 80}ms, transform 0.5s ease-out ${index * 80}ms`,
-                      padding: '2rem'
-                    }}
-                  >
-                    <div style={{ width: '100%', height: '180px', borderRadius: '4px', overflow: 'hidden', marginBottom: '1.25rem' }}>
-                      <img
-                        src={getOptimizedCloudinaryUrl(service.coverImage, 400)}
-                        alt={service.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        loading="lazy"
-                      />
-                    </div>
-                    <div style={{ flexGrow: 1 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                        <span
-                          style={{
-                            fontSize: '0.72rem',
-                            fontWeight: '700',
-                            color: categoryColor,
-                            textTransform: 'uppercase',
-                            letterSpacing: '1px',
-                            fontFamily: 'var(--font-data)'
-                          }}
-                        >
-                          {service.category.replace('-', ' ')}
-                        </span>
-                        <CategoryIcon category={service.category} size={24} />
-                      </div>
-                      <h3 style={{ fontSize: '1.3rem', ...textStyle, fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
-                        {service.title}
-                      </h3>
-                      <p style={{ fontSize: '0.92rem', opacity: index === 0 ? 0.8 : 0.9, ...textStyle, fontFamily: 'var(--font-body)', lineHeight: '1.5' }}>
-                        {service.shortDescription}
-                      </p>
-                    </div>
-                    <div style={{ marginTop: '1.5rem', zIndex: 10 }}>
-                      <Link to={`/services/${service.slug}`} className={btnClass} style={{ width: '100%', textAlign: 'center', border: index === 1 ? 'none' : undefined }}>
-                        View Diagnostics
-                      </Link>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          <div style={{ textAlign: 'center', marginTop: '3.5rem' }}>
-            <Link to="/services" className="btn btn-secondary">
-              Browse Diagnostics Catalog
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Services scrolling marquee block */}
-      <div className="marquee" style={{ margin: '2rem 0 4rem' }}>
-        <div className="marquee__row">
-          <div className="marquee__track">
-            <span className="mq">Concrete Scanning<span className="mq__plus">+</span></span>
-            <span className="mq">Moisture Mapping<span className="mq__plus">+</span></span>
-            <span className="mq">Thermal Imaging<span className="mq__plus">+</span></span>
-            <span className="mq">Polyurethane Injection<span className="mq__plus">+</span></span>
-            <span className="mq">Terrace Waterproofing<span className="mq__plus">+</span></span>
-            <span className="mq">Basement Grouting<span className="mq__plus">+</span></span>
-            <span className="mq">Structural Audits<span className="mq__plus">+</span></span>
-            {/* Repeat for seamless scrolling */}
-            <span className="mq">Concrete Scanning<span className="mq__plus">+</span></span>
-            <span className="mq">Moisture Mapping<span className="mq__plus">+</span></span>
-            <span className="mq">Thermal Imaging<span className="mq__plus">+</span></span>
-            <span className="mq">Polyurethane Injection<span className="mq__plus">+</span></span>
-            <span className="mq">Terrace Waterproofing<span className="mq__plus">+</span></span>
-            <span className="mq">Basement Grouting<span className="mq__plus">+</span></span>
-            <span className="mq">Structural Audits<span className="mq__plus">+</span></span>
-          </div>
-        </div>
-        <div className="marquee__row" style={{ marginTop: '8px' }}>
-          <div className="marquee__track reverse">
-            <span className="mq mq--outline">Water Tank Sealant<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Epoxy Grouting<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Crystalline System<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Wet Slab Audits<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Membrane Coatings<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Dampness Diagnostics<span className="mq__plus mq__plus--teal">+</span></span>
-            {/* Repeat */}
-            <span className="mq mq--outline">Water Tank Sealant<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Epoxy Grouting<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Crystalline System<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Wet Slab Audits<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Membrane Coatings<span className="mq__plus mq__plus--teal">+</span></span>
-            <span className="mq mq--outline">Dampness Diagnostics<span className="mq__plus mq__plus--teal">+</span></span>
-          </div>
-        </div>
-      </div>
-
-      {/* Featured Project Showcase - Modern Border & Volt Slider */}
-      <section ref={comparisonRef} id="comparison-section" className="section" style={{ borderTop: '1px solid rgba(138, 203, 193, 0.12)', borderBottom: '1px solid rgba(138, 203, 193, 0.12)', background: 'var(--panel)', padding: '4rem 0 2rem' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-              Featured Case Study
-            </h2>
-            <p style={{ maxWidth: '650px', margin: '1rem auto 0' }}>
-              Compare active slab water leakage before remediation against finalized polyurethane membranes.
-            </p>
-          </div>
-
-          <div className="bento-grid" style={{ alignItems: 'center' }}>
-            <div
-              style={{
-                gridColumn: 'span 7',
-                opacity: showComparison ? 1 : 0,
-                transform: showComparison ? 'translateX(0)' : 'translateX(-20px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out'
-              }}
-            >
-              <BeforeAfterSlider
-                beforeImage="/terrace_before.webp"
-                afterImage="/terrace_waterproofing.webp"
-                beforeAlt="Damaged wet slab before treatment"
-                afterAlt="Waterproofed concrete slab after treatment"
-              />
-            </div>
-            
-            <div
-              className="bento-cell solid-ink"
-              style={{
-                gridColumn: 'span 5',
-                opacity: showComparison ? 1 : 0,
-                transform: showComparison ? 'translateX(0)' : 'translateX(20px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
-                padding: '2.5rem'
-              }}
-            >
-              <h3 style={{ fontSize: '1.5rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '1rem' }}>
-                {demoProjects[0].title}
-              </h3>
-              <p style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', fontWeight: 'bold', color: 'var(--volt)', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase', margin: '0 0 1rem' }}>
-                <Activity size={18} /> Location: {demoProjects[0].location}
-              </p>
-              <p style={{ color: 'var(--white)', opacity: 0.9, lineHeight: '1.6', fontSize: '0.95rem' }}>
-                {demoProjects[0].description} We conducted core scan mapping and thermal surveys. Execution was fully supervised with certified polyurethane coatings.
-              </p>
-              <Link to="/projects" className="btn btn-primary" style={{ marginTop: '1.5rem', width: '100%', textAlign: 'center', border: 'none' }}>
-                Browse Case Studies
-              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonial Bento Block */}
-      {testimonials.length > 0 && (
-        <section ref={testimonialsRef} className="section" style={{ padding: '2rem 0', borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
-          <div className="container">
-            <div 
-              className="bento-cell"
-              onTouchStart={handleTouchStartTestimonial}
-              onTouchEnd={handleTouchEndTestimonial}
-              style={{
-                background: '#10202A',
-                border: '2px solid var(--volt)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5), 0 0 16px rgba(138, 203, 193, 0.1)',
-                opacity: showTestimonials ? 1 : 0,
-                transform: showTestimonials ? 'translateY(0)' : 'translateY(25px)',
-                transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
-                maxWidth: '850px',
-                margin: '0 auto',
-                padding: '3rem',
-                position: 'relative',
-                touchAction: 'pan-y'
-              }}
-            >
-              <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: '1.4rem', fontStyle: 'italic', lineHeight: '1.6', color: '#ffffff', margin: '0 0 2rem' }}>
-                  &ldquo;{testimonials[activeTestimonial].text}&rdquo;
-                </p>
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', color: 'var(--volt)', textTransform: 'uppercase', marginBottom: '0.25rem', fontWeight: 'bold' }}>
-                  {testimonials[activeTestimonial].clientName}
-                </div>
-                <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.7)', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                  Client Type: {testimonials[activeTestimonial].clientType}
-                </div>
-              </div>
-              
-              {testimonials.length > 1 && (
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2.5rem' }}>
-                  <button onClick={handlePrevTestimonial} className="btn btn-outline" style={{ padding: '0.50rem', borderColor: 'rgba(255, 255, 255, 0.3)', color: 'var(--white)' }} aria-label="Previous review">
-                    <ChevronLeft size={20} />
-                  </button>
-                  <button onClick={handleNextTestimonial} className="btn btn-outline" style={{ padding: '0.50rem', borderColor: 'rgba(255, 255, 255, 0.3)', color: 'var(--white)' }} aria-label="Next review">
-                    <ChevronRight size={20} />
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Lead Capture CTA Form */}
-      <section ref={leadRef} className="section" id="inquiry-section" style={{ padding: '2rem 0 4rem' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-              Schedule Onsite Survey
-            </h2>
-            <p style={{ maxWidth: '600px', margin: '1rem auto 0' }}>
-              Fill in your building coordinates. Our diagnostic team will coordinate for core drilling or scanning in Pune.
-            </p>
-          </div>
-          <div
-            className="bento-cell"
-            style={{
-              opacity: showLead ? 1 : 0,
-              transform: showLead ? 'translateY(0)' : 'translateY(25px)',
-              transition: prefersReduced ? 'none' : 'opacity 0.6s ease-out, transform 0.6s ease-out',
-              maxWidth: '700px',
-              margin: '0 auto',
-              padding: '2.5rem',
-              backgroundColor: 'var(--panel)'
-            }}
-          >
+      {/* LEAD CAPTURE FORM */}
+      <section className="section">
+        <div className="container" style={{ maxWidth: '650px' }}>
+          <div className="bento-cell" style={{ padding: '2.5rem', border: '3px solid var(--ink)', backgroundColor: 'var(--panel)', margin: 0 }}>
             <LeadForm />
           </div>
         </div>

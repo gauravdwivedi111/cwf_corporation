@@ -8,10 +8,9 @@ import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 /**
  * Dynamic Blog Post Detail Reader view.
  * Fetches article by slug and parses raw content strings to rich HTML elements.
- * Redesigned for Bento / Structural Bold concept.
  */
 export default function BlogPostDetail() {
-  const { slug } = useParams();
+  const { segment, slug } = useParams();
   const { data: blogData, loading, error, request: fetchPost } = useApi();
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function BlogPostDetail() {
             <div className="error-panel">
               <h3 className="error-title">Could not load blog post</h3>
               <p>{error.message}</p>
-              <Link to="/blog" className="btn btn-outline" style={{ marginTop: '1rem' }}>
+              <Link to={`/${segment}/blog`} className="btn btn-outline" style={{ marginTop: '1rem' }}>
                 <ArrowLeft size={18} /> Back to Blog
               </Link>
             </div>
@@ -43,7 +42,7 @@ export default function BlogPostDetail() {
           <div className="container text-center">
             <h3>Article not found</h3>
             <p>The requested blog article does not exist or has been removed.</p>
-            <Link to="/blog" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+            <Link to={`/${segment}/blog`} className="btn btn-primary" style={{ marginTop: '1rem' }}>
               Back to Blog
             </Link>
           </div>
@@ -53,17 +52,12 @@ export default function BlogPostDetail() {
           <Helmet>
             <title>{post.seoTitle || `${post.title} | CWF Blog`}</title>
             <meta name="description" content={post.seoDescription || post.title} />
-            <meta property="og:type" content="article" />
-            <meta property="og:title" content={post.seoTitle || `${post.title} | CWF Blog`} />
-            <meta property="og:description" content={post.seoDescription || post.title} />
-            <meta property="og:image" content={post.coverImage} />
-            <meta property="og:url" content={`https://cwfcorporation.com/blog/${post.slug}`} />
           </Helmet>
 
           {/* Article Header */}
           <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', padding: '4rem 0' }}>
             <div className="container" style={{ maxWidth: '800px' }}>
-              <Link to="/blog" style={{ color: 'var(--volt)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontWeight: 'bold', textDecoration: 'none', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+              <Link to={`/${segment}/blog`} style={{ color: 'var(--volt)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', fontWeight: 'bold', textDecoration: 'none', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                 <ArrowLeft size={18} /> Back to Blog List
               </Link>
               <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', fontSize: '2.5rem', lineHeight: 1.1, marginBottom: '1.25rem' }}>

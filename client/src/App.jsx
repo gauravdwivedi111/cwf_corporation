@@ -22,6 +22,17 @@ const BlogPostDetail = lazy(() => import('./pages/BlogPostDetail.jsx'));
 const Contact = lazy(() => import('./pages/Contact.jsx'));
 const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
+// Backwards compatibility redirects mapping slug parameters
+const ServicesRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate to={`/civil/services/${slug}`} replace />;
+};
+
+const BlogRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate to={`/civil/blog/${slug}`} replace />;
+};
+
 // Admin Pages (Lazy Loaded)
 const Login = lazy(() => import('./pages/admin/Login.jsx'));
 const Dashboard = lazy(() => import('./pages/admin/Dashboard.jsx'));
@@ -94,11 +105,22 @@ export default function App() {
               {/* 1. Public Pages Group (Wrapped in Header/Footer Layout) */}
               <Route path="/" element={<Layout><Home /></Layout>} />
               <Route path="/about" element={<Layout><About /></Layout>} />
-              <Route path="/services" element={<Layout><ServicesList /></Layout>} />
-              <Route path="/services/:slug" element={<Layout><ServiceDetail /></Layout>} />
-              <Route path="/projects" element={<Layout><ProjectsList /></Layout>} />
-              <Route path="/blog" element={<Layout><BlogList /></Layout>} />
-              <Route path="/blog/:slug" element={<Layout><BlogPostDetail /></Layout>} />
+              
+              {/* Compatibility Redirects */}
+              <Route path="/services" element={<Navigate to="/civil/services" replace />} />
+              <Route path="/services/:slug" element={<ServicesRedirect />} />
+              <Route path="/projects" element={<Navigate to="/civil/projects" replace />} />
+              <Route path="/blog" element={<Navigate to="/civil/blog" replace />} />
+              <Route path="/blog/:slug" element={<BlogRedirect />} />
+              
+              {/* Segment-Scoped Routing Structure */}
+              <Route path="/:segment" element={<Layout><SegmentHome /></Layout>} />
+              <Route path="/:segment/services" element={<Layout><ServicesList /></Layout>} />
+              <Route path="/:segment/services/:slug" element={<Layout><ServiceDetail /></Layout>} />
+              <Route path="/:segment/projects" element={<Layout><ProjectsList /></Layout>} />
+              <Route path="/:segment/blog" element={<Layout><BlogList /></Layout>} />
+              <Route path="/:segment/blog/:slug" element={<Layout><BlogPostDetail /></Layout>} />
+              
               <Route path="/contact" element={<Layout><Contact /></Layout>} />
               
               {/* 2. Admin Authentication (No Header/Footer Layout) */}

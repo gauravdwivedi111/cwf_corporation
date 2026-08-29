@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, ArrowLeft, ClipboardList, HelpCircle } from 'lucide-react';
+import { ShieldCheck, ArrowLeft, ClipboardList, HelpCircle, Code, DollarSign, Calendar, Clock } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import LeadForm from '../components/LeadForm.jsx';
 
 /**
  * Dynamic Service Details Page.
- * Fetches a single service detail using route slug params.
- * Redesigned for Bento / Structural Bold concept.
+ * Fetches a single service detail and displays segment-specific properties.
  */
 export default function ServiceDetail() {
-  const { slug } = useParams();
+  const { segment, slug } = useParams();
   const { data: serviceData, loading, error, request: fetchService } = useApi();
 
   useEffect(() => {
@@ -23,6 +22,7 @@ export default function ServiceDetail() {
 
   // Custom diagnostic content mapping based on categories
   const diagnosticContent = {
+    // Civil Waterproofing
     terrace: {
       problem: 'Rainwater accumulation, concrete micro-cracks, and expansion joint breakdown leading to ceiling leaks.',
       approach: 'Moisture mapping, structural visual inspection, and thermal scan of joint borders.',
@@ -53,6 +53,60 @@ export default function ServiceDetail() {
       approach: 'Ultrasonic pulse velocity testing to locate internal honeycombs and voids.',
       solutions: 'Drilling ports at intersections and injecting low-viscosity structural epoxy or expanding polyurethane grout.',
     },
+
+    // Web & Software
+    'e-commerce': {
+      problem: 'Friction in checkout flows, checkout abandonment, slow database search execution, or lack of payment gateways.',
+      approach: 'Core web vitals audit, secure payment gateway review, and MongoDB schema queries diagnostics.',
+      solutions: 'Engage in Next.js/Stripe multi-currency portals, integrate real-time inventory updates, and implement clean caching layers.',
+    },
+    'corporate-site': {
+      problem: 'Static site performance degradation, high bounce rates, and outdated marketing capabilities.',
+      approach: 'Speed indexing checks, accessibility audits, and search engine crawling reports.',
+      solutions: 'Deploy Next.js server-side static rendering, wire up headless CMS platforms, and optimize image assets.',
+    },
+    'web-app': {
+      problem: 'Complex user role security flaws, latency in API endpoints, and scaling difficulties on standard servers.',
+      approach: 'Endpoint load tests, penetration audits, and Sequelize query optimization audits.',
+      solutions: 'Refactor into TypeScript-Express backend patterns, containerize using Docker, and configure auto-scaling AWS instances.',
+    },
+    'seo-maintenance': {
+      problem: 'Keywords ranking degradation, legacy module security vulnerabilities, and platform downtime errors.',
+      approach: 'Crawling diagnostics via GA4/Search Console and continuous telemetry review (Sentry/Sln).',
+      solutions: 'Deliver technical SEO patches, execute monthly package updates, and configure continuous system heartbeat logs.',
+    },
+    'custom-development': {
+      problem: 'Data discrepancies across disjoint legacy systems and bottlenecks in high-concurrency microservices.',
+      approach: 'Data schema sync audit and gRPC request tracing.',
+      solutions: 'Implement lightweight microservices in Go/Python, build custom REST APIs, and coordinate secure data queues.',
+    },
+
+    // Financial Advisory
+    'business-loan': {
+      problem: 'High cost of corporate loans, poor credit ratings, and lack of structuring expertise for CMA submissions.',
+      approach: 'Audit balance sheet metrics, verify CMA projections, and inspect collateral assets valuations.',
+      solutions: 'Structure corporate loans with competitive interest rates and coordinate bank representations.',
+    },
+    'working-capital': {
+      problem: 'EBITDA cash flow mismatch, inventory gaps, and high debtor turnaround cycles.',
+      approach: 'Analyse cash conversion cycles, debtor aging structures, and liquidity limits.',
+      solutions: 'Secure structured Cash Credit (CC) limits, factoring services, or trade finance Letter of Credit (LC) lines.',
+    },
+    'investment-advisory': {
+      problem: 'Sub-optimal asset allocation yields, taxation losses on gains, and uncoordinated portfolio risks.',
+      approach: 'Run mutual funds audit metrics, risk profile checks, and correlate asset coefficients.',
+      solutions: 'Provide HNW wealth strategies, custom PMS allocation plans, and tax-efficient mutual fund strategies.',
+    },
+    'tax-consultancy': {
+      problem: 'Over-taxation liability on dynamic structures, auditing compliance errors, and GST representation issues.',
+      approach: 'Review tax filing records and model corporate deduction limits.',
+      solutions: 'Construct legally compliant corporate tax structures and represent clients in tax audits.',
+    },
+    'personal-loan': {
+      problem: 'Unsecured personal loan approvals blocked by low credit profiling or high interest margin rates.',
+      approach: 'Check CIBIL score details, evaluate debt-to-income limits, and scan bank products.',
+      solutions: 'Coordinate personal loans across top banking channels at competitive floating interest margins.',
+    }
   };
 
   const currentDiagnostics = service ? (diagnosticContent[service.category] || diagnosticContent.terrace) : null;
@@ -69,7 +123,7 @@ export default function ServiceDetail() {
             <div className="error-panel">
               <h3 className="error-title">Could not load service details</h3>
               <p>{error.message}</p>
-              <Link to="/services" className="btn btn-outline" style={{ marginTop: '1rem' }}>
+              <Link to={`/${segment}/services`} className="btn btn-outline" style={{ marginTop: '1rem' }}>
                 <ArrowLeft size={18} /> Back to Services
               </Link>
             </div>
@@ -80,7 +134,7 @@ export default function ServiceDetail() {
           <div className="container text-center">
             <h3>Service not found</h3>
             <p>The requested category does not exist.</p>
-            <Link to="/services" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+            <Link to={`/${segment}/services`} className="btn btn-primary" style={{ marginTop: '1rem' }}>
               Back to Services
             </Link>
           </div>
@@ -88,19 +142,14 @@ export default function ServiceDetail() {
       ) : (
         <>
           <Helmet>
-            <title>{`${service.title} Diagnostics | CWF Corporation Pune`}</title>
+            <title>{`${service.title} | ${segment.toUpperCase()} Division CWF`}</title>
             <meta name="description" content={service.shortDescription} />
-            <meta property="og:type" content="article" />
-            <meta property="og:title" content={`${service.title} Diagnostics | CWF Corporation Pune`} />
-            <meta property="og:description" content={service.shortDescription} />
-            <meta property="og:image" content={service.coverImage} />
-            <meta property="og:url" content={`https://cwfcorporation.com/services/${service.slug}`} />
           </Helmet>
 
           {/* Banner */}
           <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', padding: '3.5rem 0' }}>
             <div className="container">
-              <Link to="/services" style={{ color: 'var(--volt)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: 'bold', textDecoration: 'none', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
+              <Link to={`/${segment}/services`} style={{ color: 'var(--volt)', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem', fontWeight: 'bold', textDecoration: 'none', fontFamily: 'var(--font-data)', fontSize: '0.85rem', textTransform: 'uppercase' }}>
                 <ArrowLeft size={18} /> Back to Services
               </Link>
               <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', fontSize: '2.5rem', lineHeight: 1.1, marginBottom: '0.5rem' }}>
@@ -133,64 +182,134 @@ export default function ServiceDetail() {
                   <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1rem' }}>
                     Overview
                   </h2>
-                  <p style={{ fontSize: '1.05rem', lineHeight: '1.6', whiteSpace: 'pre-line', margin: 0 }}>
-                    {service.fullDescription}
-                  </p>
+                  <div 
+                    style={{ fontSize: '1.05rem', lineHeight: '1.6' }}
+                    dangerouslySetInnerHTML={{ __html: service.fullDescription }}
+                  />
+
+                  {/* CONDITIONAL EXTRA DETAILS BLOCK */}
+                  {segment === 'civil' && service.warrantyYears && (
+                    <div style={{ marginTop: '2rem', borderTop: '2px solid var(--ink)', paddingTop: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <ShieldCheck size={28} style={{ color: 'var(--volt)' }} />
+                      <div>
+                        <h4 style={{ margin: 0, fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.85rem' }}>Division Warranty</h4>
+                        <p style={{ margin: 0, fontSize: '0.92rem', color: 'var(--graphite)' }}>This diagnostic scope carries a certified <strong>{service.warrantyYears}-Year</strong> structural warranty.</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {segment === 'web' && (
+                    <div style={{ marginTop: '2rem', borderTop: '2px solid var(--ink)', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', margin: 0 }}>Implementation Profile</h3>
+                      <div className="bento-grid" style={{ gap: '1rem' }}>
+                        <div className="bento-cell" style={{ gridColumn: 'span 4', margin: 0, padding: '1rem' }}>
+                          <Clock size={20} style={{ color: 'var(--volt)', marginBottom: '0.25rem' }} />
+                          <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', display: 'block', color: 'var(--graphite)' }}>Expected Timeline</span>
+                          <strong>{service.projectTimeline}</strong>
+                        </div>
+                        <div className="bento-cell" style={{ gridColumn: 'span 4', margin: 0, padding: '1rem' }}>
+                          <DollarSign size={20} style={{ color: 'var(--volt)', marginBottom: '0.25rem' }} />
+                          <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', display: 'block', color: 'var(--graphite)' }}>Pricing Model</span>
+                          <strong style={{ textTransform: 'capitalize' }}>{service.pricingModel}</strong>
+                        </div>
+                        {service.techStack && (
+                          <div className="bento-cell" style={{ gridColumn: 'span 4', margin: 0, padding: '1rem' }}>
+                            <Code size={20} style={{ color: 'var(--volt)', marginBottom: '0.25rem' }} />
+                            <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', display: 'block', color: 'var(--graphite)' }}>Primary Tech Stack</span>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '0.25rem' }}>
+                              {service.techStack.slice(0, 3).map((tech, idx) => (
+                                <span key={idx} style={{ fontSize: '0.65rem', backgroundColor: 'var(--ink)', color: 'var(--white)', padding: '0.1rem 0.35rem', borderRadius: '2px' }}>{tech}</span>
+                              ))}
+                              {service.techStack.length > 3 && <span style={{ fontSize: '0.65rem' }}>+{service.techStack.length - 3}</span>}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {segment === 'finance' && (
+                    <div style={{ marginTop: '2rem', borderTop: '2px solid var(--ink)', paddingTop: '1.5rem' }}>
+                      <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', marginBottom: '1rem' }}>Capital Scope & Eligibility</h3>
+                      <ul className="footer-nav" style={{ listStyle: 'none', padding: 0 }}>
+                        {service.loanRangeMin && (
+                          <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #ddd' }}>
+                            <span>Consulting Loan Range</span>
+                            <strong>₹ {(service.loanRangeMin/100000).toFixed(0)} Lakhs - {(service.loanRangeMax/10000000).toFixed(1)} Crores</strong>
+                          </li>
+                        )}
+                        {service.interestRateInfo && (
+                          <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid #ddd' }}>
+                            <span>Interest Guideline</span>
+                            <strong>{service.interestRateInfo}</strong>
+                          </li>
+                        )}
+                        {service.eligibilityNotes && (
+                          <li style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', padding: '0.75rem 0' }}>
+                            <span>Eligibility Framework</span>
+                            <strong style={{ color: 'var(--graphite)', fontSize: '0.9rem' }}>{service.eligibilityNotes}</strong>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  )}
                 </div>
 
                 {/* Technical Diagnostics approach bento */}
-                <div className="bento-cell solid-ink" style={{ margin: 0 }}>
-                  <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.5rem', marginBottom: '2rem' }}>
-                    Scientific Diagnosis & Treatment Approach
-                  </h2>
-                  
-                  <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '2rem', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
-                      <HelpCircle size={24} />
+                {currentDiagnostics && (
+                  <div className="bento-cell solid-ink" style={{ margin: 0 }}>
+                    <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.5rem', marginBottom: '2rem' }}>
+                      Scientific Diagnosis & Treatment Approach
+                    </h2>
+                    
+                    <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '2rem', alignItems: 'flex-start' }}>
+                      <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
+                        <HelpCircle size={24} />
+                      </div>
+                      <div>
+                        <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
+                          The Challenge
+                        </h4>
+                        <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
+                          {currentDiagnostics.problem}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
-                        The Problem
-                      </h4>
-                      <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
-                        {currentDiagnostics.problem}
-                      </p>
-                    </div>
-                  </div>
 
-                  <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '2rem', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
-                      <ClipboardList size={24} />
+                    <div style={{ display: 'flex', gap: '1.25rem', marginBottom: '2rem', alignItems: 'flex-start' }}>
+                      <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
+                        <ClipboardList size={24} />
+                      </div>
+                      <div>
+                        <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
+                          Our Diagnostic Review Method
+                        </h4>
+                        <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
+                          {currentDiagnostics.approach}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
-                        Our Diagnostic Audit Method
-                      </h4>
-                      <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
-                        {currentDiagnostics.approach}
-                      </p>
-                    </div>
-                  </div>
 
-                  <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
-                      <ShieldCheck size={24} />
-                    </div>
-                    <div>
-                      <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
-                        Recommended Treatment Specification
-                      </h4>
-                      <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
-                        {currentDiagnostics.solutions}
-                      </p>
+                    <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+                      <div style={{ padding: '0.65rem', backgroundColor: 'var(--volt)', borderRadius: '4px', color: 'var(--white)', flexShrink: 0 }}>
+                        <ShieldCheck size={24} />
+                      </div>
+                      <div>
+                        <h4 style={{ margin: '0 0 0.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '0.9rem' }}>
+                          Recommended Scope Specification
+                        </h4>
+                        <p style={{ fontSize: '0.95rem', margin: 0, opacity: 0.9 }}>
+                          {currentDiagnostics.solutions}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 {service.gallery && service.gallery.length > 0 && (
                   <div>
                     <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1.5rem' }}>
-                      Service Gallery
+                      Gallery
                     </h2>
                     <div className="bento-grid">
                       {service.gallery.map((imgUrl, i) => (
@@ -231,7 +350,7 @@ export default function ServiceDetail() {
                     margin: 0
                   }}
                 >
-                  <LeadForm defaultService={service.category} />
+                  <LeadForm defaultService={service.category} defaultSegment={segment} />
                 </div>
               </div>
 

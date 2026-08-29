@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
@@ -7,14 +7,15 @@ import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 
 /**
  * Public Blog List page.
- * Loads all published blog posts in Bento cards.
+ * Loads and displays published blog posts filtered by segment.
  */
 export default function BlogList() {
+  const { segment } = useParams();
   const { data: blogData, loading, error, request: fetchBlogs } = useApi();
 
   useEffect(() => {
-    fetchBlogs('/blog').catch(() => {});
-  }, [fetchBlogs]);
+    fetchBlogs(`/blog?segment=${segment}`).catch(() => {});
+  }, [segment, fetchBlogs]);
 
   const posts = blogData?.data || [];
 
@@ -24,27 +25,47 @@ export default function BlogList() {
     return htmlString.replace(/<[^>]*>/g, '');
   };
 
+  const segmentMeta = {
+    civil: {
+      title: 'Waterproofing Insights & Advice',
+      subtitle: 'Scientific Engineering articles to preserve concrete integrity',
+      bannerLabel: '[ENGINEERING: KNOWLEDGE BASE]',
+      description: 'Read structural waterproofing repair advice, leakage diagnostics case studies, and chemical sealing insights from CWF Corporation Pune engineers.'
+    },
+    web: {
+      title: 'Software & Web Development Articles',
+      subtitle: 'Modern software engineering, full-stack scaling, and API architectures',
+      bannerLabel: '[SOFTWARE: KNOWLEDGE BASE]',
+      description: 'Explore CWF Software & Web engineering blogs. Find tutorials on Next.js, full-stack scaling, caching strategies, and secure database connections.'
+    },
+    finance: {
+      title: 'Financial Planning & Capital Insights',
+      subtitle: 'Strategic debt advisory briefs and SME tax compliance analysis',
+      bannerLabel: '[ADVISORY: KNOWLEDGE BASE]',
+      description: 'Analyse business capital resources with CWF Financial Advisory. Read debt restructuring briefs, GST filing guidelines, and corporate finance tips.'
+    }
+  };
+
+  const currentMeta = segmentMeta[segment] || segmentMeta.civil;
+
   return (
     <>
       <Helmet>
-        <title>Waterproofing Advice & Articles | CWF Corporation Pune</title>
-        <meta
-          name="description"
-          content="Read structural waterproofing repair advice, leakage diagnostics case studies, and chemical sealing insights from CWF Corporation Pune engineers."
-        />
+        <title>{`${currentMeta.title} | CWF Corporation`}</title>
+        <meta name="description" content={currentMeta.description} />
       </Helmet>
 
       {/* Header Banner */}
       <section className="section bento-canvas" style={{ borderBottom: '3px solid var(--ink)', textAlign: 'center', padding: '4rem 0' }}>
         <div className="container">
           <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.5rem' }}>
-            [ENGINEERING: KNOWLEDGE BASE]
+            {currentMeta.bannerLabel}
           </span>
           <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--ink)', textTransform: 'uppercase', marginBottom: '0.5rem', fontSize: '2.5rem', lineHeight: 1.1 }}>
-            Waterproofing Insights
+            {currentMeta.title}
           </h1>
-          <p style={{ color: 'var(--graphite)', margin: 0, fontFamily: 'var(--font-body)' }}>
-            Scientific Engineering articles to preserve concrete integrity
+          <p style={{ color: 'var(--graphite)', margin: 0, fontFamily: 'var(--font-body)', fontSize: '1.05rem' }}>
+            {currentMeta.subtitle}
           </p>
         </div>
       </section>
@@ -63,7 +84,7 @@ export default function BlogList() {
             </div>
           ) : posts.length === 0 ? (
             <div className="text-center" style={{ padding: '3rem' }}>
-              <p>No blog posts are published currently.</p>
+              <p>No blog posts are published under the {segment} division currently.</p>
             </div>
           ) : (
             <div className="bento-grid">
@@ -73,23 +94,17 @@ export default function BlogList() {
                   ? `${plainTextSnippet.substring(0, 110)}...`
                   : plainTextSnippet;
 
-                // Uniform premium dark bento cell styling and gold buttons
-                const cellClass = 'bento-cell solid-ink';
-                const textStyle = { color: 'var(--white)' };
-                const metaColor = 'rgba(255, 255, 255, 0.7)';
-                const btnClass = 'btn btn-primary';
-                const isDark = true;
-
                 return (
                   <div 
                     key={post._id} 
-                    className={cellClass} 
+                    className="bento-cell solid-ink" 
                     style={{ 
                       gridColumn: 'span 4',
                       display: 'flex', 
                       flexDirection: 'column', 
                       height: '100%', 
-                      padding: '1.5rem' 
+                      padding: '1.5rem',
+                      margin: 0
                     }}
                   >
                     <div style={{ width: '100%', height: '180px', borderRadius: '4px', overflow: 'hidden', marginBottom: '1.25rem' }}>
@@ -106,7 +121,7 @@ export default function BlogList() {
                           display: 'flex',
                           gap: '1rem',
                           fontSize: '0.78rem',
-                          color: metaColor,
+                          color: 'rgba(255, 255, 255, 0.7)',
                           fontFamily: 'var(--font-data)',
                           marginBottom: '0.75rem',
                         }}
@@ -131,18 +146,18 @@ export default function BlogList() {
                         </span>
                       </div>
 
-                      <h3 style={{ fontSize: '1.2rem', ...textStyle, fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.75rem', minHeight: '3.2rem', lineClamp: 2 }}>
+                      <h3 style={{ fontSize: '1.2rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', marginBottom: '0.75rem', minHeight: '3.2rem', lineClamp: 2 }}>
                         {post.title}
                       </h3>
                       
-                      <p style={{ fontSize: '0.9rem', flexGrow: 1, margin: 0, opacity: isDark ? 0.9 : 0.8, ...textStyle, fontFamily: 'var(--font-body)', lineHeight: '1.5' }}>
+                      <p style={{ fontSize: '0.9rem', flexGrow: 1, margin: 0, opacity: 0.9, color: 'var(--white)', fontFamily: 'var(--font-body)', lineHeight: '1.5' }}>
                         {summary}
                       </p>
 
                       <div style={{ marginTop: '1.5rem', alignSelf: 'flex-start', zIndex: 10, width: '100%' }}>
                         <Link
-                          to={`/blog/${post.slug}`}
-                          className={btnClass}
+                          to={`/${segment}/blog/${post.slug}`}
+                          className="btn btn-primary"
                           style={{
                             padding: '0.45rem 1rem',
                             fontSize: '0.8rem',
@@ -151,7 +166,6 @@ export default function BlogList() {
                             alignItems: 'center',
                             width: '100%',
                             justifyContent: 'center',
-                            border: index % 3 === 1 ? 'none' : undefined
                           }}
                         >
                           Read Article <ArrowRight size={14} />

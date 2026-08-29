@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Facebook, Instagram, Linkedin, ShieldAlert } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
 
 /**
  * Footer component that automatically loads active site settings from the database.
- * Includes fallback links, dynamic copyright parameters, and social links.
+ * lists all business segments equally and maintains active segment navigation context.
  */
 export default function Footer() {
   const { data: settingsData, request: fetchSettings } = useApi();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     fetchSettings('/settings').catch((err) => {
@@ -33,6 +34,12 @@ export default function Footer() {
     },
   };
 
+  const segments = ['civil', 'web', 'finance'];
+  const pathParts = pathname.split('/');
+  const activeSegment = segments.includes(pathParts[1]) 
+    ? pathParts[1] 
+    : (localStorage.getItem('cwf_current_segment') || 'civil');
+
   return (
     <footer className="app-footer">
       <div className="container">
@@ -43,7 +50,7 @@ export default function Footer() {
               CWF<span>Corporation</span>
             </div>
             <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.88rem' }}>
-              Pune&apos;s leading scientific waterproofing inspection and consultation agency. We diagnose root causes and supervise repair executions.
+              CWF Corporation Pune provides multi-disciplinary structural engineering diagnostics, high-performance software engineering, and corporate debt advisory.
             </p>
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1.25rem' }}>
               {settings.socialLinks?.facebook && (
@@ -82,22 +89,22 @@ export default function Footer() {
           <div>
             <h4>Quick Links</h4>
             <ul className="footer-nav">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/services"> waterproofing Services</Link></li>
-              <li><Link to="/projects">Our Projects</Link></li>
+              <li><Link to="/">Home Hub</Link></li>
+              <li><Link to={`/${activeSegment}`}>Segment Home</Link></li>
+              <li><Link to={`/${activeSegment}/services`}>Services</Link></li>
+              <li><Link to={`/${activeSegment}/projects`}>Projects</Link></li>
+              <li><Link to={`/${activeSegment}/blog`}>Blog & Articles</Link></li>
               <li><Link to="/about">About CWF</Link></li>
-              <li><Link to="/blog">Blog & Articles</Link></li>
               <li><Link to="/contact">Contact Page</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4>Services</h4>
+            <h4>Business Segments</h4>
             <ul className="footer-nav">
-              <li><Link to="/services/terrace-waterproofing">Terrace Waterproofing</Link></li>
-              <li><Link to="/services/basement-waterproofing">Basement Grouting</Link></li>
-              <li><Link to="/services/bathroom-waterproofing">Bathroom Wet Area Sealing</Link></li>
-              <li><Link to="/services/water-tank-sealing">Water Tank Grouting</Link></li>
+              <li><Link to="/civil">🛡️ Civil & Waterproofing</Link></li>
+              <li><Link to="/web">💻 Software & Web Development</Link></li>
+              <li><Link to="/finance">📈 Financial Advisory & Planning</Link></li>
             </ul>
           </div>
 
@@ -129,7 +136,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p>&copy; <span className="data-num">{new Date().getFullYear()}</span> CWF Corporation. All rights reserved.</p>
-          <p>Scientific Waterproofing & Structural Inspection Specialists, Pune</p>
+          <p>Scientific Solutions across Civil, Web, and Finance Segments</p>
         </div>
       </div>
     </footer>

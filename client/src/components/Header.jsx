@@ -1,16 +1,47 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ShieldAlert } from 'lucide-react';
 
 /**
- * Mobile-responsive Header component featuring Logo link, hamburger toggle button,
- * and page navigations linking public pages.
+ * Mobile-responsive Header component featuring Logo link, business segment switcher,
+ * hamburger toggle button, and segment-scoped navigation links.
  */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+
+  const segments = ['civil', 'web', 'finance'];
+  const pathParts = pathname.split('/');
+  
+  // URL parameter takes complete precedence on segment-scoped routes
+  let urlSegment = segments.includes(pathParts[1]) ? pathParts[1] : null;
+
+  // Sync active segment to localStorage when we are in a segment scope
+  useEffect(() => {
+    if (urlSegment) {
+      localStorage.setItem('cwf_current_segment', urlSegment);
+    }
+  }, [urlSegment]);
+
+  // Fallback to localStorage or default to 'civil' for shared pages
+  const activeSegment = urlSegment || localStorage.getItem('cwf_current_segment') || 'civil';
+
+  const handleSegmentChange = (e) => {
+    const nextSeg = e.target.value;
+    if (urlSegment) {
+      // Retain the current sub-page context (e.g. /web/services -> /civil/services)
+      const remainingPath = pathParts.slice(2).join('/');
+      navigate(`/${nextSeg}/${remainingPath}`);
+    } else {
+      // Redirect to target segment home from shared corporate pages
+      navigate(`/${nextSeg}`);
+    }
+    closeMenu();
+  };
 
   return (
     <header className="app-header">
@@ -25,6 +56,32 @@ export default function Header() {
           <ShieldAlert size={28} style={{ marginRight: '0.5rem', color: 'var(--treated)' }} />
           CWF<span>Corporation</span>
         </NavLink>
+
+        {/* Business Segment Switcher */}
+        <div className="segment-switcher-wrapper" style={{ display: 'inline-flex', alignItems: 'center' }}>
+          <select
+            value={activeSegment}
+            onChange={handleSegmentChange}
+            aria-label="Select CWF Segment"
+            style={{
+              padding: '0.35rem 0.5rem',
+              borderRadius: '4px',
+              border: '2px solid var(--ink)',
+              backgroundColor: 'var(--panel)',
+              color: 'var(--ink)',
+              fontWeight: 'bold',
+              fontFamily: 'var(--font-data)',
+              fontSize: '0.78rem',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              outline: 'none',
+            }}
+          >
+            <option value="civil">🛡️ Civil & Waterproofing</option>
+            <option value="web">💻 Software & Web</option>
+            <option value="finance">📈 Financial Advisory</option>
+          </select>
+        </div>
 
         <button
           className="mobile-nav-toggle"
@@ -46,7 +103,8 @@ export default function Header() {
             </li>
             <li>
               <NavLink
-                to="/"
+                to={`/${activeSegment}`}
+                end
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeMenu}
               >
@@ -55,7 +113,7 @@ export default function Header() {
             </li>
             <li>
               <NavLink
-                to="/services"
+                to={`/${activeSegment}/services`}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeMenu}
               >
@@ -64,7 +122,7 @@ export default function Header() {
             </li>
             <li>
               <NavLink
-                to="/projects"
+                to={`/${activeSegment}/projects`}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeMenu}
               >
@@ -82,7 +140,7 @@ export default function Header() {
             </li>
             <li>
               <NavLink
-                to="/blog"
+                to={`/${activeSegment}/blog`}
                 className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                 onClick={closeMenu}
               >

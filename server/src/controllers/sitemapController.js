@@ -8,9 +8,9 @@ import BlogPost from '../models/BlogPost.js';
  */
 export const getDynamicSitemap = async (req, res, next) => {
   try {
-    // Retrieve published service categories and blog posts
-    const services = await Service.find({ isPublished: true }).select('slug updatedAt');
-    const blogs = await BlogPost.find({ isPublished: true }).select('slug updatedAt');
+    // Retrieve published services and blog posts with their segment properties
+    const services = await Service.find({ isPublished: true }).select('slug segment updatedAt');
+    const blogs = await BlogPost.find({ isPublished: true }).select('slug segment updatedAt');
 
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
 
@@ -23,22 +23,30 @@ export const getDynamicSitemap = async (req, res, next) => {
       return `  <url>\n    <loc>${clientUrl}${pathname}</loc>\n    <lastmod>${dateString}</lastmod>\n    <changefreq>${changefreq}</changefreq>\n    <priority>${priority}</priority>\n  </url>\n`;
     };
 
-    // 1. Append Static Routes
+    // 1. Append Shared/Corporate Static Routes
     xml += appendUrlNode('/', new Date(), 'daily', '1.0');
     xml += appendUrlNode('/about', new Date(), 'monthly', '0.8');
-    xml += appendUrlNode('/services', new Date(), 'weekly', '0.9');
-    xml += appendUrlNode('/projects', new Date(), 'weekly', '0.8');
-    xml += appendUrlNode('/blog', new Date(), 'daily', '0.8');
     xml += appendUrlNode('/contact', new Date(), 'monthly', '0.7');
 
-    // 2. Append Dynamic Waterproofing Services
-    services.forEach((service) => {
-      xml += appendUrlNode(`/services/${service.slug}`, service.updatedAt || new Date(), 'weekly', '0.8');
+    // 2. Append Static Segment Routes for all 3 segments
+    const segments = ['civil', 'web', 'finance'];
+    segments.forEach((seg) => {
+      xml += appendUrlNode(`/${seg}`, new Date(), 'daily', '0.9');
+      xml += appendUrlNode(`/${seg}/services`, new Date(), 'weekly', '0.8');
+      xml += appendUrlNode(`/${seg}/projects`, new Date(), 'weekly', '0.8');
+      xml += appendUrlNode(`/${seg}/blog`, new Date(), 'weekly', '0.8');
     });
 
-    // 3. Append Dynamic Blog Posts
+    // 3. Append Dynamic Segment-Scoped Services
+    services.forEach((service) => {
+      const seg = service.segment || 'civil';
+      xml += appendUrlNode(`/${seg}/services/${service.slug}`, service.updatedAt || new Date(), 'weekly', '0.8');
+    });
+
+    // 4. Append Dynamic Segment-Scoped Blog Posts
     blogs.forEach((post) => {
-      xml += appendUrlNode(`/blog/${post.slug}`, post.updatedAt || new Date(), 'weekly', '0.7');
+      const seg = post.segment || 'civil';
+      xml += appendUrlNode(`/${seg}/blog/${post.slug}`, post.updatedAt || new Date(), 'weekly', '0.7');
     });
 
     xml += '</urlset>';
