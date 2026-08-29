@@ -963,6 +963,33 @@ select:focus-visible {
   }
 }
 
+/* Reusable animation helpers for staggered entrances */
+.animate-fade-slide-up {
+  animation-name: fadeSlideUp;
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+.delay-900 { animation-delay: 0.9s; }
+.delay-1000 { animation-delay: 1.0s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-slide-up {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @keyframes bead-slide {
   0% { transform: translate(0, 0); opacity: 0; }
   10% { opacity: 1; }

@@ -1,5 +1,4 @@
 import React from 'react';
-import './staggered-entrance.css';
 
 /**
  * Reusable wrapper component to easily apply fade-slide-up transitions.
