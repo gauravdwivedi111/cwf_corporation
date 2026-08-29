@@ -416,3 +416,5 @@
 {"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-29 20:00:13"}
 {"level":"info","message":"Incoming Request: GET /api/segments - IP: ::1","timestamp":"2026-08-29 20:00:13"}
 {"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-29 20:00:13"}
+{"level":"info","message":"Incoming Request: GET /api/segments - IP: ::1","timestamp":"2026-08-29 20:04:08"}
+{"level":"info","message":"Incoming Request: GET /api/segments - IP: ::1","timestamp":"2026-08-29 20:04:09"}

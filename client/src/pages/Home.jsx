@@ -484,21 +484,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div style={{
-                marginTop: '2rem',
-                display: 'inline-block',
-                fontFamily: 'var(--font-heading)',
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                color: 'var(--volt)',
-                letterSpacing: '2px',
-                border: '2px solid var(--volt)',
-                padding: '0.5rem 1rem',
-                borderRadius: '2px',
-                textTransform: 'uppercase'
-              }}>
-                ONE PARTNER. INFINITE POSSIBILITIES.
-              </div>
+
             </div>
 
             <div style={{ textAlign: 'center' }}>
