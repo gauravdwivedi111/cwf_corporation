@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ShieldAlert } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 /**
- * Mobile-responsive Header component featuring Logo link, business segment switcher,
- * hamburger toggle button, and segment-scoped navigation links.
+ * Mobile-responsive Header component featuring:
+ * 1. Minimal Mode (on root "/" route): Centered logo only, no links, no switcher.
+ * 2. Full Mode (on all other routes): Logo linking back to "/", segment-scoped navigation links,
+ *    and a segment switcher that preserves sub-page path context.
  */
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +45,26 @@ export default function Header() {
     closeMenu();
   };
 
+  const isRoot = pathname === '/';
+
+  // 1. MINIMAL HEADER VARIANT (Root gateway page only)
+  if (isRoot) {
+    return (
+      <header className="app-header minimal-header" style={{ borderBottom: '3px solid var(--ink)', padding: '1.25rem 0' }}>
+        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <NavLink to="/" aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <img 
+              src="/logo.jpg" 
+              alt="CWF Consulting Corporation Logo" 
+              style={{ height: '42px', objectFit: 'contain', borderRadius: '2px' }} 
+            />
+          </NavLink>
+        </div>
+      </header>
+    );
+  }
+
+  // 2. FULL HEADER VARIANT (All segment pages and shared about/contact pages)
   return (
     <header className="app-header">
       {/* Dark frosted overlay for off-canvas mobile sidebar */}
@@ -52,7 +74,8 @@ export default function Header() {
       ></div>
 
       <div className="container nav-container">
-        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center' }}>
+        {/* Clicking logo inside segment pages returns to the root picker gateway */}
+        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Picker Gateway" style={{ display: 'inline-flex', alignItems: 'center' }}>
           <img src="/logo.jpg" alt="CWF Consulting Corporation Logo" style={{ height: '36px', objectFit: 'contain', borderRadius: '2px' }} />
         </NavLink>
 
