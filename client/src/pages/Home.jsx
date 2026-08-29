@@ -102,7 +102,7 @@ export default function Home() {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100lvh;
+      min-height: 70lvh;
       width: 100vw;
       overflow: hidden;
       background: var(--hero-base);
@@ -189,7 +189,7 @@ export default function Home() {
       </Helmet>
 
       {/* HERO SECTION */}
-      <section className="flowstate-hero" style={{ minHeight: '90lvh', padding: '12rem 0 8rem' }}>
+      <section className="flowstate-hero" style={{ minHeight: '70lvh', padding: isMobile ? '6rem 0 4rem' : '10rem 0 7rem' }}>
         <style dangerouslySetInnerHTML={{ __html: styleTag }} />
         
         {/* 1. Fluid canvas (z-0) */}
