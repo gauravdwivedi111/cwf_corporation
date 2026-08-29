@@ -1,4 +1,5 @@
-import Project from '../models/Project.js';
+import Project, { CivilProject, WebProject, FinanceProject } from '../models/Project.js';
+import { validateSegmentPayload } from '../utils/discriminatorValidator.js';
 
 /**
  * @desc    Get all projects (with filtering by category and featured status)
@@ -7,7 +8,7 @@ import Project from '../models/Project.js';
  */
 export const getProjects = async (req, res, next) => {
   try {
-    const { category, featured } = req.query;
+    const { category, featured, segment } = req.query;
     const filter = {};
 
     if (category) {
@@ -16,6 +17,10 @@ export const getProjects = async (req, res, next) => {
 
     if (featured !== undefined) {
       filter.isFeatured = featured === 'true';
+    }
+
+    if (segment) {
+      filter.segment = segment;
     }
 
     const projects = await Project.find(filter).sort({ completionDate: -1 });
@@ -37,7 +42,23 @@ export const getProjects = async (req, res, next) => {
  */
 export const createProject = async (req, res, next) => {
   try {
-    const project = await Project.create(req.body);
+    const segment = req.body.segment || 'civil';
+
+    // Explicitly validate segment-specific payload and reject mixed fields
+    validateSegmentPayload('project', segment, req.body);
+
+    let modelClass;
+    if (segment === 'civil') modelClass = CivilProject;
+    else if (segment === 'web') modelClass = WebProject;
+    else if (segment === 'finance') modelClass = FinanceProject;
+    else {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid segment: '${segment}'`
+      });
+    }
+
+    const project = await modelClass.create(req.body);
     res.status(201).json({
       success: true,
       data: project,
@@ -56,17 +77,29 @@ export const updateProject = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const project = await Project.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
+    let project = await Project.findById(id);
     if (!project) {
       return res.status(404).json({
         success: false,
         message: `Project not found with id: ${id}`,
       });
     }
+
+    const segment = req.body.segment || project.segment;
+
+    // Prevent changing segment of existing project
+    if (req.body.segment && req.body.segment !== project.segment) {
+      return res.status(400).json({
+        success: false,
+        message: 'Changing the segment of an existing project is not allowed. Please delete and recreate the project if you wish to change its segment.'
+      });
+    }
+
+    // Explicitly validate segment-specific payload and reject mixed fields
+    validateSegmentPayload('project', segment, req.body);
+
+    project.set(req.body);
+    await project.save();
 
     res.status(200).json({
       success: true,

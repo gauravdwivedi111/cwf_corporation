@@ -8,7 +8,8 @@ import {
   deleteService,
 } from '../controllers/serviceController.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
-import { validate } from '../middleware/validationMiddleware.js';
+import { validate, prePopulateSegment } from '../middleware/validationMiddleware.js';
+import Service from '../models/Service.js';
 
 const router = express.Router();
 
@@ -24,9 +25,35 @@ const serviceValidationRules = [
     .matches(/^[a-z0-9-_]+$/)
     .withMessage('Slug must consist of lowercase letters, numbers, hyphens, and underscores only.')
     .trim(),
+  body('segment')
+    .optional()
+    .isIn(['civil', 'web', 'finance'])
+    .withMessage('Segment must be one of: civil, web, or finance.'),
   body('category')
-    .isIn(['terrace', 'basement', 'bathroom', 'tank', 'facade', 'injection-grouting'])
-    .withMessage('Category must be one of: terrace, basement, bathroom, tank, facade, injection-grouting.'),
+    .notEmpty()
+    .withMessage('Category is required.')
+    .custom((value, { req }) => {
+      const segment = req.body.segment || 'civil';
+      if (segment === 'civil') {
+        const allowed = ['terrace', 'basement', 'bathroom', 'tank', 'facade', 'injection-grouting'];
+        if (!allowed.includes(value)) {
+          throw new Error(`Category must be one of: ${allowed.join(', ')} for Civil segment.`);
+        }
+      } else if (segment === 'web') {
+        const allowed = ['e-commerce', 'corporate-site', 'web-app', 'seo-maintenance', 'custom-development'];
+        if (!allowed.includes(value)) {
+          throw new Error(`Category must be one of: ${allowed.join(', ')} for Web segment.`);
+        }
+      } else if (segment === 'finance') {
+        const allowed = ['business-loan', 'personal-loan', 'investment-advisory', 'tax-consultancy', 'working-capital'];
+        if (!allowed.includes(value)) {
+          throw new Error(`Category must be one of: ${allowed.join(', ')} for Finance segment.`);
+        }
+      } else {
+        throw new Error(`Invalid segment: ${segment}`);
+      }
+      return true;
+    }),
   body('shortDescription')
     .notEmpty()
     .withMessage('Short description is required.')
@@ -77,6 +104,7 @@ router.put(
   '/:id',
   protect,
   authorize('superadmin', 'editor'),
+  prePopulateSegment(Service),
   serviceValidationRules,
   validate,
   updateService

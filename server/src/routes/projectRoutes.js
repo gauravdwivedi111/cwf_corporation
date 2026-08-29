@@ -7,7 +7,8 @@ import {
   deleteProject,
 } from '../controllers/projectController.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
-import { validate } from '../middleware/validationMiddleware.js';
+import { validate, prePopulateSegment } from '../middleware/validationMiddleware.js';
+import Project from '../models/Project.js';
 
 const router = express.Router();
 
@@ -16,17 +17,25 @@ const projectValidationRules = [
     .notEmpty()
     .withMessage('Title is required.')
     .trim(),
+  body('segment')
+    .optional()
+    .isIn(['civil', 'web', 'finance'])
+    .withMessage('Segment must be one of: civil, web, or finance.'),
   body('location')
+    .if((value, { req }) => (req.body.segment || 'civil') === 'civil')
     .notEmpty()
-    .withMessage('Location is required.')
+    .withMessage('Location is required for Civil projects.')
     .trim(),
   body('clientType')
+    .if((value, { req }) => (req.body.segment || 'civil') === 'civil')
     .isIn(['residential', 'commercial', 'industrial'])
     .withMessage('Client type must be one of: residential, commercial, industrial.'),
   body('serviceCategory')
+    .if((value, { req }) => (req.body.segment || 'civil') === 'civil')
     .isIn(['terrace', 'basement', 'bathroom', 'tank', 'facade', 'injection-grouting'])
     .withMessage('Service category must be one of: terrace, basement, bathroom, tank, facade, injection-grouting.'),
   body('sqftTreated')
+    .if((value, { req }) => (req.body.segment || 'civil') === 'civil')
     .isFloat({ min: 0 })
     .withMessage('Square footage treated must be a positive number.'),
   body('completionDate')
@@ -71,6 +80,7 @@ router.put(
   '/:id',
   protect,
   authorize('superadmin', 'editor'),
+  prePopulateSegment(Project),
   projectValidationRules,
   validate,
   updateProject

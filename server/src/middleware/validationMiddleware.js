@@ -17,3 +17,21 @@ export const validate = (req, res, next) => {
   }
   next();
 };
+
+/**
+ * Middleware to pre-populate segment field for updates if client omitted it.
+ * Queries the database once using the provided model class.
+ */
+export const prePopulateSegment = (modelClass) => async (req, res, next) => {
+  if (req.params.id && !req.body.segment) {
+    try {
+      const doc = await modelClass.findById(req.params.id);
+      if (doc) {
+        req.body.segment = doc.segment;
+      }
+    } catch (err) {
+      // Allow database errors to bubble up or let validator handle it
+    }
+  }
+  next();
+};

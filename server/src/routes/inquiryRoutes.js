@@ -28,10 +28,24 @@ const inquiryCreateRules = [
     .isEmail()
     .withMessage('Please provide a valid email address.')
     .normalizeEmail(),
+  body('segment')
+    .optional()
+    .isIn(['civil', 'web', 'finance'])
+    .withMessage('Segment must be one of: civil, web, or finance.'),
+  body('segmentDetails')
+    .optional()
+    .custom((value) => {
+      if (value !== null && typeof value !== 'object') {
+        throw new Error('segmentDetails must be an object.');
+      }
+      return true;
+    }),
   body('propertyType')
+    .if((value, { req }) => (req.body.segment || 'civil') === 'civil')
     .isIn(['residential', 'commercial', 'industrial', 'other'])
     .withMessage('Property type must be: residential, commercial, industrial, or other.'),
   body('serviceInterested')
+    .if((value, { req }) => (req.body.segment || 'civil') === 'civil')
     .isIn(['terrace', 'basement', 'bathroom', 'tank', 'facade', 'injection-grouting', 'other'])
     .withMessage('Service category must be one of CWF service types, or "other".'),
   body('message')

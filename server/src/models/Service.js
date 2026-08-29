@@ -143,7 +143,7 @@ const FinanceService = mongoose.models.FinanceService || Service.discriminator(
       type: String,
       required: [true, 'Service category is required for Finance segment'],
       enum: {
-        values: ['business-loan', 'personal-loan', 'investment-advisory', 'tax-consultancy'],
+        values: ['business-loan', 'personal-loan', 'investment-advisory', 'tax-consultancy', 'working-capital'],
         message: '{VALUE} is not a valid category for Finance segment',
       },
       trim: true,

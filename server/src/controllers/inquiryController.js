@@ -30,12 +30,17 @@ export const createInquiry = async (req, res, next) => {
  * @access  Private (Admin/Editor)
  */
 export const getInquiries = async (req, res, next) => {
-  const { status, startDate, endDate, search, page = 1, limit = 10 } = req.query;
+  const { status, startDate, endDate, search, segment, page = 1, limit = 10 } = req.query;
   const filter = {};
 
   // Status Filter
   if (status) {
     filter.status = status;
+  }
+
+  // Segment Filter
+  if (segment) {
+    filter.segment = segment;
   }
 
   // Date Range Filter

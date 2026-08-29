@@ -8,7 +8,11 @@ import sanitizeHtml from 'sanitize-html';
  */
 export const getBlogPosts = async (req, res, next) => {
   try {
-    const filter = req.query.all === 'true' ? {} : { isPublished: true };
+    const { segment, all } = req.query;
+    const filter = all === 'true' ? {} : { isPublished: true };
+    if (segment) {
+      filter.segment = segment;
+    }
 
     // Parse query parameters for pagination
     const page = parseInt(req.query.page, 10) || 1;

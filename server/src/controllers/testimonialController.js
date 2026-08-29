@@ -7,7 +7,11 @@ import Testimonial from '../models/Testimonial.js';
  */
 export const getTestimonials = async (req, res, next) => {
   try {
-    const filter = req.query.all === 'true' ? {} : { isPublished: true };
+    const { segment, all } = req.query;
+    const filter = all === 'true' ? {} : { isPublished: true };
+    if (segment) {
+      filter.segment = segment;
+    }
     const testimonials = await Testimonial.find(filter)
       .populate('projectRef', 'title location')
       .sort({ createdAt: -1 });

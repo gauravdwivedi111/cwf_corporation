@@ -7,7 +7,12 @@ import TeamMember from '../models/TeamMember.js';
  */
 export const getTeamMembers = async (req, res, next) => {
   try {
-    const teamMembers = await TeamMember.find({}).sort({ order: 1 });
+    const { segment } = req.query;
+    const filter = {};
+    if (segment) {
+      filter.segments = segment;
+    }
+    const teamMembers = await TeamMember.find(filter).sort({ order: 1 });
     res.status(200).json({
       success: true,
       count: teamMembers.length,

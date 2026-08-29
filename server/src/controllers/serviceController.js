@@ -1,5 +1,6 @@
-import Service from '../models/Service.js';
+import Service, { CivilService, WebService, FinanceService } from '../models/Service.js';
 import sanitizeHtml from 'sanitize-html';
+import { validateSegmentPayload } from '../utils/discriminatorValidator.js';
 
 /**
  * @desc    Get all published services
@@ -8,7 +9,11 @@ import sanitizeHtml from 'sanitize-html';
  */
 export const getServices = async (req, res, next) => {
   try {
-    const filter = req.query.all === 'true' ? {} : { isPublished: true };
+    const { segment, all } = req.query;
+    const filter = all === 'true' ? {} : { isPublished: true };
+    if (segment) {
+      filter.segment = segment;
+    }
     const services = await Service.find(filter).sort({ order: 1 });
     res.status(200).json({
       success: true,
@@ -59,6 +64,22 @@ export const getServiceBySlug = async (req, res, next) => {
  */
 export const createService = async (req, res, next) => {
   try {
+    const segment = req.body.segment || 'civil';
+    
+    // Explicitly validate segment-specific payload and reject mixed fields
+    validateSegmentPayload('service', segment, req.body);
+
+    let modelClass;
+    if (segment === 'civil') modelClass = CivilService;
+    else if (segment === 'web') modelClass = WebService;
+    else if (segment === 'finance') modelClass = FinanceService;
+    else {
+      return res.status(400).json({
+        success: false,
+        message: `Invalid segment: '${segment}'`
+      });
+    }
+
     // Sanitize rich-text content input to block stored XSS
     if (req.body.fullDescription) {
       req.body.fullDescription = sanitizeHtml(req.body.fullDescription, {
@@ -70,7 +91,7 @@ export const createService = async (req, res, next) => {
         }
       });
     }
-    const service = await Service.create(req.body);
+    const service = await modelClass.create(req.body);
     res.status(201).json({
       success: true,
       data: service,
@@ -89,6 +110,27 @@ export const updateService = async (req, res, next) => {
   const { id } = req.params;
 
   try {
+    let service = await Service.findById(id);
+    if (!service) {
+      return res.status(404).json({
+        success: false,
+        message: `Service not found with id: ${id}`,
+      });
+    }
+
+    const segment = req.body.segment || service.segment;
+
+    // Prevent changing segment of existing service
+    if (req.body.segment && req.body.segment !== service.segment) {
+      return res.status(400).json({
+        success: false,
+        message: 'Changing the segment of an existing service is not allowed. Please delete and recreate the service if you wish to change its segment.'
+      });
+    }
+
+    // Explicitly validate segment-specific payload and reject mixed fields
+    validateSegmentPayload('service', segment, req.body);
+
     // Sanitize rich-text content input to block stored XSS
     if (req.body.fullDescription) {
       req.body.fullDescription = sanitizeHtml(req.body.fullDescription, {
@@ -100,17 +142,9 @@ export const updateService = async (req, res, next) => {
         }
       });
     }
-    const service = await Service.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
 
-    if (!service) {
-      return res.status(404).json({
-        success: false,
-        message: `Service not found with id: ${id}`,
-      });
-    }
+    service.set(req.body);
+    await service.save();
 
     res.status(200).json({
       success: true,

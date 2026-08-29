@@ -22,6 +22,7 @@ import teamRoutes from './src/routes/teamRoutes.js';
 import inquiryRoutes from './src/routes/inquiryRoutes.js';
 import settingRoutes from './src/routes/settingRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
+import segmentRoutes from './src/routes/segmentRoutes.js';
 import { mockInterceptor } from './src/middleware/mockInterceptor.js';
 
 // Load environment variables
@@ -116,6 +117,7 @@ app.use('/api/team', teamRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/settings', settingRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/segments', segmentRoutes);
 
 // Serve Dynamic Sitemap XML
 app.get('/sitemap.xml', getDynamicSitemap);
