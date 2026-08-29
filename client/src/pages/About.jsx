@@ -6,7 +6,7 @@ import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 /**
  * About page displaying CWF structural story, 4-step waterproofing audit methodology,
  * and listing corporate engineers fetched from the /team endpoint.
- * Redesigned for Bento / Structural Bold concept.
+ * Redesigned for Bento / Structural Bold concept with verified client content.
  */
 export default function About() {
   const { data: teamData, loading: teamLoading, error: teamError, request: fetchTeam } = useApi();
@@ -47,8 +47,163 @@ export default function About() {
         </div>
       </section>
 
-      {/* Company Story */}
-      <section className="section">
+      {/* 1. ABOUT CWF CONSULTING CORPORATION SECTION */}
+      <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
+        <div className="container" style={{ maxWidth: '850px' }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.75rem', marginBottom: '1.5rem', textAlign: 'center', color: 'var(--white)' }}>
+            About CWF Consulting Corporation
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', lineHeight: '1.7', fontSize: '0.98rem', color: 'rgba(255, 255, 255, 0.88)' }}>
+            <p>
+              CWF Consulting Corporation is a multi-disciplinary consulting and solutions organization committed to delivering integrated expertise across Civil Consulting, Web & Digital Solutions, and Financial Services.
+            </p>
+            <p>
+              We believe that today's clients need more than individual service providers—they need a reliable partner who understands their challenges and delivers practical, professional, and result-oriented solutions. Our approach brings together technical expertise, digital innovation, and financial guidance under one platform.
+            </p>
+            <p>
+              In our Civil Consulting division, we provide specialized support for waterproofing, flooring, landscaping, painting, repair and rehabilitation, technical inspections, quality assurance, BOQ preparation, specifications, cost estimation, and project supervision.
+            </p>
+            <p>
+              Through our Web & Digital Solutions, we help businesses establish, strengthen, and transform their digital presence through websites, web applications, business portals, automation, and other technology-driven solutions.
+            </p>
+            <p>
+              Our Financial Services division supports clients with investment, insurance, loan assistance, NRI-focused solutions, behavioural profiling, risk profiling, and financial planning, helping individuals and businesses make more informed financial decisions.
+            </p>
+            <p>
+              At CWF Consulting Corporation, we are driven by a commitment to professionalism, integrity, innovation, and long-term relationships. We focus on understanding every client's unique requirements and connecting them with the right expertise and solutions.
+            </p>
+          </div>
+          
+          <div style={{ marginTop: '2.5rem', textAlign: 'center' }}>
+            <div style={{
+              display: 'inline-block',
+              fontFamily: 'var(--font-heading)',
+              fontSize: '1.15rem',
+              fontWeight: 'bold',
+              color: 'var(--volt)',
+              letterSpacing: '3px',
+              border: '2px solid var(--volt)',
+              padding: '0.65rem 1.5rem',
+              borderRadius: '2px',
+              textTransform: 'uppercase'
+            }}>
+              ONE PARTNER. INFINITE POSSIBILITIES.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2 & 3. OUR VISION & OUR MISSION SECTION */}
+      <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)', background: 'var(--panel)', padding: '5rem 0' }}>
+        <div className="container grid-2" style={{ gap: '4rem', alignItems: 'stretch' }}>
+          {/* Vision card */}
+          <div style={{ border: '3px solid var(--ink)', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', backgroundColor: '#050716' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1.25rem', color: 'var(--volt)' }}>
+              Our Vision
+            </h2>
+            <p style={{ lineHeight: '1.7', fontSize: '0.98rem', color: 'var(--white)', margin: 0 }}>
+              To become a trusted, integrated consulting platform that brings together infrastructure expertise, digital innovation, and financial solutions—empowering individuals and businesses to build stronger, smarter, and more sustainable futures.
+            </p>
+          </div>
+
+          {/* Mission card */}
+          <div style={{ border: '3px solid var(--ink)', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', backgroundColor: '#050716' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1.25rem', color: 'var(--volt)' }}>
+              Our Mission
+            </h2>
+            <p style={{ lineHeight: '1.6', fontSize: '0.98rem', color: 'var(--white)', marginBottom: '1.25rem' }}>
+              Our mission is to deliver reliable, innovative, and client-focused solutions by:
+            </p>
+            <ul style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '0.65rem', 
+              paddingLeft: '1.25rem', 
+              margin: 0, 
+              fontSize: '0.92rem', 
+              lineHeight: '1.55',
+              color: 'rgba(255, 255, 255, 0.88)',
+              listStyleType: 'square'
+            }}>
+              <li>Providing professional and practical consulting services.</li>
+              <li>Delivering quality-driven solutions across civil, digital, and financial domains.</li>
+              <li>Connecting clients with the right expertise, technology, and opportunities.</li>
+              <li>Building long-term relationships based on trust, transparency, and accountability.</li>
+              <li>Continuously adopting innovation to create better and more efficient solutions.</li>
+              <li>Helping our clients protect their assets, strengthen their businesses, and achieve their financial goals.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. OUR CORE VALUES SECTION */}
+      <section className="section" style={{ borderBottom: '3px solid var(--ink)' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+              Our Core Values
+            </h2>
+            <p style={{ maxWidth: '600px', margin: '0.5rem auto 0', color: 'var(--graphite)' }}>
+              The principles that guide CWF Consulting Corporation in every assignment.
+            </p>
+          </div>
+
+          <div className="bento-grid" style={{ gap: '1.5rem' }}>
+            {/* INTEGRITY */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
+                INTEGRITY
+              </h3>
+              <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
+                We believe in honesty, transparency, and ethical business practices.
+              </p>
+            </div>
+
+            {/* EXPERTISE */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
+                EXPERTISE
+              </h3>
+              <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
+                We bring professional knowledge and specialized solutions to every assignment.
+              </p>
+            </div>
+
+            {/* INNOVATION */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 4', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
+                INNOVATION
+              </h3>
+              <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
+                We continuously explore smarter ways to solve challenges.
+              </p>
+            </div>
+
+            {/* TRUST */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 6', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
+                TRUST
+              </h3>
+              <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
+                We build lasting relationships through reliability and accountability.
+              </p>
+            </div>
+
+            {/* CLIENT FOCUS */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 6', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '160px', margin: 0 }}>
+              <h3 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', color: 'var(--volt)', marginBottom: '0.75rem' }}>
+                CLIENT FOCUS
+              </h3>
+              <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(255, 255, 255, 0.85)', margin: 0 }}>
+                Every solution begins with understanding our client's requirements.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Story / Founder */}
+      <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
         <div className="container grid-2" style={{ alignItems: 'center', gap: '3rem' }}>
           <div>
             <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.75rem', marginBottom: '1.25rem' }}>
@@ -83,7 +238,7 @@ export default function About() {
       </section>
 
       {/* Methodology Section - Bento Cards Grid */}
-      <section ref={methodRef} className="section" style={{ borderTop: '3px solid var(--ink)', borderBottom: '3px solid var(--ink)', background: 'var(--panel)', padding: '5rem 0' }}>
+      <section className="section" style={{ borderBottom: '3px solid var(--ink)', background: 'var(--panel)', padding: '5rem 0' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
@@ -94,69 +249,68 @@ export default function About() {
             </p>
           </div>
 
-          <div className="bento-grid">
-            {[
-              {
-                num: '01',
-                title: 'Site Survey',
-                desc: 'Forensic moisture scanning, thermal mapping, and slab core drills are conducted by our engineers to detect water ingress points.'
-              },
-              {
-                num: '02',
-                title: 'Diagnostic Report',
-                desc: 'We deliver a detailed report charting moisture indices, concrete health, and mapping exact leakage paths.'
-              },
-              {
-                num: '03',
-                title: 'Prescriptions',
-                desc: 'We draft technical specifications defining the exact chemical compounds (polyurethane, epoxy) and membrane thickness required.'
-              },
-              {
-                num: '04',
-                title: 'Supervision',
-                desc: 'Our field engineers supervise the contracting crew, verifying slab preparation, compound mixes, and membrane application.'
-              }
-            ].map((step, index) => {
-              // Uniform premium dark bento cell styling
-              const cellClass = 'bento-cell solid-ink';
-              const textStyle = { color: 'var(--white)' };
-              const categoryColor = 'var(--volt)';
+          <div className="bento-grid" style={{ gap: '2rem' }}>
+            {/* SURVEY */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '340px', margin: 0 }}>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
+                STAGE 01 / SURVEY
+              </div>
+              <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
+                FORENSIC SCANNING
+              </h3>
+              <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
+                We inspect concrete slabs, joints, and facades using infrared thermal imaging, electrical impedance moisture scan meters, and core testing.
+              </p>
+            </div>
 
-              return (
-                <div 
-                  key={index} 
-                  className={cellClass}
-                  style={{
-                    gridColumn: 'span 3',
-                    opacity: methodVisible ? 1 : 0,
-                    transform: methodVisible ? 'scale(1)' : 'scale(0.96)',
-                    transition: prefersReduced ? 'none' : `opacity 0.4s ease-out ${index * 85}ms, transform 0.4s ease-out ${index * 85}ms`,
-                    padding: '2rem',
-                    margin: 0
-                  }}
-                >
-                  <div style={{ fontFamily: 'var(--font-data)', fontSize: '1.25rem', fontWeight: 'bold', color: categoryColor, marginBottom: '0.75rem' }}>
-                    {step.num}
-                  </div>
-                  <h3 style={{ ...textStyle, fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.15rem', marginBottom: '0.5rem' }}>
-                    {step.title}
-                  </h3>
-                  <p style={{ ...textStyle, opacity: index === 0 || index === 3 ? 0.8 : 0.9, fontSize: '0.88rem', margin: 0, lineHeight: '1.5' }}>
-                    {step.desc}
-                  </p>
-                </div>
-              );
-            })}
+            {/* REPORT */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '340px', margin: 0 }}>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
+                STAGE 02 / REPORT
+              </div>
+              <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
+                PATHWAY ANALYSIS
+              </h3>
+              <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
+                We deliver diagnostic CAD layout maps locating damp paths, failure points, and grading concrete thickness issues with moisture parameters.
+              </p>
+            </div>
+
+            {/* RECOMMEND */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '340px', margin: 0 }}>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
+                STAGE 03 / RECOMMEND
+              </div>
+              <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
+                BOQ SPECIFICATION
+              </h3>
+              <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
+                We draft custom technical waterproofing specifications, select compliant chemical slurries, and prepare standard Bill of Quantities (BOQ).
+              </p>
+            </div>
+
+            {/* SUPERVISE */}
+            <div className="bento-cell solid-ink" style={{ gridColumn: 'span 3', padding: '2rem', display: 'flex', flexDirection: 'column', minHeight: '340px', margin: 0 }}>
+              <div style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', marginBottom: '1.25rem' }}>
+                STAGE 04 / SUPERVISE
+              </div>
+              <h3 style={{ fontSize: '1.4rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '1rem' }}>
+                QUALITY AUDIT
+              </h3>
+              <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'rgba(255,255,255,0.85)', margin: 0 }}>
+                Our engineers monitor application, supervise concrete moisture levels, enforce curing cycles, and verify chemical film thickness rules.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section - Alternating Bento Cards */}
-      <section ref={teamRef} className="section" style={{ padding: '5rem 0' }}>
+      {/* Team Engineers List */}
+      <section className="section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
             <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-              Our Engineering Consultants
+              CWF Lead Engineers
             </h2>
             <p style={{ maxWidth: '650px', margin: '1rem auto 0' }}>
               Meet the structural consultants directing audits and supervising repairs in Pune.
@@ -179,11 +333,9 @@ export default function About() {
           ) : (
             <div className="bento-grid">
               {team.map((member, index) => {
-                // Uniform premium dark bento cell styling
                 const cellClass = 'bento-cell solid-ink';
                 const textStyle = { color: 'var(--white)' };
                 const designationColor = 'var(--volt)';
-                const isDark = true;
 
                 return (
                   <div 
@@ -234,7 +386,7 @@ export default function About() {
                     >
                       {member.designation}
                     </p>
-                    <p style={{ ...textStyle, fontSize: '0.85rem', margin: 0, opacity: isDark ? 0.9 : 0.8, lineHeight: '1.5' }}>
+                    <p style={{ ...textStyle, fontSize: '0.85rem', margin: 0, opacity: 0.9, lineHeight: '1.5' }}>
                       {member.bio}
                     </p>
                   </div>

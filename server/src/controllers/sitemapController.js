@@ -25,6 +25,7 @@ export const getDynamicSitemap = async (req, res, next) => {
 
     // 1. Append Shared/Corporate Static Routes
     xml += appendUrlNode('/', new Date(), 'daily', '1.0');
+    xml += appendUrlNode('/about', new Date(), 'monthly', '0.8');
     xml += appendUrlNode('/contact', new Date(), 'monthly', '0.7');
 
     // 2. Append Static Segment Routes for all 3 segments

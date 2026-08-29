@@ -93,7 +93,7 @@ export default function Footer() {
               <li><Link to={`/${activeSegment}/services`}>Services</Link></li>
               <li><Link to={`/${activeSegment}/projects`}>Projects</Link></li>
               <li><Link to={`/${activeSegment}/blog`}>Blog & Articles</Link></li>
-              <li><Link to="/#about">About CWF</Link></li>
+              <li><Link to="/about">About CWF</Link></li>
               <li><Link to="/contact">Contact Page</Link></li>
             </ul>
           </div>
