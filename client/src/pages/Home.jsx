@@ -465,189 +465,115 @@ export default function Home() {
         </div>
 
         {/* 5. Why CWF? */}
-        <div className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)', background: 'linear-gradient(180deg, rgba(27, 43, 50, 0.45) 0%, rgba(16, 32, 42, 0.5) 100%)', padding: '6rem 0' }}>
+        <div id="why-cwf" className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.08)', padding: '6rem 0' }}>
           <div className="container">
-            <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-              <span style={{ 
-                fontFamily: 'var(--font-data)', 
-                fontSize: '0.75rem', 
-                color: 'var(--volt)', 
-                fontWeight: 'bold', 
-                textTransform: 'uppercase', 
-                letterSpacing: '3px', 
-                display: 'inline-block',
-                padding: '0.35rem 0.95rem',
-                borderRadius: '100px',
-                border: '1px solid rgba(138, 203, 193, 0.25)',
-                backgroundColor: 'rgba(138, 203, 193, 0.06)',
-                marginBottom: '1rem'
-              }}>
-                Why Choose CWF?
-              </span>
-              <h2 style={{ 
-                fontFamily: 'var(--font-heading)', 
-                textTransform: 'uppercase', 
-                fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', 
-                background: 'linear-gradient(135deg, #ffffff 50%, #8acbc1 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                marginBottom: '0.5rem',
-                fontWeight: 750
-              }}>
-                Integrated Thinking. Connected Solutions.
-              </h2>
-            </div>
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: isMobile ? 'column' : 'row', 
+              gap: isMobile ? '3rem' : '5rem',
+              alignItems: 'flex-start'
+            }}>
+              
+              {/* Left Column: Strategic Title */}
+              <div style={{ width: isMobile ? '100%' : '38%', position: 'sticky', top: '100px' }}>
+                <span style={{ 
+                  fontFamily: 'var(--font-data)', 
+                  fontSize: '0.78rem', 
+                  color: 'var(--volt)', 
+                  textTransform: 'uppercase', 
+                  letterSpacing: '3px', 
+                  display: 'block',
+                  marginBottom: '1rem',
+                  fontWeight: '600'
+                }}>
+                  Why Choose CWF
+                </span>
+                <h2 style={{ 
+                  fontFamily: 'var(--font-heading)', 
+                  fontSize: 'clamp(2rem, 3.5vw, 2.75rem)', 
+                  color: 'var(--white)',
+                  lineHeight: '1.2',
+                  textTransform: 'uppercase',
+                  marginBottom: '1.5rem',
+                  fontWeight: 700
+                }}>
+                  The Advantage of Connected Solutions
+                </h2>
+                <p style={{ color: 'var(--graphite)', fontSize: '0.95rem', lineHeight: '1.7', margin: 0, fontWeight: 300 }}>
+                  Today's corporate challenges do not exist in isolation. Infrastructure decisions, digital capability upgrades, and capital planning require coordinated thinking. CWF brings these vital disciplines under one platform, delivering professional, result-oriented guidance.
+                </p>
+              </div>
 
-            <div style={{ maxWidth: '800px', margin: '0 auto 4rem', textAlign: 'center', color: 'rgba(238, 242, 243, 0.85)', lineHeight: '1.75', fontSize: '1.05rem', fontWeight: 300 }}>
-              <p style={{ marginBottom: '1.25rem' }}>
-                Today's challenges do not exist in isolation. Infrastructure decisions, digital transformation, and financial planning increasingly require connected thinking.
-              </p>
-              <p style={{ margin: 0 }}>
-                CWF brings multiple areas of expertise together under one platform—helping clients access the right solution, right expertise, and right direction for their specific requirements.
-              </p>
-            </div>
-
-            {/* 5-item Feature Grid */}
-            <div className="bento-grid" style={{ gap: '1.5rem', justifyContent: 'center' }}>
-              {/* One Platform */}
-              <div className="why-cwf-card" style={{ gridColumn: isMobile ? 'span 12' : 'span 4', padding: '2.5rem 2rem', minHeight: '190px', margin: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(138, 203, 193, 0.1)',
-                    border: '1px solid rgba(138, 203, 193, 0.25)',
-                    color: 'var(--volt)', 
-                    flexShrink: 0 
-                  }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-                  </div>
+              {/* Right Column: Minimalist Value Stack */}
+              <div style={{ width: isMobile ? '100%' : '62%', display: 'flex', flexDirection: 'column' }}>
+                
+                {/* 01: One Platform */}
+                <div style={{ borderTop: '1px solid rgba(138, 203, 193, 0.1)', padding: '2rem 0', display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-data)', fontSize: '1rem', color: 'var(--volt)', fontWeight: 'bold' }}>01</span>
                   <div>
-                    <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.15rem', marginBottom: '0.5rem', marginTop: 0, fontWeight: 600 }}>
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem', fontWeight: 600 }}>
                       One Platform
-                    </h4>
-                    <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(238, 242, 243, 0.75)', margin: 0 }}>
-                      Multiple professional solutions under one ecosystem.
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--graphite)', margin: 0, fontWeight: 300 }}>
+                      Access comprehensive civil diagnostics, digital product development, and structured corporate finance advisory under one synchronized platform.
                     </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Expert-Led Approach */}
-              <div className="why-cwf-card" style={{ gridColumn: isMobile ? 'span 12' : 'span 4', padding: '2.5rem 2rem', minHeight: '190px', margin: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(138, 203, 193, 0.1)',
-                    border: '1px solid rgba(138, 203, 193, 0.25)',
-                    color: 'var(--volt)', 
-                    flexShrink: 0 
-                  }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  </div>
+                {/* 02: Expert-Led Approach */}
+                <div style={{ borderTop: '1px solid rgba(138, 203, 193, 0.1)', padding: '2rem 0', display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-data)', fontSize: '1rem', color: 'var(--volt)', fontWeight: 'bold' }}>02</span>
                   <div>
-                    <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.15rem', marginBottom: '0.5rem', marginTop: 0, fontWeight: 600 }}>
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem', fontWeight: 600 }}>
                       Expert-Led Approach
-                    </h4>
-                    <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(238, 242, 243, 0.75)', margin: 0 }}>
-                      Connecting clients with specialized knowledge and professional expertise.
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--graphite)', margin: 0, fontWeight: 300 }}>
+                      Connect directly with highly qualified structural engineers, principal software architects, and corporate advisors who understand your specific needs.
                     </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Technology-Enabled */}
-              <div className="why-cwf-card" style={{ gridColumn: isMobile ? 'span 12' : 'span 4', padding: '2.5rem 2rem', minHeight: '190px', margin: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(138, 203, 193, 0.1)',
-                    border: '1px solid rgba(138, 203, 193, 0.25)',
-                    color: 'var(--volt)', 
-                    flexShrink: 0 
-                  }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>
-                  </div>
+                {/* 03: Technology-Enabled */}
+                <div style={{ borderTop: '1px solid rgba(138, 203, 193, 0.1)', padding: '2rem 0', display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-data)', fontSize: '1rem', color: 'var(--volt)', fontWeight: 'bold' }}>03</span>
                   <div>
-                    <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.15rem', marginBottom: '0.5rem', marginTop: 0, fontWeight: 600 }}>
-                      Tech-Enabled
-                    </h4>
-                    <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(238, 242, 243, 0.75)', margin: 0 }}>
-                      Using digital tools, automation, and AI-enabled capabilities to improve efficiency.
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem', fontWeight: 600 }}>
+                      Tech-Enabled Capabilities
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--graphite)', margin: 0, fontWeight: 300 }}>
+                      We employ advanced moisture-mapping scanners, automation pipelines, and modern cloud technologies to deliver exceptional accuracy and speed.
                     </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Client-Centric */}
-              <div className="why-cwf-card" style={{ gridColumn: isMobile ? 'span 12' : 'span 6', padding: '2.5rem 2rem', minHeight: '190px', margin: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(138, 203, 193, 0.1)',
-                    border: '1px solid rgba(138, 203, 193, 0.25)',
-                    color: 'var(--volt)', 
-                    flexShrink: 0 
-                  }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                  </div>
+                {/* 04: Client-Centric */}
+                <div style={{ borderTop: '1px solid rgba(138, 203, 193, 0.1)', padding: '2rem 0', display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-data)', fontSize: '1rem', color: 'var(--volt)', fontWeight: 'bold' }}>04</span>
                   <div>
-                    <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.15rem', marginBottom: '0.5rem', marginTop: 0, fontWeight: 600 }}>
-                      Client-Centric
-                    </h4>
-                    <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(238, 242, 243, 0.75)', margin: 0 }}>
-                      Solutions designed around individual requirements—not a one-size-fits-all approach.
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem', fontWeight: 600 }}>
+                      Client-Centric Solutions
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--graphite)', margin: 0, fontWeight: 300 }}>
+                      Our advisory and implementations are tailored around your constraints, objectives, and parameters—not a one-size-fits-all product.
                     </p>
                   </div>
                 </div>
-              </div>
 
-              {/* Trust & Transparency */}
-              <div className="why-cwf-card" style={{ gridColumn: isMobile ? 'span 12' : 'span 6', padding: '2.5rem 2rem', minHeight: '190px', margin: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-                  <div style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '46px',
-                    height: '46px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(138, 203, 193, 0.1)',
-                    border: '1px solid rgba(138, 203, 193, 0.25)',
-                    color: 'var(--volt)', 
-                    flexShrink: 0 
-                  }}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  </div>
+                {/* 05: Trust & Transparency */}
+                <div style={{ borderTop: '1px solid rgba(138, 203, 193, 0.1)', borderBottom: '1px solid rgba(138, 203, 193, 0.1)', padding: '2rem 0', display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-data)', fontSize: '1rem', color: 'var(--volt)', fontWeight: 'bold' }}>05</span>
                   <div>
-                    <h4 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', fontSize: '1.15rem', marginBottom: '0.5rem', marginTop: 0, fontWeight: 600 }}>
+                    <h3 style={{ fontSize: '1.25rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', color: 'var(--white)', marginBottom: '0.5rem', fontWeight: 600 }}>
                       Trust & Transparency
-                    </h4>
-                    <p style={{ fontSize: '0.88rem', lineHeight: '1.55', color: 'rgba(238, 242, 243, 0.75)', margin: 0 }}>
-                      Building long-term relationships through professional conduct and clear communication.
+                    </h3>
+                    <p style={{ fontSize: '0.9rem', lineHeight: '1.6', color: 'var(--graphite)', margin: 0, fontWeight: 300 }}>
+                      We operate with complete clarity under standard fee disclosures, technical reporting, and clear milestone deliverables.
                     </p>
                   </div>
                 </div>
+
               </div>
+
             </div>
           </div>
         </div>
