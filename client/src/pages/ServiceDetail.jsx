@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, ArrowLeft, ClipboardList, HelpCircle, Code, DollarSign, Calendar, Clock } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import LeadForm from '../components/LeadForm.jsx';
+import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 
 /**
  * Dynamic Service Details Page.
@@ -13,12 +14,23 @@ import LeadForm from '../components/LeadForm.jsx';
 export default function ServiceDetail() {
   const { segment, slug } = useParams();
   const { data: serviceData, loading, error, request: fetchService } = useApi();
+  const { data: projectsData, request: fetchProjects } = useApi();
+  const [activeSliderIdx, setActiveSliderIdx] = useState(0);
 
   useEffect(() => {
     fetchService(`/services/${slug}`).catch(() => {});
   }, [slug, fetchService]);
 
+  useEffect(() => {
+    if (segment === 'civil') {
+      fetchProjects(`/projects?segment=civil`).catch(() => {});
+    }
+  }, [segment, fetchProjects]);
+
   const service = serviceData?.data;
+  const projects = projectsData?.data || [];
+  const matchingProjects = service ? projects.filter(p => p.serviceCategory === service.category) : [];
+  const sliderProjects = matchingProjects.length > 0 ? matchingProjects : projects.filter(p => p.segment === 'civil');
 
   // Custom diagnostic content mapping based on categories
   const diagnosticContent = {
@@ -332,6 +344,71 @@ export default function ServiceDetail() {
                           />
                         </div>
                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {segment === 'civil' && sliderProjects.length > 0 && (
+                  <div style={{ marginTop: '3rem' }}>
+                    <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontSize: '1.5rem', marginBottom: '1.5rem' }}>
+                      Before/After Project Showcase
+                    </h2>
+                    <div className="bento-cell" style={{ margin: 0, padding: '2rem', border: '3px solid var(--ink)', backgroundColor: 'var(--panel)' }}>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--volt)', fontWeight: 'bold', fontFamily: 'var(--font-data)' }}>
+                        CASE STUDY: {sliderProjects[activeSliderIdx].title.toUpperCase()}
+                      </span>
+                      <h3 style={{ fontSize: '1.25rem', color: 'var(--white)', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', margin: '0.5rem 0 1rem 0' }}>
+                        {sliderProjects[activeSliderIdx].title}
+                      </h3>
+                      <p style={{ fontSize: '0.9rem', color: 'var(--graphite)', margin: '0 0 1.5rem 0', lineHeight: 1.4 }}>
+                        {sliderProjects[activeSliderIdx].description}
+                      </p>
+                      
+                      {/* Before/After slider container */}
+                      <div key={sliderProjects[activeSliderIdx]._id} style={{ width: '100%', borderRadius: '4px', overflow: 'hidden' }}>
+                        <BeforeAfterSlider
+                          beforeImage={sliderProjects[activeSliderIdx].beforeImages?.[0] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop'}
+                          afterImage={sliderProjects[activeSliderIdx].afterImages?.[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop'}
+                          beforeAlt="Before Treatment"
+                          afterAlt="After Waterproofing"
+                        />
+                      </div>
+                      
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid var(--ink)', paddingTop: '1rem', marginTop: '1.5rem' }}>
+                        <div style={{ display: 'flex', gap: '2rem' }}>
+                          <div style={{ fontSize: '0.85rem' }}>
+                            <span style={{ fontFamily: 'var(--font-data)', color: 'var(--graphite)' }}>LOCATION: </span>
+                            <strong style={{ fontFamily: 'var(--font-data)' }}>{sliderProjects[activeSliderIdx].location}</strong>
+                          </div>
+                          <div style={{ fontSize: '0.85rem' }}>
+                            <span style={{ fontFamily: 'var(--font-data)', color: 'var(--graphite)' }}>AREA TREATED: </span>
+                            <strong style={{ fontFamily: 'var(--font-data)' }} className="data-num">{sliderProjects[activeSliderIdx].sqftTreated?.toLocaleString()} SQFT</strong>
+                          </div>
+                        </div>
+                        
+                        {/* Selector Controls for multiple projects */}
+                        {sliderProjects.length > 1 && (
+                          <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            {sliderProjects.map((_, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => setActiveSliderIdx(idx)}
+                                style={{
+                                  width: '8px',
+                                  height: '8px',
+                                  borderRadius: '50%',
+                                  border: 'none',
+                                  padding: 0,
+                                  backgroundColor: activeSliderIdx === idx ? 'var(--volt)' : 'rgba(255,255,255,0.2)',
+                                  cursor: 'pointer',
+                                  transition: 'background-color 0.2s'
+                                }}
+                                aria-label={`Go to slide ${idx + 1}`}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )}
