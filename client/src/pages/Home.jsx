@@ -340,8 +340,9 @@ export default function Home() {
           ) : (
             <div className="bento-grid" style={{ gap: '2rem' }}>
               {segments.map((seg, index) => (
-                <div
+                <Link
                   key={seg._id}
+                  to={`/${seg.segment}`}
                   className="bento-cell solid-ink"
                   style={{
                     gridColumn: isMobile ? 'span 12' : 'span 4',
@@ -351,7 +352,10 @@ export default function Home() {
                     padding: '2.5rem 2rem',
                     margin: 0,
                     minHeight: '380px',
-                    animation: `fadeSlideUp 0.8s ease ${0.9 + index * 0.15}s both`
+                    animation: `fadeSlideUp 0.8s ease ${0.9 + index * 0.15}s both`,
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer'
                   }}
                 >
                   <div>
@@ -370,11 +374,11 @@ export default function Home() {
                   </div>
 
                   <div style={{ marginTop: '2rem' }}>
-                    <Link to={`/${seg.segment}`} className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>
+                    <span className="btn btn-primary" style={{ display: 'block', width: '100%', textAlign: 'center' }}>
                       Enter Division
-                    </Link>
+                    </span>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
@@ -579,8 +583,10 @@ export default function Home() {
               </div>
             </div>
 
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ border: '3px solid var(--ink)', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'var(--panel)', padding: '1.5rem', display: 'inline-block', width: '100%', maxWidth: '380px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: '380px', margin: isMobile ? '0 auto' : '0 0 0 auto' }}>
+              
+              {/* Founder Profile Card */}
+              <div style={{ border: '3px solid var(--ink)', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'var(--panel)', padding: '1.5rem', width: '100%' }}>
                 <img
                   src="/owner.webp"
                   alt="Ashok Dwivedi, Owner of CWF Consulting Corporation"
@@ -596,6 +602,56 @@ export default function Home() {
                   </p>
                 </div>
               </div>
+
+              {/* Founder Quote Card */}
+              <div style={{
+                marginTop: '1.5rem',
+                background: 'linear-gradient(135deg, rgba(27, 43, 50, 0.3) 0%, rgba(16, 32, 42, 0.5) 100%)',
+                border: '1px solid rgba(138, 203, 193, 0.1)',
+                borderRadius: '12px',
+                padding: '1.25rem',
+                textAlign: 'left',
+                position: 'relative',
+                width: '100%'
+              }}>
+                <span style={{ fontSize: '3rem', color: 'var(--volt)', opacity: 0.15, position: 'absolute', top: '-0.5rem', left: '0.5rem', fontFamily: 'serif', lineHeight: 1 }}>“</span>
+                <p style={{ margin: 0, fontStyle: 'italic', fontSize: '0.88rem', color: 'rgba(255,255,255,0.9)', paddingLeft: '1rem', lineHeight: '1.5' }}>
+                  Our foundation is built on trust, quality, and client success. We don't just solve immediate problems; we engineer lasting value across every vertical we touch.
+                </p>
+                <p style={{ margin: '0.5rem 0 0 0', textAlign: 'right', fontSize: '0.78rem', fontFamily: 'var(--font-data)', color: 'var(--volt)', textTransform: 'uppercase', fontWeight: 'bold' }}>
+                  — Ashok Dwivedi
+                </p>
+              </div>
+
+              {/* Corporate Credentials Block */}
+              <div style={{
+                marginTop: '1.5rem',
+                textAlign: 'left',
+                width: '100%'
+              }}>
+                <h4 style={{ fontSize: '0.75rem', fontFamily: 'var(--font-data)', color: 'var(--volt)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '0.75rem' }}>
+                  Corporate Credentials
+                </h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem' }}>
+                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.75rem', background: 'rgba(16,32,42,0.2)' }}>
+                    <h5 style={{ margin: '0 0 0.15rem 0', fontSize: '0.78rem', color: 'var(--white)', textTransform: 'uppercase', fontFamily: 'var(--font-data)' }}>ISO 9001:2015</h5>
+                    <p style={{ margin: 0, fontSize: '0.68rem', color: 'rgba(255,255,255,0.5)', lineHeight: '1.3' }}>Quality Management</p>
+                  </div>
+                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.75rem', background: 'rgba(16,32,42,0.2)' }}>
+                    <h5 style={{ margin: '0 0 0.15rem 0', fontSize: '0.78rem', color: 'var(--white)', textTransform: 'uppercase', fontFamily: 'var(--font-data)' }}>WAI Member</h5>
+                    <p style={{ margin: 0, fontSize: '0.68rem', color: 'rgba(255,255,255,0.5)', lineHeight: '1.3' }}>Waterproofing Assoc.</p>
+                  </div>
+                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.75rem', background: 'rgba(16,32,42,0.2)' }}>
+                    <h5 style={{ margin: '0 0 0.15rem 0', fontSize: '0.78rem', color: 'var(--white)', textTransform: 'uppercase', fontFamily: 'var(--font-data)' }}>MSME Registered</h5>
+                    <p style={{ margin: 0, fontSize: '0.68rem', color: 'rgba(255,255,255,0.5)', lineHeight: '1.3' }}>Govt of India</p>
+                  </div>
+                  <div style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: '8px', padding: '0.75rem', background: 'rgba(16,32,42,0.2)' }}>
+                    <h5 style={{ margin: '0 0 0.15rem 0', fontSize: '0.78rem', color: 'var(--white)', textTransform: 'uppercase', fontFamily: 'var(--font-data)' }}>1200+ Audits</h5>
+                    <p style={{ margin: 0, fontSize: '0.68rem', color: 'rgba(255,255,255,0.5)', lineHeight: '1.3' }}>Verified Projects</p>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
