@@ -592,19 +592,19 @@ const seedAll = async () => {
         sqftTreated: 8500,
       },
       {
-        title: 'Industrial Tank Epoxy Rehabilitation',
+        title: 'Industrial Epoxy Flooring Overhaul',
         segment: 'civil',
-        description: 'Completed food-grade epoxy lining, concrete patch repairs, and structural joint grouting for a pharmaceutical factory drinking reservoir.',
-        coverImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop',
-        gallery: ['https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop'],
+        description: 'Heavy-duty epoxy coating and substrate repair for a manufacturing facility warehouse in Hadapsar, Pune. Restored high chemical and mechanical load resistance.',
+        coverImage: '/flooring_after.png',
+        gallery: ['/flooring_after.png'],
         isFeatured: true,
         completionDate: new Date('2026-04-10'),
         location: 'Hadapsar, Pune',
         clientType: 'industrial',
-        serviceCategory: 'waterproofing',
-        beforeImages: ['https://images.unsplash.com/photo-1590069261209-f8e9b8642343?q=80&w=600&auto=format&fit=crop'],
-        afterImages: ['https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop'],
-        sqftTreated: 3200,
+        serviceCategory: 'flooring',
+        beforeImages: ['/flooring_before.png'],
+        afterImages: ['/flooring_after.png'],
+        sqftTreated: 12500,
       }
     ];
     await CivilProject.insertMany(civilProjects);
