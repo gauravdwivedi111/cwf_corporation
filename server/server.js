@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import connectDB from './src/config/db.js';
 import { errorHandler } from './src/middleware/errorMiddleware.js';
@@ -25,8 +27,11 @@ import adminRoutes from './src/routes/adminRoutes.js';
 import segmentRoutes from './src/routes/segmentRoutes.js';
 import { mockInterceptor } from './src/middleware/mockInterceptor.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Load environment variables
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Connect to MongoDB
 if (process.env.NODE_ENV !== 'test' && process.env.SKIP_DB_CONN !== 'true') {

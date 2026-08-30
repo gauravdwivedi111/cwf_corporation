@@ -1204,3 +1204,25 @@
 {"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 17:48:41"}
 {"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 17:48:41"}
 {"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 17:48:41"}
+{"level":"info","message":"Incoming Request: GET /api/segments - IP: ::1","timestamp":"2026-08-30 17:49:37"}
+{"level":"info","message":"Incoming Request: GET /api/segments - IP: ::1","timestamp":"2026-08-30 17:49:37"}
+{"level":"info","message":"Incoming Request: GET /api/segments/web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/team?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/projects?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/services?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/testimonials?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/segments/web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/team?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:45"}
+{"level":"info","message":"Incoming Request: GET /api/testimonials?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:46"}
+{"level":"info","message":"Incoming Request: GET /api/projects?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:46"}
+{"level":"info","message":"Incoming Request: GET /api/services?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:46"}
+{"level":"info","message":"Incoming Request: GET /api/services?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:49"}
+{"level":"info","message":"Incoming Request: GET /api/services?segment=web - IP: ::1","timestamp":"2026-08-30 17:49:50"}
+{"level":"info","message":"Incoming Request: POST /api/auth/refresh - IP: ::1","timestamp":"2026-08-30 17:50:39"}
+{"level":"info","message":"Incoming Request: POST /api/auth/refresh - IP: ::1","timestamp":"2026-08-30 17:50:39"}
+{"level":"info","message":"Incoming Request: POST /api/auth/login - IP: ::1","timestamp":"2026-08-30 17:51:03"}
+{"level":"info","message":"Incoming Request: POST /api/auth/login - IP: ::1","timestamp":"2026-08-30 17:51:11"}
+{"level":"info","message":"Incoming Request: POST /api/auth/login - IP: ::1","timestamp":"2026-08-30 17:51:49"}
+{"body":{"email":"admin@cwfcorporation.com","password":"Admin@123"},"ip":"::1","level":"error","message":"[500] POST /api/auth/login - secretOrPrivateKey must have a value","stack":"Error: secretOrPrivateKey must have a value\n    at module.exports [as sign] (C:\\Users\\Ashok Dwivedi\\OneDrive\\Desktop\\cwf-updated\\server\\node_modules\\jsonwebtoken\\sign.js:111:20)\n    at generateAccessToken (file:///C:/Users/Ashok%20Dwivedi/OneDrive/Desktop/cwf-updated/server/src/controllers/authController.js:6:14)\n    at login (file:///C:/Users/Ashok%20Dwivedi/OneDrive/Desktop/cwf-updated/server/src/controllers/authController.js:63:25)","timestamp":"2026-08-30 17:51:50"}
+{"level":"info","message":"Incoming Request: POST /api/auth/login - IP: ::1","timestamp":"2026-08-30 17:52:00"}
+{"body":{"email":"admin@cwfcorporation.com","password":"Admin@123"},"ip":"::1","level":"error","message":"[500] POST /api/auth/login - secretOrPrivateKey must have a value","stack":"Error: secretOrPrivateKey must have a value\n    at module.exports [as sign] (C:\\Users\\Ashok Dwivedi\\OneDrive\\Desktop\\cwf-updated\\server\\node_modules\\jsonwebtoken\\sign.js:111:20)\n    at generateAccessToken (file:///C:/Users/Ashok%20Dwivedi/OneDrive/Desktop/cwf-updated/server/src/controllers/authController.js:6:14)\n    at login (file:///C:/Users/Ashok%20Dwivedi/OneDrive/Desktop/cwf-updated/server/src/controllers/authController.js:63:25)","timestamp":"2026-08-30 17:52:00"}
