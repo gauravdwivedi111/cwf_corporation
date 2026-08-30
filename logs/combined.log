@@ -1110,3 +1110,13 @@
 {"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 16:38:22"}
 {"level":"info","message":"Incoming Request: GET /api/services?segment=civil - IP: ::1","timestamp":"2026-08-30 16:39:52"}
 {"level":"info","message":"Incoming Request: GET /api/services?segment=civil - IP: ::1","timestamp":"2026-08-30 16:39:52"}
+{"level":"info","message":"Incoming Request: POST /api/auth/refresh - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: POST /api/auth/refresh - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/projects?segment=civil - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/services/waterproofing - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/projects?segment=civil - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/services/waterproofing - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 16:55:03"}
+{"level":"info","message":"Incoming Request: GET /api/settings - IP: ::1","timestamp":"2026-08-30 16:55:03"}
