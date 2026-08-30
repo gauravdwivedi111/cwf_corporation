@@ -458,33 +458,125 @@ export default function Home() {
                 ABOUT CWF CONSULTING CORPORATION
               </h2>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.96rem', lineHeight: '1.6' }}>
-                <p style={{ fontWeight: '500', color: 'var(--white)' }}>
-                  CWF Consulting Corporation is a multi-disciplinary consulting and solutions organization committed to delivering integrated expertise across Civil Consulting, Web & Digital Solutions, and Financial Services.
-                </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.96rem', lineHeight: '1.6' }}>
                 
-                <p>
-                  We believe that today&apos;s clients need more than individual service providers—they need a reliable partner who understands their challenges and delivers practical, professional, and result-oriented solutions. Our approach brings together technical expertise, digital innovation, and financial guidance under one platform.
-                </p>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', margin: '1rem 0', paddingLeft: '1rem', borderLeft: '3px solid var(--volt)' }}>
-                  <p style={{ margin: 0, fontSize: '0.9rem' }}>
-                    <strong>Civil Consulting:</strong> Specialized support for waterproofing, flooring, landscaping, painting, repair and rehabilitation, technical inspections, quality assurance, BOQ preparation, specifications, cost estimation, and project supervision.
+                {/* Intro block in premium glass container */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(27, 43, 50, 0.4) 0%, rgba(16, 32, 42, 0.6) 100%)',
+                  border: '1px solid rgba(138, 203, 193, 0.15)',
+                  borderRadius: '8px',
+                  padding: '1.75rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '1rem'
+                }}>
+                  <p style={{ fontWeight: '500', color: 'var(--white)', margin: 0, fontSize: '1.05rem', lineHeight: '1.5' }}>
+                    CWF Consulting Corporation is a multi-disciplinary consulting and solutions organization committed to delivering integrated expertise across Civil Consulting, Web & Digital Solutions, and Financial Services.
                   </p>
-                  <p style={{ margin: 0, fontSize: '0.9rem' }}>
-                    <strong>Web & Digital Solutions:</strong> Helping businesses establish, strengthen, and transform their digital presence through websites, web applications, business portals, automation, and other technology-driven solutions.
-                  </p>
-                  <p style={{ margin: 0, fontSize: '0.9rem' }}>
-                    <strong>Financial Services:</strong> Supporting clients with investment, insurance, loan assistance, NRI-focused solutions, behavioural profiling, risk profiling, and financial planning, helping individuals and businesses make more informed financial decisions.
+                  
+                  <p style={{ margin: 0, fontSize: '0.95rem', opacity: 0.9 }}>
+                    We believe that today&apos;s clients need more than individual service providers—they need a reliable partner who understands their challenges and delivers practical, professional, and result-oriented solutions. Our approach brings together technical expertise, digital innovation, and financial guidance under one platform.
                   </p>
                 </div>
 
-                <p>
-                  At CWF Consulting Corporation, we are driven by a commitment to professionalism, integrity, innovation, and long-term relationships. We focus on understanding every client&apos;s unique requirements and connecting them with the right expertise and solutions.
-                </p>
+                {/* Styled Division Cards */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '0.5rem' }}>
+                  
+                  {/* Civil Card */}
+                  <div className="about-division-card" style={{
+                    display: 'flex',
+                    gap: '1.25rem',
+                    padding: '1.25rem',
+                    borderRadius: '8px',
+                    background: 'rgba(16, 32, 42, 0.3)',
+                    borderLeft: '4px solid var(--volt)',
+                    borderTop: '1px solid rgba(255,255,255,0.05)',
+                    borderRight: '1px solid rgba(255,255,255,0.05)',
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <div style={{ color: 'var(--volt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <ShieldCheck size={28} />
+                    </div>
+                    <div>
+                      <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.05rem', fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        Civil Consulting
+                      </h4>
+                      <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(255,255,255,0.8)', lineHeight: '1.5' }}>
+                        Specialized support for waterproofing, flooring, landscaping, painting, repair and rehabilitation, technical inspections, quality assurance, BOQ preparation, specifications, cost estimation, and project supervision.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Web Card */}
+                  <div className="about-division-card" style={{
+                    display: 'flex',
+                    gap: '1.25rem',
+                    padding: '1.25rem',
+                    borderRadius: '8px',
+                    background: 'rgba(16, 32, 42, 0.3)',
+                    borderLeft: '4px solid var(--volt)',
+                    borderTop: '1px solid rgba(255,255,255,0.05)',
+                    borderRight: '1px solid rgba(255,255,255,0.05)',
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <div style={{ color: 'var(--volt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Code size={28} />
+                    </div>
+                    <div>
+                      <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.05rem', fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        Web & Digital Solutions
+                      </h4>
+                      <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(255,255,255,0.8)', lineHeight: '1.5' }}>
+                        Helping businesses establish, strengthen, and transform their digital presence through websites, web applications, business portals, automation, and other technology-driven solutions.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Finance Card */}
+                  <div className="about-division-card" style={{
+                    display: 'flex',
+                    gap: '1.25rem',
+                    padding: '1.25rem',
+                    borderRadius: '8px',
+                    background: 'rgba(16, 32, 42, 0.3)',
+                    borderLeft: '4px solid var(--volt)',
+                    borderTop: '1px solid rgba(255,255,255,0.05)',
+                    borderRight: '1px solid rgba(255,255,255,0.05)',
+                    borderBottom: '1px solid rgba(255,255,255,0.05)',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    <div style={{ color: 'var(--volt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <TrendingUp size={28} />
+                    </div>
+                    <div>
+                      <h4 style={{ margin: '0 0 0.35rem 0', fontSize: '1.05rem', fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                        Financial Services
+                      </h4>
+                      <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(255,255,255,0.8)', lineHeight: '1.5' }}>
+                        Supporting clients with investment, insurance, loan assistance, NRI-focused solutions, behavioural profiling, risk profiling, and financial planning, helping individuals and businesses make more informed financial decisions.
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Conclusion paragraph in glass container */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(27, 43, 50, 0.25) 0%, rgba(16, 32, 42, 0.45) 100%)',
+                  border: '1px solid rgba(138, 203, 193, 0.1)',
+                  borderRadius: '8px',
+                  padding: '1.25rem 1.5rem',
+                  fontSize: '0.92rem',
+                  color: 'rgba(255, 255, 255, 0.9)'
+                }}>
+                  <p style={{ margin: 0 }}>
+                    At CWF Consulting Corporation, we are driven by a commitment to professionalism, integrity, innovation, and long-term relationships. We focus on understanding every client&apos;s unique requirements and connecting them with the right expertise and solutions.
+                  </p>
+                </div>
+
               </div>
-
-
             </div>
 
             <div style={{ textAlign: 'center' }}>

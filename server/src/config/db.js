@@ -9,7 +9,7 @@ if (process.platform === 'win32') {
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      process.env.MONGO_URI || 'mongodb://localhost:27017/cwf_corporation'
+      process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/cwf_corporation'
     );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
