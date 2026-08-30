@@ -384,48 +384,7 @@ export default function SegmentHome() {
         </div>
       </section>
 
-      {/* TEAM SECTION */}
-      {team.length > 0 && (
-        <section className="section" style={{ borderBottom: '1px solid rgba(138, 203, 193, 0.12)' }}>
-          <div className="container">
-            <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-              <h2 style={{ fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
-                Lead Division Team
-              </h2>
-              <p style={{ maxWidth: '650px', margin: '1rem auto 0' }}>
-                Consult with our experienced Pune advisors and structural engineers:
-              </p>
-            </div>
 
-            <div className="bento-grid" style={{ justifyContent: 'center' }}>
-              {team.map((member) => (
-                <div 
-                  key={member._id}
-                  className="bento-cell"
-                  style={{ gridColumn: 'span 4', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '2rem', margin: 0 }}
-                >
-                  <div style={{ width: '120px', height: '120px', borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--ink)', marginBottom: '1.25rem' }}>
-                    <img
-                      src={member.photo || 'https://res.cloudinary.com/demo/image/upload/w_200,h_200,c_fill/sample.jpg'}
-                      alt={member.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </div>
-                  <h3 style={{ fontSize: '1.15rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', margin: '0 0 0.25rem' }}>
-                    {member.name}
-                  </h3>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--volt)', fontWeight: 'bold', fontFamily: 'var(--font-data)', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-                    {member.designation}
-                  </div>
-                  <p style={{ fontSize: '0.85rem', color: 'var(--graphite)', margin: 0, lineHeight: '1.4' }}>
-                    {member.bio}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* CLIENT TESTIMONIALS */}
       {testimonials.length > 0 && (
