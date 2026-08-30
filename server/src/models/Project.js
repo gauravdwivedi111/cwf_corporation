@@ -38,6 +38,45 @@ const projectSchema = new mongoose.Schema(
       type: Date,
       required: [true, 'Completion date is required'],
     },
+    serviceCategory: {
+      type: String,
+      required: [true, 'Service category is required'],
+      enum: {
+        values: [
+          // Civil categories
+          'terrace',
+          'basement',
+          'bathroom',
+          'tank',
+          'facade',
+          'injection-grouting',
+          'waterproofing',
+          'flooring',
+          'landscaping',
+          'painting',
+          'repairs',
+          'rehabilitation',
+          'inspection',
+          'quality-assurance',
+          'boq-estimation',
+          'supervision',
+          // Web categories
+          'e-commerce',
+          'corporate-site',
+          'web-app',
+          'seo-maintenance',
+          'custom-development',
+          // Finance categories
+          'business-loan',
+          'working-capital',
+          'investment-advisory',
+          'tax-consultancy',
+          'personal-loan'
+        ],
+        message: '{VALUE} is not a valid service category',
+      },
+      trim: true,
+    },
   },
   {
     timestamps: true,
@@ -65,32 +104,6 @@ const CivilProject = mongoose.models.CivilProject || Project.discriminator(
       enum: {
         values: ['residential', 'commercial', 'industrial'],
         message: '{VALUE} is not a valid client type for Civil segment',
-      },
-      trim: true,
-    },
-    serviceCategory: {
-      type: String,
-      required: [true, 'Service category is required'],
-      enum: {
-        values: [
-          'terrace',
-          'basement',
-          'bathroom',
-          'tank',
-          'facade',
-          'injection-grouting',
-          'waterproofing',
-          'flooring',
-          'landscaping',
-          'painting',
-          'repairs',
-          'rehabilitation',
-          'inspection',
-          'quality-assurance',
-          'boq-estimation',
-          'supervision'
-        ],
-        message: '{VALUE} is not a valid service category for Civil segment',
       },
       trim: true,
     },
