@@ -10,6 +10,7 @@ import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import AdminLayout from './components/admin/AdminLayout.jsx';
 import Loader from './components/Loader.jsx';
+import WhatsAppButton from './components/WhatsAppButton.jsx';
 
 // Public Pages (Lazy Loaded)
 const Home = lazy(() => import('./pages/Home.jsx'));
@@ -83,6 +84,7 @@ const Layout = ({ children }) => (
       {children}
     </main>
     <Footer />
+    <WhatsAppButton />
   </div>
 );
 
