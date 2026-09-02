@@ -8,17 +8,64 @@ import Testimonial from '../models/Testimonial.js';
 import TeamMember from '../models/TeamMember.js';
 import Inquiry from '../models/Inquiry.js';
 
+const SERVICE_IMAGES_SYNC = {
+  // Civil
+  'waterproofing': '/unsplash_9.jpg',
+  'flooring-systems': '/unsplash_24.jpg',
+  'corporate-landscaping': '/unsplash_17.jpg',
+  'professional-painting': '/unsplash_21.jpg',
+  'structural-civil-repairs': '/unsplash_8.jpg',
+  'rehabilitation-restoration': '/unsplash_11.jpg',
+  'technical-inspection': '/unsplash_15.jpg',
+  'quality-assurance-services': '/unsplash_1.jpg',
+  'boq-cost-estimation': '/unsplash_20.jpg',
+  'project-application-supervision': '/unsplash_22.jpg',
+
+  // Web
+  'website-development-services': '/unsplash_13.jpg',
+  'business-websites-portals': '/unsplash_7.jpg',
+  'ecommerce-solutions-custom': '/unsplash_4.jpg',
+  'mobile-web-applications': '/unsplash_5.jpg',
+  'digital-branding-identity': '/unsplash_6.jpg',
+  'digital-marketing-campaigns': '/unsplash_3.jpg',
+  'crm-business-automation': '/unsplash_0.jpg',
+  'online-business-solutions': '/unsplash_14.jpg',
+
+  // Finance
+  'investment-planning-solutions': '/unsplash_10.jpg',
+  'corporate-insurance-solutions': '/unsplash_23.jpg',
+  'credit-loan-assistance': '/unsplash_20.jpg',
+  'nri-financial-corner': '/unsplash_25.jpg',
+  'behavioural-profiling-wealth': '/unsplash_12.jpg',
+  'risk-profiling-advisory': '/unsplash_19.jpg',
+  'financial-planning-systems': '/unsplash_16.jpg',
+  'wealth-portfolio-guidance': '/unsplash_2.jpg',
+};
+
+const BLOG_IMAGES_SYNC = {
+  'identifying-concrete-slab-leaks': '/unsplash_8.jpg',
+  'negative-side-waterproofing-explained': '/unsplash_9.jpg',
+  'scaling-enterprise-apps-nodejs': '/unsplash_0.jpg',
+  'headless-vs-traditional-cms': '/unsplash_13.jpg',
+  'working-capital-loans-smes': '/unsplash_23.jpg',
+  'tax-planning-checklist-fy-2026': '/unsplash_20.jpg',
+  'prepare-business-loan-application': '/unsplash_10.jpg',
+};
+
 export const autoSeedIfEmpty = async () => {
   try {
+    // 0. Synchronize / update image paths for all existing services and blogs
+    for (const [slug, img] of Object.entries(SERVICE_IMAGES_SYNC)) {
+      await Service.updateOne({ slug }, { $set: { coverImage: img, gallery: [img] } });
+    }
+    for (const [slug, img] of Object.entries(BLOG_IMAGES_SYNC)) {
+      await BlogPost.updateOne({ slug }, { $set: { coverImage: img } });
+    }
+
     const serviceCount = await Service.countDocuments({});
     const projectCount = await Project.countDocuments({});
     const blogCount = await BlogPost.countDocuments({});
     const userCount = await User.countDocuments({ role: 'superadmin' });
-
-    // If database already has full content, skip auto-seed
-    if (serviceCount >= 20 && projectCount >= 6 && blogCount >= 6 && userCount > 0) {
-      return;
-    }
 
     console.log('[AutoSeed] Checking and populating missing database records for Civil, Web, and Finance...');
 
@@ -202,8 +249,8 @@ export const autoSeedIfEmpty = async () => {
           segment: 'civil',
           shortDescription: 'Third-party quality auditing, materials testing, and site compliance tracking.',
           fullDescription: '<p>Ensuring site works match standards. We perform slump tests, cube tests, verify reinforcement steel grades, and audit concrete mix designs.</p>',
-          coverImage: '/unsplash_9.jpg',
-          gallery: ['/unsplash_9.jpg'],
+          coverImage: '/unsplash_1.jpg',
+          gallery: ['/unsplash_1.jpg'],
           icon: 'shield',
           isPublished: true,
           order: 8,
@@ -331,8 +378,8 @@ export const autoSeedIfEmpty = async () => {
           segment: 'web',
           shortDescription: 'Search engine optimization (SEO), content strategy, and PPC advertising.',
           fullDescription: '<p>Strategic inbound marketing to drive leads, optimize conversion rates, and run high-yield search engine ads.</p>',
-          coverImage: '/unsplash_7.jpg',
-          gallery: ['/unsplash_7.jpg'],
+          coverImage: '/unsplash_3.jpg',
+          gallery: ['/unsplash_3.jpg'],
           icon: 'trending-up',
           isPublished: true,
           order: 6,
@@ -478,8 +525,8 @@ export const autoSeedIfEmpty = async () => {
           segment: 'finance',
           shortDescription: 'Comprehensive family budgeting, estate planning, and retirement maps.',
           fullDescription: '<p>Designing total financial blueprints covering retirement reserves, cash management, and clean estate transitions.</p>',
-          coverImage: '/unsplash_23.jpg',
-          gallery: ['/unsplash_23.jpg'],
+          coverImage: '/unsplash_16.jpg',
+          gallery: ['/unsplash_16.jpg'],
           icon: 'calendar',
           isPublished: true,
           order: 7,
