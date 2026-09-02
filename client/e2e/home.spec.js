@@ -1,47 +1,60 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('CWF Corporation E2E Public Pages Tests', () => {
-  test('should successfully load the Home page, verify title and headers', async ({ page }) => {
+test.describe('CWF Consulting Corporation E2E Public Pages Tests', () => {
+  test('should successfully load the Home gateway, verify title and segment cards', async ({ page }) => {
     // 1. Navigate to home
     await page.goto('/');
 
-    // 2. Verify page title
-    await expect(page).toHaveTitle(/CWF Corporation | Waterproofing Consultation & Inspection Pune/i);
+    // 2. Verify page title matches corporate parent branding
+    await expect(page).toHaveTitle(/CWF Consulting Corporation/i);
 
     // 3. Verify main header navigation is present
     const header = page.locator('header');
     await expect(header).toBeVisible();
 
     // 4. Verify link nodes
-    await expect(page.locator('text=Home').first()).toBeVisible();
     await expect(page.locator('text=About').first()).toBeVisible();
     await expect(page.locator('text=Services').first()).toBeVisible();
-    await expect(page.locator('text=Projects').first()).toBeVisible();
-    await expect(page.locator('text=Blog').first()).toBeVisible();
     await expect(page.locator('text=Contact').first()).toBeVisible();
+
+    // 5. Verify three segment bento panels are present
+    const civilLink = page.locator('a[href="/civil"]').first();
+    const webLink = page.locator('a[href="/web"]').first();
+    const financeLink = page.locator('a[href="/finance"]').first();
+    await expect(civilLink).toBeVisible();
+    await expect(webLink).toBeVisible();
+    await expect(financeLink).toBeVisible();
   });
 
-  test('should navigate to the About page and load content', async ({ page }) => {
-    await page.goto('/about');
-    await expect(page.locator('h1')).toContainText(/About CWF Corporation/i);
-    await expect(page.locator('text=Our Engineering Consultants')).toBeVisible();
+  test('should navigate to the Civil segment landing page and load content', async ({ page }) => {
+    await page.goto('/civil');
+    await expect(page.locator('h1')).toContainText(/PROTECT • REPAIR • TRANSFORM/i);
+    await expect(page.locator('text=Civil Consulting').first()).toBeVisible();
   });
 
-  test('should load the Services page and check category rendering', async ({ page }) => {
+  test('should navigate to the Web segment landing page and load content', async ({ page }) => {
+    await page.goto('/web');
+    await expect(page.locator('h1')).toContainText(/CONNECT • DIGITALIZE • GROW/i);
+    await expect(page.locator('text=Digital Solutions').first()).toBeVisible();
+  });
+
+  test('should navigate to the Finance segment landing page and load content', async ({ page }) => {
+    await page.goto('/finance');
+    await expect(page.locator('h1')).toContainText(/PLAN • PROTECT • PROSPER/i);
+    await expect(page.locator('text=Financial & Wealth Solutions').first()).toBeVisible();
+  });
+
+  test('should redirect old routes correctly', async ({ page }) => {
+    // Navigate to old services route
     await page.goto('/services');
-    await expect(page.locator('h1')).toContainText(/Waterproofing Services/i);
-    // Services are seeded in the database, expect some card to be rendered
-    const serviceCard = page.locator('.bento-cell').first();
-    await expect(serviceCard).toBeVisible();
-  });
+    await expect(page).toHaveURL(/\/civil\/services/);
 
-  test('should navigate to the Contact page and find the inquiry form', async ({ page }) => {
-    await page.goto('/contact');
-    await expect(page.locator('h1')).toContainText(/Contact CWF Corporation/i);
-    
-    // Check form presence
-    const form = page.locator('form');
-    await expect(form).toBeVisible();
-    await expect(page.locator('button[type="submit"]')).toContainText(/Submit Audit Request/i);
+    // Navigate to old projects route
+    await page.goto('/projects');
+    await expect(page).toHaveURL(/\/civil\/projects/);
+
+    // Navigate to old blog route
+    await page.goto('/blog');
+    await expect(page).toHaveURL(/\/civil\/blog/);
   });
 });

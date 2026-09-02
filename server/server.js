@@ -6,11 +6,13 @@ import mongoSanitize from 'express-mongo-sanitize';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 import connectDB from './src/config/db.js';
 import { errorHandler } from './src/middleware/errorMiddleware.js';
 import logger from './src/utils/logger.js';
+import { initKeepAlive } from './src/utils/keepAlive.js';
 import { globalLimiter, authLimiter } from './src/middleware/rateLimiter.js';
 import { getDynamicSitemap } from './src/controllers/sitemapController.js';
 
@@ -65,7 +67,7 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://api.fontshare.com'],
         fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://api.fontshare.com', 'https://cdn.fontshare.com'],
-        imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com', 'https://images.unsplash.com'],
+        imgSrc: ["'self'", 'data:', 'https://res.cloudinary.com'],
         connectSrc: ["'self'"],
       },
     },
@@ -136,9 +138,21 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.send('CWF Consulting Corporation Express REST API is active. Navigate to /api/health for system status.');
-});
+// 7. Production Static SPA Asset Serving (Unified Full-Stack Deployments)
+const clientDistPath = path.join(__dirname, '../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path === '/sitemap.xml') {
+      return next();
+    }
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('CWF Consulting Corporation Express REST API is active. Navigate to /api/health for system status.');
+  });
+}
 
 // 7. Centralized Error Handler (Must be registered last)
 app.use(errorHandler);
@@ -148,6 +162,7 @@ const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+    initKeepAlive();
   });
 }
 

@@ -353,8 +353,8 @@ select:focus-visible {
   .nav-menu {
     position: absolute;
     top: 4.75rem; /* Floating slightly below the 4.5rem sticky header */
-    right: 1.5rem; /* Margin aligned with the right boundary of the page container */
-    width: 250px; /* Precise premium dropdown box width */
+    right: 1rem; /* Aligned with mobile container edge */
+    width: min(260px, calc(100vw - 2rem)); /* Adapts perfectly to narrow screens */
     height: auto; /* Fits the height of navigation items */
     background-color: #070D12; /* Solid deep dark charcoal background for maximum contrast */
     border: 1.5px solid var(--volt); /* Glowing volt green accent outline border box */

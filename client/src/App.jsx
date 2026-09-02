@@ -1,5 +1,6 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { apiRequest } from './utils/api.js';
 
 // Providers
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
@@ -98,6 +99,11 @@ const SuspenseLoader = () => (
 );
 
 export default function App() {
+  // Pre-warm backend API on application mount to eliminate cold-start sleep delays
+  useEffect(() => {
+    apiRequest('/health').catch(() => {});
+  }, []);
+
   return (
     <AuthProvider>
       <ToastProvider>
@@ -115,6 +121,8 @@ export default function App() {
               <Route path="/projects" element={<Navigate to="/civil/projects" replace />} />
               <Route path="/blog" element={<Navigate to="/civil/blog" replace />} />
               <Route path="/blog/:slug" element={<BlogRedirect />} />
+              <Route path="/digital" element={<Navigate to="/web" replace />} />
+              <Route path="/digital/:subpath" element={<Navigate to="/web" replace />} />
               
               {/* Segment-Scoped Routing Structure */}
               <Route path="/:segment" element={<Layout><SegmentHome /></Layout>} />

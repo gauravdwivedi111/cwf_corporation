@@ -13,6 +13,7 @@ export default function ServicesManager() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [segmentFilter, setSegmentFilter] = useState('all');
 
   // Form Modal States
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function ServicesManager() {
   // Fields State
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
+  const [segment, setSegment] = useState('civil');
   const [category, setCategory] = useState('terrace');
   const [shortDescription, setShortDescription] = useState('');
   const [fullDescription, setFullDescription] = useState('');
@@ -29,6 +31,16 @@ export default function ServicesManager() {
   const [icon, setIcon] = useState('droplet');
   const [order, setOrder] = useState(1);
   const [isPublished, setIsPublished] = useState(true);
+
+  // Segment specific fields
+  const [warrantyYears, setWarrantyYears] = useState(0);
+  const [techStack, setTechStack] = useState('');
+  const [projectTimeline, setProjectTimeline] = useState('');
+  const [pricingModel, setPricingModel] = useState('fixed');
+  const [loanRangeMin, setLoanRangeMin] = useState('');
+  const [loanRangeMax, setLoanRangeMax] = useState('');
+  const [interestRateInfo, setInterestRateInfo] = useState('');
+  const [eligibilityNotes, setEligibilityNotes] = useState('');
 
   // Delete Confirm States
   const [deleteId, setDeleteId] = useState(null);
@@ -64,6 +76,17 @@ export default function ServicesManager() {
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-');
       setSlug(generated);
+    }
+  };
+
+  const handleSegmentChange = (selectedSegment) => {
+    setSegment(selectedSegment);
+    if (selectedSegment === 'civil') {
+      setCategory('terrace');
+    } else if (selectedSegment === 'web') {
+      setCategory('e-commerce');
+    } else if (selectedSegment === 'finance') {
+      setCategory('business-loan');
     }
   };
 
@@ -130,6 +153,7 @@ export default function ServicesManager() {
     setEditId(null);
     setTitle('');
     setSlug('');
+    setSegment('civil');
     setCategory('terrace');
     setShortDescription('');
     setFullDescription('');
@@ -138,6 +162,17 @@ export default function ServicesManager() {
     setIcon('droplet');
     setOrder(services.length + 1);
     setIsPublished(true);
+
+    // Reset segment specific fields
+    setWarrantyYears(0);
+    setTechStack('');
+    setProjectTimeline('');
+    setPricingModel('fixed');
+    setLoanRangeMin('');
+    setLoanRangeMax('');
+    setInterestRateInfo('');
+    setEligibilityNotes('');
+
     setIsOpen(true);
   };
 
@@ -145,6 +180,7 @@ export default function ServicesManager() {
     setEditId(service._id);
     setTitle(service.title);
     setSlug(service.slug);
+    setSegment(service.segment || 'civil');
     setCategory(service.category);
     setShortDescription(service.shortDescription);
     setFullDescription(service.fullDescription);
@@ -153,6 +189,17 @@ export default function ServicesManager() {
     setIcon(service.icon || 'droplet');
     setOrder(service.order || 1);
     setIsPublished(service.isPublished !== false);
+
+    // Set segment specific fields
+    setWarrantyYears(service.warrantyYears || 0);
+    setTechStack(service.techStack?.join(', ') || '');
+    setProjectTimeline(service.projectTimeline || '');
+    setPricingModel(service.pricingModel || 'fixed');
+    setLoanRangeMin(service.loanRangeMin || '');
+    setLoanRangeMax(service.loanRangeMax || '');
+    setInterestRateInfo(service.interestRateInfo || '');
+    setEligibilityNotes(service.eligibilityNotes || '');
+
     setIsOpen(true);
   };
 
@@ -168,6 +215,7 @@ export default function ServicesManager() {
       const payload = {
         title,
         slug,
+        segment,
         category,
         shortDescription,
         fullDescription,
@@ -177,6 +225,20 @@ export default function ServicesManager() {
         order: Number(order),
         isPublished,
       };
+
+      // Add segment specific attributes
+      if (segment === 'civil') {
+        payload.warrantyYears = Number(warrantyYears);
+      } else if (segment === 'web') {
+        payload.techStack = techStack ? techStack.split(',').map((s) => s.trim()).filter(Boolean) : [];
+        payload.projectTimeline = projectTimeline;
+        payload.pricingModel = pricingModel;
+      } else if (segment === 'finance') {
+        payload.loanRangeMin = loanRangeMin ? Number(loanRangeMin) : null;
+        payload.loanRangeMax = loanRangeMax ? Number(loanRangeMax) : null;
+        payload.interestRateInfo = interestRateInfo || null;
+        payload.eligibilityNotes = eligibilityNotes || null;
+      }
 
       let res;
       if (editId) {
@@ -197,7 +259,7 @@ export default function ServicesManager() {
         fetchServices();
       }
     } catch (err) {
-      addToast(err.message || 'Operation failed. Verify fields (e.g. unique slug).', 'error');
+      addToast(err.message || 'Operation failed. Verify fields.', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -218,9 +280,26 @@ export default function ServicesManager() {
     }
   };
 
+  const filteredServices = segmentFilter === 'all'
+    ? services
+    : services.filter((s) => s.segment === segmentFilter);
+
   return (
     <div className="services-manager-wrapper">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {['all', 'civil', 'web', 'finance'].map((seg) => (
+            <button
+              key={seg}
+              type="button"
+              className={`btn btn-sm ${segmentFilter === seg ? 'btn-primary' : 'btn-outline'}`}
+              style={{ textTransform: 'capitalize', minWidth: '80px' }}
+              onClick={() => setSegmentFilter(seg)}
+            >
+              {seg}
+            </button>
+          ))}
+        </div>
         <button className="btn btn-primary" onClick={openCreateModal}>
           <Plus size={18} />
           <span>New Service</span>
@@ -235,6 +314,7 @@ export default function ServicesManager() {
               <tr>
                 <th className="admin-th" style={{ width: '80px' }}>Order</th>
                 <th className="admin-th">Title</th>
+                <th className="admin-th" style={{ width: '120px' }}>Segment</th>
                 <th className="admin-th">Category</th>
                 <th className="admin-th">Icon</th>
                 <th className="admin-th">Status</th>
@@ -244,13 +324,13 @@ export default function ServicesManager() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="admin-td" style={{ textAlign: 'center', padding: '3rem' }}>
+                  <td colSpan="7" className="admin-td" style={{ textAlign: 'center', padding: '3rem' }}>
                     <div className="admin-loading-spinner" style={{ margin: '0 auto 1rem', width: '32px', height: '32px' }}></div>
                     <span>Refreshing service registry...</span>
                   </td>
                 </tr>
-              ) : services.length > 0 ? (
-                services.map((service) => (
+              ) : filteredServices.length > 0 ? (
+                filteredServices.map((service) => (
                   <tr key={service._id}>
                     <td className="admin-td" style={{ fontWeight: 700 }}>{service.order}</td>
                     <td className="admin-td">
@@ -262,6 +342,19 @@ export default function ServicesManager() {
                         />
                         <span style={{ fontWeight: 600, color: 'var(--color-primary-dark)' }}>{service.title}</span>
                       </div>
+                    </td>
+                    <td className="admin-td">
+                      <span 
+                        style={
+                          service.segment === 'civil' 
+                            ? { backgroundColor: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : service.segment === 'web'
+                            ? { backgroundColor: 'rgba(168, 85, 247, 0.1)', color: '#a855f7', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : { backgroundColor: 'rgba(234, 179, 8, 0.1)', color: '#eab308', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                        }
+                      >
+                        {service.segment}
+                      </span>
                     </td>
                     <td className="admin-td" style={{ textTransform: 'capitalize' }}>{service.category?.replace('-', ' ')}</td>
                     <td className="admin-td" style={{ fontFamily: 'monospace' }}>{service.icon}</td>
@@ -348,6 +441,21 @@ export default function ServicesManager() {
 
               <div className="form-grid-2">
                 <div className="admin-form-group">
+                  <label htmlFor="service-segment" className="admin-form-label">Business Segment *</label>
+                  <select
+                    id="service-segment"
+                    className="admin-form-control"
+                    value={segment}
+                    onChange={(e) => handleSegmentChange(e.target.value)}
+                    disabled={submitting}
+                  >
+                    <option value="civil">Civil & Waterproofing</option>
+                    <option value="web">Software & Web Solutions</option>
+                    <option value="finance">Financial Services</option>
+                  </select>
+                </div>
+
+                <div className="admin-form-group">
                   <label htmlFor="service-cat" className="admin-form-label">Category *</label>
                   <select
                     id="service-cat"
@@ -356,46 +464,219 @@ export default function ServicesManager() {
                     onChange={(e) => setCategory(e.target.value)}
                     disabled={submitting}
                   >
-                    <option value="terrace">Terrace Waterproofing</option>
-                    <option value="basement">Basement Seeping</option>
-                    <option value="bathroom">Bathroom Sealing</option>
-                    <option value="tank">Water Tank Repair</option>
-                    <option value="facade">Exterior Wall Facade</option>
-                    <option value="injection-grouting">Pressure Injection Grouting</option>
+                    {segment === 'civil' && (
+                      <>
+                        <option value="terrace">Terrace Waterproofing</option>
+                        <option value="basement">Basement Seeping</option>
+                        <option value="bathroom">Bathroom Sealing</option>
+                        <option value="tank">Water Tank Repair</option>
+                        <option value="facade">Exterior Wall Facade</option>
+                        <option value="injection-grouting">Pressure Injection Grouting</option>
+                        <option value="flooring">Flooring Systems</option>
+                        <option value="landscaping">Landscaping</option>
+                        <option value="painting">Painting</option>
+                        <option value="repairs">Structural & Civil Repairs</option>
+                        <option value="rehabilitation">Rehabilitation & Restoration</option>
+                        <option value="inspection">Technical Inspection</option>
+                        <option value="quality-assurance">Quality Assurance</option>
+                        <option value="boq-estimation">BOQ & Cost Estimation</option>
+                        <option value="supervision">Project & Application Supervision</option>
+                      </>
+                    )}
+                    {segment === 'web' && (
+                      <>
+                        <option value="e-commerce">E-Commerce Solutions</option>
+                        <option value="corporate-site">Corporate Site</option>
+                        <option value="web-app">Web App</option>
+                        <option value="seo-maintenance">SEO & Maintenance</option>
+                        <option value="custom-development">Custom Development</option>
+                        <option value="website-development">Website Development</option>
+                        <option value="business-portals">Business Portals</option>
+                        <option value="ecommerce-solutions">E-Commerce Solutions Custom</option>
+                        <option value="mobile-apps">Mobile Apps</option>
+                        <option value="digital-branding">Digital Branding</option>
+                        <option value="digital-marketing">Digital Marketing</option>
+                        <option value="crm-automation">CRM & Business Automation</option>
+                        <option value="online-solutions">Online Solutions</option>
+                      </>
+                    )}
+                    {segment === 'finance' && (
+                      <>
+                        <option value="business-loan">Business Loan</option>
+                        <option value="personal-loan">Personal Loan</option>
+                        <option value="investment-advisory">Investment Advisory</option>
+                        <option value="tax-consultancy">Tax Consultancy</option>
+                        <option value="working-capital">Working Capital</option>
+                        <option value="investment-planning">Investment Planning</option>
+                        <option value="insurance-solutions">Insurance Solutions</option>
+                        <option value="loan-assistance">Loan Assistance</option>
+                        <option value="nri-corner">NRI Corner</option>
+                        <option value="behavioural-profiling">Behavioural Profiling</option>
+                        <option value="risk-profiling">Risk Profiling</option>
+                        <option value="financial-planning">Financial Planning</option>
+                        <option value="wealth-guidance">Wealth Guidance</option>
+                      </>
+                    )}
                   </select>
                 </div>
+              </div>
 
-                <div className="form-grid-2">
-                  <div className="admin-form-group">
-                    <label htmlFor="service-icon" className="admin-form-label">Lucide Icon *</label>
-                    <select
-                      id="service-icon"
-                      className="admin-form-control"
-                      value={icon}
-                      onChange={(e) => setIcon(e.target.value)}
-                      disabled={submitting}
-                    >
-                      <option value="droplet">Droplet (Water)</option>
-                      <option value="shield">Shield (Protection)</option>
-                      <option value="bath">Bath (Bathroom)</option>
-                      <option value="home">Home (Basement)</option>
-                      <option value="check">Check (Audit)</option>
-                    </select>
-                  </div>
-                  <div className="admin-form-group">
-                    <label htmlFor="service-order" className="admin-form-label">Listing Order *</label>
+              <div className="form-grid-2">
+                <div className="admin-form-group">
+                  <label htmlFor="service-icon" className="admin-form-label">Lucide Icon *</label>
+                  <select
+                    id="service-icon"
+                    className="admin-form-control"
+                    value={icon}
+                    onChange={(e) => setIcon(e.target.value)}
+                    disabled={submitting}
+                  >
+                    <option value="droplet">Droplet (Water)</option>
+                    <option value="shield">Shield (Protection)</option>
+                    <option value="bath">Bath (Bathroom)</option>
+                    <option value="home">Home (Basement)</option>
+                    <option value="check">Check (Audit)</option>
+                    <option value="code">Code (Software)</option>
+                    <option value="trending-up">Trending Up (Finance)</option>
+                    <option value="credit-card">Credit Card (Loans)</option>
+                    <option value="cpu">CPU (Tech)</option>
+                  </select>
+                </div>
+                <div className="admin-form-group">
+                  <label htmlFor="service-order" className="admin-form-label">Listing Order *</label>
+                  <input
+                    type="number"
+                    id="service-order"
+                    className="admin-form-control"
+                    value={order}
+                    onChange={(e) => setOrder(e.target.value)}
+                    disabled={submitting}
+                    min="1"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Segment specific input fields rendering */}
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '4px', marginBottom: '1.5rem', border: '1px dashed var(--color-gray-border)' }}>
+                <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-primary-dark)', fontSize: '0.9rem', textTransform: 'uppercase' }}>
+                  {segment} Segment Specific Details
+                </h4>
+
+                {segment === 'civil' && (
+                  <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                    <label htmlFor="service-warranty" className="admin-form-label">Warranty Years</label>
                     <input
                       type="number"
-                      id="service-order"
+                      id="service-warranty"
                       className="admin-form-control"
-                      value={order}
-                      onChange={(e) => setOrder(e.target.value)}
+                      value={warrantyYears}
+                      onChange={(e) => setWarrantyYears(e.target.value)}
                       disabled={submitting}
-                      min="1"
-                      required
+                      min="0"
                     />
                   </div>
-                </div>
+                )}
+
+                {segment === 'web' && (
+                  <>
+                    <div className="form-grid-2">
+                      <div className="admin-form-group">
+                        <label htmlFor="service-tech" className="admin-form-label">Tech Stack (comma separated)</label>
+                        <input
+                          type="text"
+                          id="service-tech"
+                          className="admin-form-control"
+                          placeholder="e.g. React, Node.js, Express"
+                          value={techStack}
+                          onChange={(e) => setTechStack(e.target.value)}
+                          disabled={submitting}
+                        />
+                      </div>
+                      <div className="admin-form-group">
+                        <label htmlFor="service-timeline" className="admin-form-label">Project Timeline</label>
+                        <input
+                          type="text"
+                          id="service-timeline"
+                          className="admin-form-control"
+                          placeholder="e.g. 4-6 weeks"
+                          value={projectTimeline}
+                          onChange={(e) => setProjectTimeline(e.target.value)}
+                          disabled={submitting}
+                        />
+                      </div>
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label htmlFor="service-price" className="admin-form-label">Pricing Model *</label>
+                      <select
+                        id="service-price"
+                        className="admin-form-control"
+                        value={pricingModel}
+                        onChange={(e) => setPricingModel(e.target.value)}
+                        disabled={submitting}
+                      >
+                        <option value="fixed">Fixed Price</option>
+                        <option value="hourly">Hourly Billing</option>
+                        <option value="retainer">Retainer Model</option>
+                      </select>
+                    </div>
+                  </>
+                )}
+
+                {segment === 'finance' && (
+                  <>
+                    <div className="form-grid-2">
+                      <div className="admin-form-group">
+                        <label htmlFor="loan-min" className="admin-form-label">Min Loan Amount (in INR)</label>
+                        <input
+                          type="number"
+                          id="loan-min"
+                          className="admin-form-control"
+                          placeholder="e.g. 500000"
+                          value={loanRangeMin}
+                          onChange={(e) => setLoanRangeMin(e.target.value)}
+                          disabled={submitting}
+                        />
+                      </div>
+                      <div className="admin-form-group">
+                        <label htmlFor="loan-max" className="admin-form-label">Max Loan Amount (in INR)</label>
+                        <input
+                          type="number"
+                          id="loan-max"
+                          className="admin-form-control"
+                          placeholder="e.g. 50000000"
+                          value={loanRangeMax}
+                          onChange={(e) => setLoanRangeMax(e.target.value)}
+                          disabled={submitting}
+                        />
+                      </div>
+                    </div>
+                    <div className="admin-form-group">
+                      <label htmlFor="interest-rate" className="admin-form-label">Interest Rate Info</label>
+                      <input
+                        type="text"
+                        id="interest-rate"
+                        className="admin-form-control"
+                        placeholder="e.g. 8.5% - 12% p.a."
+                        value={interestRateInfo}
+                        onChange={(e) => setInterestRateInfo(e.target.value)}
+                        disabled={submitting}
+                      />
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label htmlFor="eligibility-notes" className="admin-form-label">Eligibility Notes</label>
+                      <textarea
+                        id="eligibility-notes"
+                        className="admin-form-control"
+                        style={{ minHeight: '60px', resize: 'vertical', marginBottom: 0 }}
+                        placeholder="e.g. High CIBIL score required..."
+                        value={eligibilityNotes}
+                        onChange={(e) => setEligibilityNotes(e.target.value)}
+                        disabled={submitting}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="admin-form-group">

@@ -12,6 +12,7 @@ export default function ProjectsManager() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [segmentFilter, setSegmentFilter] = useState('all');
 
   // Form Modal States
   const [isOpen, setIsOpen] = useState(false);
@@ -20,15 +21,28 @@ export default function ProjectsManager() {
   // Form Fields State
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
+  const [segment, setSegment] = useState('civil');
+  const [serviceCategory, setServiceCategory] = useState('waterproofing');
   const [description, setDescription] = useState('');
+  const [completionDate, setCompletionDate] = useState('');
+  const [isFeatured, setIsFeatured] = useState(false);
+
+  // Civil specific fields
   const [location, setLocation] = useState('');
   const [clientType, setClientType] = useState('residential');
-  const [serviceCategory, setServiceCategory] = useState('terrace');
   const [beforeImages, setBeforeImages] = useState([]);
   const [afterImages, setAfterImages] = useState([]);
   const [sqftTreated, setSqftTreated] = useState('');
-  const [completionDate, setCompletionDate] = useState('');
-  const [isFeatured, setIsFeatured] = useState(false);
+
+  // Web specific fields
+  const [techStack, setTechStack] = useState('');
+  const [liveUrl, setLiveUrl] = useState('');
+
+  // Finance specific fields
+  const [outcomeMetric, setOutcomeMetric] = useState('');
+  const [clientIndustry, setClientIndustry] = useState('');
+
+  const [coverImage, setCoverImage] = useState('');
 
   // Delete Confirm States
   const [deleteId, setDeleteId] = useState(null);
@@ -62,6 +76,17 @@ export default function ProjectsManager() {
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-');
       setSlug(generated);
+    }
+  };
+
+  const handleSegmentChange = (selectedSegment) => {
+    setSegment(selectedSegment);
+    if (selectedSegment === 'civil') {
+      setServiceCategory('waterproofing');
+    } else if (selectedSegment === 'web') {
+      setServiceCategory('e-commerce');
+    } else if (selectedSegment === 'finance') {
+      setServiceCategory('working-capital');
     }
   };
 
@@ -108,48 +133,81 @@ export default function ProjectsManager() {
     }
   };
 
+  const handleCoverUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      addToast('Cover image size must be less than 5MB.', 'error');
+      return;
+    }
+    const url = await uploadImage(file);
+    if (url) {
+      setCoverImage(url);
+      addToast('Cover image uploaded.', 'success');
+    }
+  };
+
   const openCreateModal = () => {
     setEditId(null);
     setTitle('');
     setSlug('');
+    setSegment('civil');
+    setServiceCategory('waterproofing');
     setDescription('');
+    setCompletionDate('');
+    setIsFeatured(false);
+    setCoverImage('');
+
+    // Reset Civil fields
     setLocation('');
     setClientType('residential');
-    setServiceCategory('terrace');
     setBeforeImages([]);
     setAfterImages([]);
     setSqftTreated('');
-    setCompletionDate('');
-    setIsFeatured(false);
+
+    // Reset Web fields
+    setTechStack('');
+    setLiveUrl('');
+
+    // Reset Finance fields
+    setOutcomeMetric('');
+    setClientIndustry('');
+
     setIsOpen(true);
   };
 
   const openEditModal = (project) => {
     setEditId(project._id);
     setTitle(project.title);
-    // Projects API may not have slug or completionDate fields if schema differed, fallback safely
-    setSlug(project.slug || project.title.toLowerCase().replace(/\s+/g, '-'));
+    setSlug(project.slug);
+    setSegment(project.segment || 'civil');
+    setServiceCategory(project.serviceCategory || 'waterproofing');
     setDescription(project.description);
-    setLocation(project.location);
+    setCompletionDate(project.completionDate ? new Date(project.completionDate).toISOString().split('T')[0] : '');
+    setIsFeatured(project.isFeatured === true);
+    setCoverImage(project.coverImage || '');
+
+    // Set Civil fields
+    setLocation(project.location || '');
     setClientType(project.clientType || 'residential');
-    setServiceCategory(project.serviceCategory || 'terrace');
     setBeforeImages(project.beforeImages || []);
     setAfterImages(project.afterImages || []);
     setSqftTreated(project.sqftTreated || '');
-    
-    // Format date string for standard date inputs: YYYY-MM-DD
-    const dateStr = project.completionDate
-      ? new Date(project.completionDate).toISOString().split('T')[0]
-      : '';
-    setCompletionDate(dateStr);
-    
-    setIsFeatured(project.isFeatured !== false);
+
+    // Set Web fields
+    setTechStack(project.techStack?.join(', ') || '');
+    setLiveUrl(project.liveUrl || '');
+
+    // Set Finance fields
+    setOutcomeMetric(project.outcomeMetric || '');
+    setClientIndustry(project.clientIndustry || '');
+
     setIsOpen(true);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !slug || !description || !location || !sqftTreated || !completionDate) {
+    if (!title || !slug || !description || !completionDate) {
       addToast('Please fill out all required fields.', 'error');
       return;
     }
@@ -159,16 +217,28 @@ export default function ProjectsManager() {
       const payload = {
         title,
         slug,
+        segment,
         description,
-        location,
-        clientType,
         serviceCategory,
-        beforeImages,
-        afterImages,
-        sqftTreated: Number(sqftTreated),
         completionDate: new Date(completionDate).toISOString(),
         isFeatured,
+        coverImage: coverImage || (afterImages.length > 0 ? afterImages[0] : ''),
       };
+
+      // Add segment specific attributes
+      if (segment === 'civil') {
+        payload.location = location;
+        payload.clientType = clientType;
+        payload.sqftTreated = sqftTreated ? Number(sqftTreated) : 0;
+        payload.beforeImages = beforeImages;
+        payload.afterImages = afterImages;
+      } else if (segment === 'web') {
+        payload.techStack = techStack ? techStack.split(',').map((s) => s.trim()).filter(Boolean) : [];
+        payload.liveUrl = liveUrl || '';
+      } else if (segment === 'finance') {
+        payload.outcomeMetric = outcomeMetric || '';
+        payload.clientIndustry = clientIndustry || '';
+      }
 
       let res;
       if (editId) {
@@ -189,7 +259,7 @@ export default function ProjectsManager() {
         fetchProjects();
       }
     } catch (err) {
-      addToast(err.message || 'Operation failed. Verify input syntax.', 'error');
+      addToast(err.message || 'Operation failed. Verify input fields.', 'error');
     } finally {
       setSubmitting(false);
     }
@@ -210,9 +280,26 @@ export default function ProjectsManager() {
     }
   };
 
+  const filteredProjects = segmentFilter === 'all'
+    ? projects
+    : projects.filter((p) => p.segment === segmentFilter);
+
   return (
     <div className="projects-manager-wrapper">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {['all', 'civil', 'web', 'finance'].map((seg) => (
+            <button
+              key={seg}
+              type="button"
+              className={`btn btn-sm ${segmentFilter === seg ? 'btn-primary' : 'btn-outline'}`}
+              style={{ textTransform: 'capitalize', minWidth: '80px' }}
+              onClick={() => setSegmentFilter(seg)}
+            >
+              {seg}
+            </button>
+          ))}
+        </div>
         <button className="btn btn-primary" onClick={openCreateModal}>
           <Plus size={18} />
           <span>New Project</span>
@@ -226,30 +313,29 @@ export default function ProjectsManager() {
             <thead>
               <tr>
                 <th className="admin-th">Title</th>
-                <th className="admin-th">Location</th>
-                <th className="admin-th">Client Type</th>
-                <th className="admin-th">Service Area</th>
-                <th className="admin-th">Area (Sqft)</th>
-                <th className="admin-th">Featured</th>
+                <th className="admin-th" style={{ width: '120px' }}>Segment</th>
+                <th className="admin-th">Category</th>
+                <th className="admin-th">Segment Details</th>
+                <th className="admin-th" style={{ width: '110px' }}>Featured</th>
                 <th className="admin-th" style={{ width: '120px' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="7" className="admin-td" style={{ textAlign: 'center', padding: '3rem' }}>
+                  <td colSpan="6" className="admin-td" style={{ textAlign: 'center', padding: '3rem' }}>
                     <div className="admin-loading-spinner" style={{ margin: '0 auto 1rem', width: '32px', height: '32px' }}></div>
                     <span>Refreshing portfolio records...</span>
                   </td>
                 </tr>
-              ) : projects.length > 0 ? (
-                projects.map((project) => (
+              ) : filteredProjects.length > 0 ? (
+                filteredProjects.map((project) => (
                   <tr key={project._id}>
                     <td className="admin-td">
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        {project.afterImages?.[0] ? (
+                        {project.coverImage || project.afterImages?.[0] ? (
                           <img
-                            src={project.afterImages[0]}
+                            src={project.coverImage || project.afterImages[0]}
                             alt=""
                             style={{ width: '40px', height: '30px', objectFit: 'cover', borderRadius: '2px', border: '1px solid var(--color-gray-border)' }}
                           />
@@ -259,10 +345,31 @@ export default function ProjectsManager() {
                         <span style={{ fontWeight: 600, color: 'var(--color-primary-dark)' }}>{project.title}</span>
                       </div>
                     </td>
-                    <td className="admin-td">{project.location}</td>
-                    <td className="admin-td" style={{ textTransform: 'capitalize' }}>{project.clientType}</td>
+                    <td className="admin-td">
+                      <span 
+                        style={
+                          project.segment === 'civil' 
+                            ? { backgroundColor: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : project.segment === 'web'
+                            ? { backgroundColor: 'rgba(168, 85, 247, 0.1)', color: '#a855f7', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : { backgroundColor: 'rgba(234, 179, 8, 0.1)', color: '#eab308', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                        }
+                      >
+                        {project.segment}
+                      </span>
+                    </td>
                     <td className="admin-td" style={{ textTransform: 'capitalize' }}>{project.serviceCategory?.replace('-', ' ')}</td>
-                    <td className="admin-td" style={{ fontFamily: 'monospace' }}>{project.sqftTreated}</td>
+                    <td className="admin-td" style={{ fontSize: '0.85rem' }}>
+                      {project.segment === 'civil' && (
+                        <span>📍 {project.location || 'N/A'} ({project.clientType || 'N/A'})</span>
+                      )}
+                      {project.segment === 'web' && (
+                        <span>💻 {project.techStack?.join(', ') || 'N/A'}</span>
+                      )}
+                      {project.segment === 'finance' && (
+                        <span>🎯 {project.clientIndustry || 'N/A'}</span>
+                      )}
+                    </td>
                     <td className="admin-td">
                       <span className={`badge-status ${project.isFeatured ? 'converted' : 'neutral'}`}>
                         {project.isFeatured ? 'Featured' : 'Standard'}
@@ -346,38 +453,22 @@ export default function ProjectsManager() {
 
               <div className="form-grid-2">
                 <div className="admin-form-group">
-                  <label htmlFor="proj-loc" className="admin-form-label">Location (Area, City) *</label>
-                  <input
-                    type="text"
-                    id="proj-loc"
-                    className="admin-form-control"
-                    placeholder="e.g. Kothrud, Pune"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    disabled={submitting}
-                    required
-                  />
-                </div>
-
-                <div className="admin-form-group">
-                  <label htmlFor="proj-client" className="admin-form-label">Client Type *</label>
+                  <label htmlFor="proj-segment" className="admin-form-label">Business Segment *</label>
                   <select
-                    id="proj-client"
+                    id="proj-segment"
                     className="admin-form-control"
-                    value={clientType}
-                    onChange={(e) => setClientType(e.target.value)}
+                    value={segment}
+                    onChange={(e) => handleSegmentChange(e.target.value)}
                     disabled={submitting}
                   >
-                    <option value="residential">Residential</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="industrial">Industrial</option>
+                    <option value="civil">Civil & Waterproofing</option>
+                    <option value="web">Software & Web Solutions</option>
+                    <option value="finance">Financial Services</option>
                   </select>
                 </div>
-              </div>
 
-              <div className="form-grid-2">
                 <div className="admin-form-group">
-                  <label htmlFor="proj-service" className="admin-form-label">Waterproofing Area Category *</label>
+                  <label htmlFor="proj-service" className="admin-form-label">Category *</label>
                   <select
                     id="proj-service"
                     className="admin-form-control"
@@ -385,42 +476,169 @@ export default function ProjectsManager() {
                     onChange={(e) => setServiceCategory(e.target.value)}
                     disabled={submitting}
                   >
-                    <option value="terrace">Terrace Sealing</option>
-                    <option value="basement">Basement Grouting</option>
-                    <option value="bathroom">Bathroom Sealing</option>
-                    <option value="tank">Water Tank Lining</option>
-                    <option value="facade">Exterior Wall Facade</option>
-                    <option value="injection-grouting">Injection Grouting</option>
+                    {segment === 'civil' && (
+                      <>
+                        <option value="waterproofing">Waterproofing</option>
+                        <option value="flooring">Flooring Systems</option>
+                        <option value="landscaping">Landscaping</option>
+                        <option value="painting">Painting</option>
+                        <option value="repairs">Structural & Civil Repairs</option>
+                        <option value="rehabilitation">Rehabilitation & Restoration</option>
+                        <option value="inspection">Technical Inspection</option>
+                        <option value="quality-assurance">Quality Assurance</option>
+                        <option value="boq-estimation">BOQ & Cost Estimation</option>
+                        <option value="supervision">Project & Application Supervision</option>
+                      </>
+                    )}
+                    {segment === 'web' && (
+                      <>
+                        <option value="e-commerce">E-Commerce Solutions</option>
+                        <option value="corporate-site">Corporate Site</option>
+                        <option value="web-app">Web App</option>
+                        <option value="seo-maintenance">SEO & Maintenance</option>
+                        <option value="custom-development">Custom Development</option>
+                      </>
+                    )}
+                    {segment === 'finance' && (
+                      <>
+                        <option value="business-loan">Business Loan</option>
+                        <option value="personal-loan">Personal Loan</option>
+                        <option value="investment-advisory">Investment Advisory</option>
+                        <option value="tax-consultancy">Tax Consultancy</option>
+                        <option value="working-capital">Working Capital</option>
+                      </>
+                    )}
                   </select>
                 </div>
+              </div>
 
-                <div className="form-grid-2">
-                  <div className="admin-form-group">
-                    <label htmlFor="proj-sqft" className="admin-form-label">Area Treated (Sqft) *</label>
-                    <input
-                      type="number"
-                      id="proj-sqft"
-                      className="admin-form-control"
-                      value={sqftTreated}
-                      onChange={(e) => setSqftTreated(e.target.value)}
-                      disabled={submitting}
-                      min="0"
-                      required
-                    />
-                  </div>
-                  <div className="admin-form-group">
-                    <label htmlFor="proj-date" className="admin-form-label">Completion Date *</label>
-                    <input
-                      type="date"
-                      id="proj-date"
-                      className="admin-form-control"
-                      value={completionDate}
-                      onChange={(e) => setCompletionDate(e.target.value)}
-                      disabled={submitting}
-                      required
-                    />
-                  </div>
+              <div className="form-grid-2">
+                <div className="admin-form-group">
+                  <label htmlFor="proj-date" className="admin-form-label">Completion Date *</label>
+                  <input
+                    type="date"
+                    id="proj-date"
+                    className="admin-form-control"
+                    value={completionDate}
+                    onChange={(e) => setCompletionDate(e.target.value)}
+                    disabled={submitting}
+                    required
+                  />
                 </div>
+              </div>
+
+              {/* Segment-Specific Input Fields */}
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '4px', marginBottom: '1.5rem', border: '1px dashed var(--color-gray-border)' }}>
+                <h4 style={{ margin: '0 0 1rem 0', color: 'var(--color-primary-dark)', fontSize: '0.9rem', textTransform: 'uppercase' }}>
+                  {segment} Project Details
+                </h4>
+
+                {segment === 'civil' && (
+                  <>
+                    <div className="form-grid-2">
+                      <div className="admin-form-group">
+                        <label htmlFor="proj-loc" className="admin-form-label">Location (Area, City) *</label>
+                        <input
+                          type="text"
+                          id="proj-loc"
+                          className="admin-form-control"
+                          placeholder="e.g. Kothrud, Pune"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          disabled={submitting}
+                          required={segment === 'civil'}
+                        />
+                      </div>
+                      <div className="admin-form-group">
+                        <label htmlFor="proj-client" className="admin-form-label">Client Type *</label>
+                        <select
+                          id="proj-client"
+                          className="admin-form-control"
+                          value={clientType}
+                          onChange={(e) => setClientType(e.target.value)}
+                          disabled={submitting}
+                        >
+                          <option value="residential">Residential</option>
+                          <option value="commercial">Commercial</option>
+                          <option value="industrial">Industrial</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label htmlFor="proj-sqft" className="admin-form-label">Area Treated (Sqft) *</label>
+                      <input
+                        type="number"
+                        id="proj-sqft"
+                        className="admin-form-control"
+                        value={sqftTreated}
+                        onChange={(e) => setSqftTreated(e.target.value)}
+                        disabled={submitting}
+                        min="0"
+                        required={segment === 'civil'}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {segment === 'web' && (
+                  <>
+                    <div className="admin-form-group">
+                      <label htmlFor="proj-tech" className="admin-form-label">Tech Stack (comma separated)</label>
+                      <input
+                        type="text"
+                        id="proj-tech"
+                        className="admin-form-control"
+                        placeholder="e.g. React, Node.js, Express"
+                        value={techStack}
+                        onChange={(e) => setTechStack(e.target.value)}
+                        disabled={submitting}
+                      />
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label htmlFor="proj-live" className="admin-form-label">Live Site URL</label>
+                      <input
+                        type="url"
+                        id="proj-live"
+                        className="admin-form-control"
+                        placeholder="https://my-live-project.com"
+                        value={liveUrl}
+                        onChange={(e) => setLiveUrl(e.target.value)}
+                        disabled={submitting}
+                      />
+                    </div>
+                  </>
+                )}
+
+                {segment === 'finance' && (
+                  <>
+                    <div className="admin-form-group">
+                      <label htmlFor="proj-outcome" className="admin-form-label">Outcome Metric / Highlight *</label>
+                      <input
+                        type="text"
+                        id="proj-outcome"
+                        className="admin-form-control"
+                        placeholder="e.g. Saved INR 24 Lakhs annually in interest charges"
+                        value={outcomeMetric}
+                        onChange={(e) => setOutcomeMetric(e.target.value)}
+                        disabled={submitting}
+                        required={segment === 'finance'}
+                      />
+                    </div>
+                    <div className="admin-form-group" style={{ marginBottom: 0 }}>
+                      <label htmlFor="proj-industry" className="admin-form-label">Client Industry *</label>
+                      <input
+                        type="text"
+                        id="proj-industry"
+                        className="admin-form-control"
+                        placeholder="e.g. Automotive Components Manufacturing"
+                        value={clientIndustry}
+                        onChange={(e) => setClientIndustry(e.target.value)}
+                        disabled={submitting}
+                        required={segment === 'finance'}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               <div className="admin-form-group">
@@ -437,65 +655,102 @@ export default function ProjectsManager() {
                 />
               </div>
 
-              {/* Before Images Row */}
-              <div className="admin-form-group" style={{ borderTop: '1px solid var(--color-gray-border)', paddingTop: '1.25rem' }}>
-                <label className="admin-form-label">Before Images (Audits & Dampness Sites)</label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <label className="image-upload-zone" style={{ padding: '1rem' }}>
-                    <input type="file" accept="image/*" onChange={handleBeforeUpload} style={{ display: 'none' }} />
-                    <div className="image-upload-prompt" style={{ flexDirection: 'row', gap: '0.5rem' }}>
-                      <Upload size={16} />
-                      <span>Select an image to add to Before gallery</span>
-                    </div>
-                  </label>
-                  {beforeImages.length > 0 && (
-                    <div className="image-preview-grid">
-                      {beforeImages.map((url, idx) => (
-                        <div key={idx} className="image-preview-wrapper" style={{ aspectRatio: '16/10' }}>
-                          <img src={url} alt="" className="image-preview-img" />
-                          <button
-                            type="button"
-                            className="image-preview-delete"
-                            onClick={() => setBeforeImages((prev) => prev.filter((_, i) => i !== idx))}
-                          >
-                            &times;
-                          </button>
+              {/* Cover Image Upload Row (Web and Finance) */}
+              {segment !== 'civil' && (
+                <div className="admin-form-group" style={{ borderTop: '1px solid var(--color-gray-border)', paddingTop: '1.25rem' }}>
+                  <label className="admin-form-label">Cover Image *</label>
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    {coverImage ? (
+                      <div style={{ position: 'relative', width: '150px', height: '100px', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--color-gray-border)' }}>
+                        <img src={coverImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <button
+                          type="button"
+                          className="image-preview-delete"
+                          onClick={() => setCoverImage('')}
+                          style={{ top: '0.25rem', right: '0.25rem' }}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="image-upload-zone" style={{ width: '150px', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0 }}>
+                        <input type="file" accept="image/*" onChange={handleCoverUpload} style={{ display: 'none' }} />
+                        <div className="image-upload-prompt" style={{ fontSize: '0.75rem' }}>
+                          <Upload size={16} />
+                          <span>Upload cover</span>
                         </div>
-                      ))}
+                      </label>
+                    )}
+                    <div style={{ fontSize: '0.8rem', color: 'var(--color-gray-text)' }}>
+                      Recommended size: 800x500. Formats: JPEG, PNG, WEBP. Limit: 5MB.
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* After Images Row */}
-              <div className="admin-form-group" style={{ borderTop: '1px solid var(--color-gray-border)', paddingTop: '1.25rem' }}>
-                <label className="admin-form-label">After Images (Finished Membranes & Sealed Coatings)</label>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <label className="image-upload-zone" style={{ padding: '1rem' }}>
-                    <input type="file" accept="image/*" onChange={handleAfterUpload} style={{ display: 'none' }} />
-                    <div className="image-upload-prompt" style={{ flexDirection: 'row', gap: '0.5rem' }}>
-                      <Upload size={16} />
-                      <span>Select an image to add to After gallery</span>
-                    </div>
-                  </label>
-                  {afterImages.length > 0 && (
-                    <div className="image-preview-grid">
-                      {afterImages.map((url, idx) => (
-                        <div key={idx} className="image-preview-wrapper" style={{ aspectRatio: '16/10' }}>
-                          <img src={url} alt="" className="image-preview-img" />
-                          <button
-                            type="button"
-                            className="image-preview-delete"
-                            onClick={() => setAfterImages((prev) => prev.filter((_, i) => i !== idx))}
-                          >
-                            &times;
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+              {/* Before Images Row (Civil only) */}
+              {segment === 'civil' && (
+                <div className="admin-form-group" style={{ borderTop: '1px solid var(--color-gray-border)', paddingTop: '1.25rem' }}>
+                  <label className="admin-form-label">Before Images (Audits & Dampness Sites)</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <label className="image-upload-zone" style={{ padding: '1rem' }}>
+                      <input type="file" accept="image/*" onChange={handleBeforeUpload} style={{ display: 'none' }} />
+                      <div className="image-upload-prompt" style={{ flexDirection: 'row', gap: '0.5rem' }}>
+                        <Upload size={16} />
+                        <span>Select an image to add to Before gallery</span>
+                      </div>
+                    </label>
+                    {beforeImages.length > 0 && (
+                      <div className="image-preview-grid">
+                        {beforeImages.map((url, idx) => (
+                          <div key={idx} className="image-preview-wrapper" style={{ aspectRatio: '16/10' }}>
+                            <img src={url} alt="" className="image-preview-img" />
+                            <button
+                              type="button"
+                              className="image-preview-delete"
+                              onClick={() => setBeforeImages((prev) => prev.filter((_, i) => i !== idx))}
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* After Images Row (Civil only) */}
+              {segment === 'civil' && (
+                <div className="admin-form-group" style={{ borderTop: '1px solid var(--color-gray-border)', paddingTop: '1.25rem' }}>
+                  <label className="admin-form-label">After Images (Finished Membranes & Sealed Coatings)</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <label className="image-upload-zone" style={{ padding: '1rem' }}>
+                      <input type="file" accept="image/*" onChange={handleAfterUpload} style={{ display: 'none' }} />
+                      <div className="image-upload-prompt" style={{ flexDirection: 'row', gap: '0.5rem' }}>
+                        <Upload size={16} />
+                        <span>Select an image to add to After gallery</span>
+                      </div>
+                    </label>
+                    {afterImages.length > 0 && (
+                      <div className="image-preview-grid">
+                        {afterImages.map((url, idx) => (
+                          <div key={idx} className="image-preview-wrapper" style={{ aspectRatio: '16/10' }}>
+                            <img src={url} alt="" className="image-preview-img" />
+                            <button
+                              type="button"
+                              className="image-preview-delete"
+                              onClick={() => setAfterImages((prev) => prev.filter((_, i) => i !== idx))}
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="admin-form-group">
                 <label className="checkbox-label-wrapper">

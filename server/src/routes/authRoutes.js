@@ -1,8 +1,9 @@
 import express from 'express';
 import { body } from 'express-validator';
-import { login, refresh, logout } from '../controllers/authController.js';
+import { login, refresh, logout, changePassword } from '../controllers/authController.js';
 import { loginLimiter } from '../middleware/rateLimiter.js';
 import { validate } from '../middleware/validationMiddleware.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -40,5 +41,25 @@ router.post('/refresh', refresh);
  * @access  Public
  */
 router.post('/logout', logout);
+
+/**
+ * @route   PATCH /api/auth/change-password
+ * @desc    Change password for the authenticated user
+ * @access  Private
+ */
+router.patch(
+  '/change-password',
+  protect,
+  [
+    body('currentPassword')
+      .notEmpty()
+      .withMessage('Current password is required.'),
+    body('newPassword')
+      .isLength({ min: 6 })
+      .withMessage('New password must be at least 6 characters long.'),
+  ],
+  validate,
+  changePassword
+);
 
 export default router;

@@ -13,6 +13,7 @@ export default function BlogManager() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [segmentFilter, setSegmentFilter] = useState('all');
 
   // Form Modal States
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function BlogManager() {
   // Fields State
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
+  const [segment, setSegment] = useState('civil');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const [tagsInput, setTagsInput] = useState(''); // comma-separated input string
@@ -99,6 +101,7 @@ export default function BlogManager() {
     setEditId(null);
     setTitle('');
     setSlug('');
+    setSegment('civil');
     setContent('');
     setCoverImage('');
     setTagsInput('');
@@ -112,6 +115,7 @@ export default function BlogManager() {
     setEditId(post._id);
     setTitle(post.title);
     setSlug(post.slug);
+    setSegment(post.segment || 'civil');
     setContent(post.content);
     setCoverImage(post.coverImage);
     setTagsInput(post.tags?.join(', ') || '');
@@ -139,6 +143,7 @@ export default function BlogManager() {
       const payload = {
         title,
         slug,
+        segment,
         content,
         coverImage,
         tags,
@@ -187,9 +192,26 @@ export default function BlogManager() {
     }
   };
 
+  const filteredBlogs = segmentFilter === 'all'
+    ? blogs
+    : blogs.filter((b) => b.segment === segmentFilter);
+
   return (
     <div className="blog-manager-wrapper">
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {['all', 'civil', 'web', 'finance', 'general'].map((seg) => (
+            <button
+              key={seg}
+              type="button"
+              className={`btn btn-sm ${segmentFilter === seg ? 'btn-primary' : 'btn-outline'}`}
+              style={{ textTransform: 'capitalize', minWidth: '80px' }}
+              onClick={() => setSegmentFilter(seg)}
+            >
+              {seg}
+            </button>
+          ))}
+        </div>
         <button className="btn btn-primary" onClick={openCreateModal}>
           <Plus size={18} />
           <span>New Article</span>
@@ -204,6 +226,7 @@ export default function BlogManager() {
               <tr>
                 <th className="admin-th">Cover</th>
                 <th className="admin-th">Title</th>
+                <th className="admin-th" style={{ width: '120px' }}>Segment</th>
                 <th className="admin-th">Author</th>
                 <th className="admin-th">Tags</th>
                 <th className="admin-th">Published Date</th>
@@ -214,13 +237,13 @@ export default function BlogManager() {
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan="7" className="admin-td" style={{ textAlign: 'center', padding: '3rem' }}>
+                  <td colSpan="8" className="admin-td" style={{ textAlign: 'center', padding: '3rem' }}>
                     <div className="admin-loading-spinner" style={{ margin: '0 auto 1rem', width: '32px', height: '32px' }}></div>
                     <span>Refreshing editorial logs...</span>
                   </td>
                 </tr>
-              ) : blogs.length > 0 ? (
-                blogs.map((post) => (
+              ) : filteredBlogs.length > 0 ? (
+                filteredBlogs.map((post) => (
                   <tr key={post._id}>
                     <td className="admin-td">
                       <img
@@ -232,13 +255,40 @@ export default function BlogManager() {
                     <td className="admin-td">
                       <span style={{ fontWeight: 600, color: 'var(--color-primary-dark)' }}>{post.title}</span>
                     </td>
+                    <td className="admin-td">
+                      <span 
+                        style={
+                          post.segment === 'civil' 
+                            ? { backgroundColor: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : post.segment === 'web'
+                            ? { backgroundColor: 'rgba(168, 85, 247, 0.1)', color: '#a855f7', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : post.segment === 'finance'
+                            ? { backgroundColor: 'rgba(234, 179, 8, 0.1)', color: '#eab308', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                            : { backgroundColor: 'rgba(156, 163, 175, 0.1)', color: '#9ca3af', padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase' }
+                        }
+                      >
+                        {post.segment || 'general'}
+                      </span>
+                    </td>
                     <td className="admin-td" style={{ fontSize: '0.85rem' }}>
                       {post.author?.email ? post.author.email.split('@')[0] : 'System'}
                     </td>
                     <td className="admin-td">
                       <div style={{ display: 'flex', gap: '0.25rem', flexWrap: 'wrap' }}>
                         {post.tags?.map((t) => (
-                          <span key={t} className="badge-role" style={{ fontSize: '0.65rem' }}>
+                          <span 
+                            key={t} 
+                            style={{ 
+                              display: 'inline-flex', 
+                              padding: '0.2rem 0.5rem', 
+                              borderRadius: '4px', 
+                              fontSize: '0.65rem', 
+                              fontWeight: '700', 
+                              backgroundColor: 'rgba(255, 255, 255, 0.08)', 
+                              color: '#f3f4f6', 
+                              border: '1px solid rgba(255, 255, 255, 0.15)' 
+                            }}
+                          >
                             {t}
                           </span>
                         ))}
@@ -306,6 +356,24 @@ export default function BlogManager() {
             </h3>
 
             <form onSubmit={handleSubmit}>
+              <div className="form-grid-2">
+                <div className="admin-form-group">
+                  <label htmlFor="blog-segment" className="admin-form-label">Business Segment *</label>
+                  <select
+                    id="blog-segment"
+                    className="admin-form-control"
+                    value={segment}
+                    onChange={(e) => setSegment(e.target.value)}
+                    disabled={submitting}
+                  >
+                    <option value="civil">Civil & Waterproofing</option>
+                    <option value="web">Software & Web Solutions</option>
+                    <option value="finance">Financial Services</option>
+                    <option value="general">General / Corporate</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="form-grid-2">
                 <div className="admin-form-group">
                   <label htmlFor="blog-title" className="admin-form-label">Article Title *</label>

@@ -7,7 +7,6 @@ import LeadForm from '../components/LeadForm.jsx';
 import CountUp from '../components/CountUp.jsx';
 import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import StaggeredEntrance from '../components/animation/StaggeredEntrance.jsx';
-import { fluidSimulation } from '../components/animation/fluidSim.js';
 
 /**
  * Public Home Page (Segment Hub).
@@ -18,8 +17,6 @@ export default function Home() {
   const { data: segmentsData, loading, error, request: fetchSegments } = useApi();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [windowWidth, setWindowWidth] = useState(() => typeof window !== 'undefined' ? window.innerWidth : 1200);
-  const canvasRef = useRef(null);
-
   useEffect(() => {
     fetchSegments('/segments').catch(() => {});
   }, [fetchSegments]);
@@ -31,15 +28,6 @@ export default function Home() {
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const destroy = fluidSimulation(canvas);
-    return () => {
-      destroy();
-    };
   }, []);
 
   const segments = segmentsData?.data || [];
@@ -194,7 +182,7 @@ export default function Home() {
           position: 'relative',
           minHeight: isMobile ? 'auto' : '75vh', 
           padding: isMobile ? '6rem 0 4rem' : '10rem 0 9rem',
-          backgroundImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1600&auto=format&fit=crop")',
+          backgroundImage: 'url("/unsplash_16.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? 'center' : 'right center',
           borderBottom: '3px solid var(--ink)',
@@ -204,6 +192,25 @@ export default function Home() {
         }}
       >
         <style dangerouslySetInnerHTML={{ __html: styleTag }} />
+
+        {/* Hero Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          src="/hero-bg.mp4"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            pointerEvents: 'none'
+          }}
+        />
         
         {/* Split-visibility gradient overlay: dark left, clear right */}
         <div 

@@ -109,20 +109,21 @@ export default function Header() {
           onClick={closeMenu}
         ></div>
 
-        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 5 }}>
-          <NavLink to="/" aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.85rem', textDecoration: 'none' }}>
+        <div className="container nav-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'relative', zIndex: 5, width: '100%' }}>
+          <NavLink to="/" aria-label="CWF Consulting Corporation Home" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.65rem', textDecoration: 'none', maxWidth: 'calc(100% - 44px)' }}>
             <img 
               src="/logo.jpg" 
               alt="CWF Consulting Corporation Logo" 
-              style={{ height: '36px', objectFit: 'contain', borderRadius: '2px' }} 
+              style={{ height: '34px', width: 'auto', objectFit: 'contain', borderRadius: '2px', flexShrink: 0 }} 
             />
             <span style={{ 
               fontFamily: 'var(--font-heading)', 
-              fontSize: '1.35rem', 
+              fontSize: 'clamp(0.85rem, 3.8vw, 1.35rem)', 
               fontWeight: '700', 
               color: 'var(--white)',
               textTransform: 'uppercase',
-              letterSpacing: '1px'
+              letterSpacing: '0.5px',
+              lineHeight: 1.15
             }}>
               CWF <span style={{ color: 'var(--volt)' }}>Consulting Corporation</span>
             </span>
@@ -133,7 +134,7 @@ export default function Header() {
             onClick={toggleMenu}
             aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isOpen}
-            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer' }}
+            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0 }}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -177,14 +178,14 @@ export default function Header() {
         onClick={closeMenu}
       ></div>
 
-      <div className="container nav-container">
+      <div className="container nav-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: '0.5rem' }}>
         {/* Clicking logo inside segment pages returns to the root picker gateway */}
-        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Picker Gateway" style={{ display: 'inline-flex', alignItems: 'center' }}>
-          <img src="/logo.jpg" alt="CWF Consulting Corporation Logo" style={{ height: '36px', objectFit: 'contain', borderRadius: '2px' }} />
+        <NavLink to="/" className="logo" onClick={closeMenu} aria-label="CWF Consulting Corporation Picker Gateway" style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}>
+          <img src="/logo.jpg" alt="CWF Consulting Corporation Logo" style={{ height: '34px', width: 'auto', objectFit: 'contain', borderRadius: '2px' }} />
         </NavLink>
 
         {/* Business Segment Switcher */}
-        <div className="segment-switcher-wrapper" style={{ display: 'inline-flex', alignItems: 'center' }}>
+        <div className="segment-switcher-wrapper" style={{ display: 'inline-flex', alignItems: 'center', flexShrink: 1, minWidth: 0 }}>
           <select
             value={activeSegment}
             onChange={handleSegmentChange}
@@ -197,10 +198,13 @@ export default function Header() {
               color: 'var(--ink)',
               fontWeight: 'bold',
               fontFamily: 'var(--font-data)',
-              fontSize: '0.78rem',
+              fontSize: 'clamp(0.68rem, 2.7vw, 0.78rem)',
               textTransform: 'uppercase',
               cursor: 'pointer',
               outline: 'none',
+              maxWidth: 'clamp(115px, 38vw, 220px)',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
             }}
           >
             <option value="civil">🛡️ Civil & Waterproofing</option>

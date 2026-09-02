@@ -37,6 +37,7 @@ Thumbs.db
 # Project-specific local files
 lighthouse-*.json
 original-hero.mp4
+logs/
 server/backups/
 server/logs/
 client/test-results/

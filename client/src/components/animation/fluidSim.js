@@ -3,12 +3,12 @@ export function fluidSimulation(canvas) {
     canvas.height = canvas.clientHeight;
 
     let config = {
-        SIM_RESOLUTION: 200,
-        DYE_RESOLUTION: 512,
+        SIM_RESOLUTION: 128,
+        DYE_RESOLUTION: 256,
         DENSITY_DISSIPATION: 0.958, // trails fade so idle swirls stay dynamic, not saturated
         VELOCITY_DISSIPATION: 0.96,
         PRESSURE_DISSIPATION: 0.8,
-        PRESSURE_ITERATIONS: 20,
+        PRESSURE_ITERATIONS: 12,
         CURL: 42,                   // extra swirl for the marbled look
         SPLAT_RADIUS: 0.22,         // fatter ink blobs
         SHADING: true,
@@ -763,6 +763,7 @@ export function fluidSimulation(canvas) {
     const ORBIT_SPEED = 0.026;     // rad/frame (~4 s per loop)
     const ORBIT_START_DELAY = 700; // ms after load before the auto-cursor begins (burst plays first)
 
+    let lastInteractionTime = 0;
     let rafHandle = 0;
     let destroyed = false;
 
@@ -770,13 +771,28 @@ export function fluidSimulation(canvas) {
 
     function update() {
         if (destroyed) return;
-        resizeCanvas();
         driveVirtualPointer();
         input();
         if (!config.PAUSED)
             step(0.016);
         render(null);
-        rafHandle = requestAnimationFrame(update);
+
+        const timeSinceStart = Date.now() - engineStart;
+        const timeSinceInteraction = Date.now() - lastInteractionTime;
+
+        // Pause loop after 1.5 seconds unless user interacted within the last 3 seconds
+        if (timeSinceStart < 1500 || timeSinceInteraction < 3000) {
+            rafHandle = requestAnimationFrame(update);
+        } else {
+            rafHandle = 0;
+        }
+    }
+
+    function wakeUp() {
+        lastInteractionTime = Date.now();
+        if (rafHandle === 0 && !destroyed) {
+            update();
+        }
     }
 
     // An invisible auto-cursor orbits the centre FOREVER, independent of the real
@@ -1061,7 +1077,9 @@ export function fluidSimulation(canvas) {
         teardown.push(() => target.removeEventListener(type, handler, opts));
     }
 
-    on(window, 'mousemove', e => {
+    on(canvas, 'mousemove', e => {
+        if (e.isTrusted === false) return;
+        wakeUp();
         const { x, y } = pointerPos(e.clientX, e.clientY);
         const p = pointers[0];
         if (!p.everMoved) {
@@ -1080,7 +1098,9 @@ export function fluidSimulation(canvas) {
         p.color = generateColor();
     });
 
-    on(window, 'touchmove', e => {
+    on(canvas, 'touchmove', e => {
+        if (e.isTrusted === false) return;
+        wakeUp();
         const touches = e.targetTouches;
         for (let i = 0; i < touches.length; i++) {
             if (i >= pointers.length)
@@ -1097,7 +1117,9 @@ export function fluidSimulation(canvas) {
         }
     }, { passive: true });
 
-    on(window, 'touchstart', e => {
+    on(canvas, 'touchstart', e => {
+        if (e.isTrusted === false) return;
+        wakeUp();
         const touches = e.targetTouches;
         for (let i = 0; i < touches.length; i++) {
             if (i >= pointers.length)
@@ -1123,6 +1145,8 @@ export function fluidSimulation(canvas) {
                 if (touches[i].identifier == pointers[j].id)
                     pointers[j].down = false;
     });
+
+    on(window, 'resize', resizeCanvas);
 
     return function destroy() {
         destroyed = true;

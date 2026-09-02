@@ -204,3 +204,34 @@ export const uploadFile = async (req, res, next) => {
     next(error);
   }
 };
+
+/**
+ * @desc    Reset password for a staff user (Superadmin only)
+ * @route   PATCH /api/admin/users/:id/password
+ * @access  Private (Superadmin only)
+ */
+export const resetStaffPassword = async (req, res, next) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findById(id).select('+password');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `User not found with id: ${id}`,
+      });
+    }
+
+    user.password = password;
+    user.tokenVersion = (user.tokenVersion || 0) + 1;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Password reset successfully for user "${user.email}".`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

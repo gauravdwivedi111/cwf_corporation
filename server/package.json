@@ -10,6 +10,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand --detectOpenHandles",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "seed": "node scripts/seed_all.js",
     "verify": "node scripts/verify_models.js",
     "test:cloudinary": "node scripts/test_cloudinary.js",
     "backup": "node scripts/backup_db.js"

@@ -162,7 +162,7 @@ export default function SettingsManager() {
         
         <div className="form-grid-2">
           <div className="admin-form-group">
-            <label htmlFor="comp-phone" className="admin-form-label">Phone Hotline *</label>
+            <label htmlFor="comp-phone" className="admin-form-label">Phone Hotline / WhatsApp Number *</label>
             <input
               type="text"
               id="comp-phone"

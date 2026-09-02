@@ -367,8 +367,8 @@ export default function ServiceDetail() {
                       {/* Before/After slider container */}
                       <div key={sliderProjects[activeSliderIdx]._id} style={{ width: '100%', borderRadius: '4px', overflow: 'hidden' }}>
                         <BeforeAfterSlider
-                          beforeImage={sliderProjects[activeSliderIdx].beforeImages?.[0] || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop'}
-                          afterImage={sliderProjects[activeSliderIdx].afterImages?.[0] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=600&auto=format&fit=crop'}
+                          beforeImage={sliderProjects[activeSliderIdx].beforeImages?.[0] || '/unsplash_9.jpg'}
+                          afterImage={sliderProjects[activeSliderIdx].afterImages?.[0] || '/unsplash_24.jpg'}
                           beforeAlt="Before Treatment"
                           afterAlt="After Waterproofing"
                         />

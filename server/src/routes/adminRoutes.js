@@ -5,6 +5,7 @@ import {
   getStaffUsers,
   createStaffUser,
   updateUserStatus,
+  resetStaffPassword,
   uploadFile,
 } from '../controllers/adminController.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
@@ -96,6 +97,23 @@ router.patch(
   userStatusRules,
   validate,
   updateUserStatus
+);
+
+/**
+ * @route   PATCH /api/admin/users/:id/password
+ * @desc    Reset password for a staff profile
+ * @access  Private (Superadmin only)
+ */
+router.patch(
+  '/users/:id/password',
+  authorize('superadmin'),
+  [
+    body('password')
+      .isLength({ min: 6 })
+      .withMessage('Password must be at least 6 characters long.'),
+  ],
+  validate,
+  resetStaffPassword
 );
 
 export default router;

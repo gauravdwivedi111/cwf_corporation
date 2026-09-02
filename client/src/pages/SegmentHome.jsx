@@ -85,10 +85,10 @@ export default function SegmentHome() {
   }
 
   const heroImageUrl = segment === 'finance'
-    ? 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop'
+    ? '/unsplash_16.jpg'
     : segment === 'web'
-    ? 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop'
-    : 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=1600&auto=format&fit=crop';
+    ? '/unsplash_3.jpg'
+    : '/unsplash_18.jpg';
 
   return (
     <>
@@ -111,6 +111,25 @@ export default function SegmentHome() {
           alignItems: 'center'
         }}
       >
+        {/* Hero Background Video */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          src="/hero-bg.mp4"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+            pointerEvents: 'none'
+          }}
+        />
+
         {/* Split-visibility gradient overlay for split hero */}
         <div 
           style={{ 
