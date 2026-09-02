@@ -270,9 +270,9 @@ export default function Home() {
           {/* 2. Main Brand Statement Headline */}
           <h1 style={{
             fontFamily: 'var(--font-heading)',
-            fontSize: isMobile ? 'clamp(2.4rem, 9.5vw, 3.2rem)' : 'clamp(2.5rem, 5vw, 4rem)',
+            fontSize: isMobile ? 'clamp(2.5rem, 10vw, 3.4rem)' : 'clamp(2.5rem, 5vw, 4rem)',
             fontWeight: 800,
-            lineHeight: isMobile ? 1.12 : 1.15,
+            lineHeight: isMobile ? 1.08 : 1.15,
             color: '#eef0f6',
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
@@ -283,8 +283,19 @@ export default function Home() {
             transform: 'translateY(1rem)',
             animation: 'fadeSlideUp 0.8s ease 0.5s both'
           }}>
-            ONE PARTNER.<br/>
-            <span style={{ color: 'var(--volt)', textShadow: '0 0 25px rgba(138, 203, 193, 0.35)' }}>INFINITE POSSIBILITIES.</span>
+            {isMobile ? (
+              <>
+                <span>ONE</span><br/>
+                <span>PARTNER.</span><br/>
+                <span style={{ color: 'var(--volt)', textShadow: '0 0 25px rgba(138, 203, 193, 0.35)' }}>INFINITE</span><br/>
+                <span style={{ color: 'var(--volt)', textShadow: '0 0 25px rgba(138, 203, 193, 0.35)' }}>POSSIBILITIES.</span>
+              </>
+            ) : (
+              <>
+                ONE PARTNER.<br/>
+                <span style={{ color: 'var(--volt)', textShadow: '0 0 25px rgba(138, 203, 193, 0.35)' }}>INFINITE POSSIBILITIES.</span>
+              </>
+            )}
           </h1>
 
           {/* 3. Business Verticals Navigation/Identity element */}
