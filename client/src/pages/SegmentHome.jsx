@@ -101,13 +101,16 @@ export default function SegmentHome() {
       <section 
         style={{
           position: 'relative',
-          padding: isMobile ? '6rem 0' : '10rem 0 8rem',
+          minHeight: isMobile ? 'calc(100dvh - 4.5rem)' : '75vh',
+          padding: isMobile ? '2.5rem 0' : '10rem 0 8rem',
           backgroundImage: `url("${heroImageUrl}")`,
           backgroundSize: 'cover',
-          backgroundPosition: isMobile ? 'center' : 'right center',
+          backgroundPosition: isMobile ? '25% center' : 'right center',
           borderBottom: '3px solid var(--ink)',
           overflow: 'hidden',
           display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          justifyContent: 'center',
           alignItems: 'center'
         }}
       >
@@ -125,6 +128,7 @@ export default function SegmentHome() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: isMobile ? '28% center' : 'center center',
             zIndex: 0,
             pointerEvents: 'none'
           }}
@@ -139,7 +143,7 @@ export default function SegmentHome() {
             right: 0, 
             bottom: 0, 
             background: isMobile 
-              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.8) 0%, rgba(5, 7, 22, 0.96) 100%)'
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.75) 0%, rgba(5, 7, 22, 0.9) 55%, rgba(5, 7, 22, 0.98) 100%)'
               : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
             zIndex: 1 
           }} 
