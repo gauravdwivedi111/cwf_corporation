@@ -86,6 +86,16 @@ export default function Header() {
             z-index: 1;
             opacity: 0.16;
           }
+          @media (max-width: 768px) {
+            .swimming-fish-right {
+              opacity: 0.75 !important;
+              filter: drop-shadow(0 0 8px rgba(138, 203, 193, 0.85)) !important;
+            }
+            .swimming-fish-left {
+              opacity: 0.65 !important;
+              filter: drop-shadow(0 0 6px rgba(138, 203, 193, 0.75)) !important;
+            }
+          }
         `}} />
 
         {/* Animated SVGs of swimming fish scoped to its own overflow-hidden layer */}
