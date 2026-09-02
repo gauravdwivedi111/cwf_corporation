@@ -244,111 +244,107 @@ export default function Home() {
           maxWidth: isMobile ? '100%' : '44%',
           paddingLeft: isMobile ? '1.25rem' : '2rem',
           paddingRight: isMobile ? '1.25rem' : '2rem',
-          minHeight: isMobile ? 'calc(100dvh - 8rem)' : 'auto',
-          justifyContent: isMobile ? 'space-between' : 'flex-start'
+          justifyContent: 'center'
         }}>
-          {/* Top Block: Badge + Headline + Verticals */}
-          <div style={{ width: '100%' }}>
-            {/* 1. Parent Company Name Badge */}
-            <span style={{ 
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.4rem',
-              fontSize: isMobile ? '0.78rem' : '0.85rem',
-              color: 'var(--volt)',
-              backgroundColor: isMobile ? 'rgba(138, 203, 193, 0.12)' : 'transparent',
-              border: isMobile ? '1px solid rgba(138, 203, 193, 0.25)' : 'none',
-              borderRadius: isMobile ? '100px' : '0',
-              padding: isMobile ? '0.35rem 0.85rem' : '0',
-              fontFamily: 'var(--font-data)',
-              fontWeight: 'bold',
-              letterSpacing: isMobile ? '2px' : '3px',
-              textTransform: 'uppercase',
-              marginBottom: isMobile ? '0.75rem' : '1rem',
-              opacity: 0,
-              transform: 'translateY(1rem)',
-              animation: 'fadeSlideUp 0.8s ease 0.2s both'
-            }}>
-              {isMobile && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--volt)', display: 'inline-block' }}></span>}
-              CWF CONSULTING CORPORATION
-            </span>
+          {/* 1. Parent Company Name Badge */}
+          <span style={{ 
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+            fontSize: isMobile ? '0.75rem' : '0.85rem',
+            color: 'var(--volt)',
+            backgroundColor: isMobile ? 'rgba(138, 203, 193, 0.12)' : 'transparent',
+            border: isMobile ? '1px solid rgba(138, 203, 193, 0.25)' : 'none',
+            borderRadius: isMobile ? '100px' : '0',
+            padding: isMobile ? '0.3rem 0.8rem' : '0',
+            fontFamily: 'var(--font-data)',
+            fontWeight: 'bold',
+            letterSpacing: isMobile ? '2px' : '3px',
+            textTransform: 'uppercase',
+            marginBottom: isMobile ? '0.65rem' : '1rem',
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 0.2s both'
+          }}>
+            {isMobile && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--volt)', display: 'inline-block' }}></span>}
+            CWF CONSULTING CORPORATION
+          </span>
 
-            {/* 2. Main Brand Statement Headline */}
-            <h1 style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: isMobile ? 'clamp(2.15rem, 8vw, 2.85rem)' : 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: 800,
-              lineHeight: isMobile ? 1.12 : 1.15,
-              color: '#eef0f6',
-              letterSpacing: '-0.02em',
-              textTransform: 'uppercase',
-              marginBottom: isMobile ? '1rem' : '2rem',
-              marginInline: '0',
-              maxWidth: '100%',
-              opacity: 0,
-              transform: 'translateY(1rem)',
-              animation: 'fadeSlideUp 0.8s ease 0.5s both'
-            }}>
-              ONE PARTNER.<br/>
-              <span style={{ color: 'var(--volt)' }}>INFINITE POSSIBILITIES.</span>
-            </h1>
+          {/* 2. Main Brand Statement Headline */}
+          <h1 style={{
+            fontFamily: 'var(--font-heading)',
+            fontSize: isMobile ? 'clamp(2.1rem, 7.8vw, 2.75rem)' : 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: 800,
+            lineHeight: isMobile ? 1.12 : 1.15,
+            color: '#eef0f6',
+            letterSpacing: '-0.02em',
+            textTransform: 'uppercase',
+            marginBottom: isMobile ? '0.85rem' : '2rem',
+            marginInline: '0',
+            maxWidth: '100%',
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 0.5s both'
+          }}>
+            ONE PARTNER.<br/>
+            <span style={{ color: 'var(--volt)' }}>INFINITE POSSIBILITIES.</span>
+          </h1>
 
-            {/* 3. Business Verticals Navigation/Identity element */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: isMobile ? '0.65rem' : '1rem',
-              fontFamily: 'var(--font-data)',
-              fontSize: isMobile ? '0.82rem' : 'clamp(1rem, 2vw, 1.25rem)',
-              fontWeight: 600,
-              color: 'rgba(255, 255, 255, 0.95)',
-              letterSpacing: isMobile ? '2px' : '4px',
-              textTransform: 'uppercase',
-              background: isMobile ? 'rgba(10, 19, 26, 0.75)' : 'transparent',
-              backdropFilter: isMobile ? 'blur(8px)' : 'none',
-              WebkitBackdropFilter: isMobile ? 'blur(8px)' : 'none',
-              border: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : 'none',
-              borderTop: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : '1px solid rgba(255, 255, 255, 0.15)',
-              borderBottom: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : '1px solid rgba(255, 255, 255, 0.15)',
-              borderRadius: isMobile ? '8px' : '0',
-              padding: isMobile ? '0.55rem 0.85rem' : '0.75rem 0',
-              width: isMobile ? 'auto' : '100%',
-              marginBottom: isMobile ? '1rem' : '2rem',
-              opacity: 0,
-              transform: 'translateY(1rem)',
-              animation: 'fadeSlideUp 0.8s ease 0.8s both'
-            }}>
-              <span>CIVIL</span>
-              <span style={{ color: 'var(--volt)', opacity: 0.6 }}>{isMobile ? '•' : '|'}</span>
-              <span>WEB</span>
-              <span style={{ color: 'var(--volt)', opacity: 0.6 }}>{isMobile ? '•' : '|'}</span>
-              <span>FINANCE</span>
-            </div>
+          {/* 3. Business Verticals Navigation/Identity element */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '0.65rem' : '1rem',
+            fontFamily: 'var(--font-data)',
+            fontSize: isMobile ? '0.82rem' : 'clamp(1rem, 2vw, 1.25rem)',
+            fontWeight: 600,
+            color: 'rgba(255, 255, 255, 0.95)',
+            letterSpacing: isMobile ? '2px' : '4px',
+            textTransform: 'uppercase',
+            background: isMobile ? 'rgba(10, 19, 26, 0.75)' : 'transparent',
+            backdropFilter: isMobile ? 'blur(8px)' : 'none',
+            WebkitBackdropFilter: isMobile ? 'blur(8px)' : 'none',
+            border: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : 'none',
+            borderTop: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : '1px solid rgba(255, 255, 255, 0.15)',
+            borderBottom: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: isMobile ? '8px' : '0',
+            padding: isMobile ? '0.45rem 0.75rem' : '0.75rem 0',
+            width: isMobile ? 'auto' : '100%',
+            marginBottom: isMobile ? '0.85rem' : '2rem',
+            opacity: 0,
+            transform: 'translateY(1rem)',
+            animation: 'fadeSlideUp 0.8s ease 0.8s both'
+          }}>
+            <span>CIVIL</span>
+            <span style={{ color: 'var(--volt)', opacity: 0.6 }}>{isMobile ? '•' : '|'}</span>
+            <span>WEB</span>
+            <span style={{ color: 'var(--volt)', opacity: 0.6 }}>{isMobile ? '•' : '|'}</span>
+            <span>FINANCE</span>
           </div>
 
-          {/* Middle Block: 4. Supporting statement (Vertical rows on mobile, horizontal on desktop) */}
+          {/* 4. Supporting statement: Simple vertical pointers on mobile, horizontal single line on desktop */}
           {isMobile ? (
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.65rem',
+              gap: '0.4rem',
               width: '100%',
-              margin: '0.75rem 0 1.25rem',
+              marginBottom: '1.25rem',
               opacity: 0,
               transform: 'translateY(1rem)',
               animation: 'fadeSlideUp 0.8s ease 1.1s both'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', backgroundColor: 'rgba(10, 19, 26, 0.7)', borderLeft: '3px solid var(--volt)', padding: '0.6rem 0.85rem', borderRadius: '0 8px 8px 0', borderTop: '1px solid rgba(138,203,193,0.1)', borderRight: '1px solid rgba(138,203,193,0.1)', borderBottom: '1px solid rgba(138,203,193,0.1)' }}>
-                <span style={{ fontSize: '1rem' }}>🛡️</span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#eef0f6', fontWeight: 500 }}>Protecting Assets</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#b9becf', fontSize: '0.92rem', fontFamily: 'var(--font-body)' }}>
+                <span style={{ color: 'var(--volt)', fontSize: '1.2rem', lineHeight: 1 }}>•</span>
+                <span>Protecting Assets</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', backgroundColor: 'rgba(10, 19, 26, 0.7)', borderLeft: '3px solid var(--volt)', padding: '0.6rem 0.85rem', borderRadius: '0 8px 8px 0', borderTop: '1px solid rgba(138,203,193,0.1)', borderRight: '1px solid rgba(138,203,193,0.1)', borderBottom: '1px solid rgba(138,203,193,0.1)' }}>
-                <span style={{ fontSize: '1rem' }}>💻</span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#eef0f6', fontWeight: 500 }}>Powering Digital Growth</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#b9becf', fontSize: '0.92rem', fontFamily: 'var(--font-body)' }}>
+                <span style={{ color: 'var(--volt)', fontSize: '1.2rem', lineHeight: 1 }}>•</span>
+                <span>Powering Digital Growth</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', backgroundColor: 'rgba(10, 19, 26, 0.7)', borderLeft: '3px solid var(--volt)', padding: '0.6rem 0.85rem', borderRadius: '0 8px 8px 0', borderTop: '1px solid rgba(138,203,193,0.1)', borderRight: '1px solid rgba(138,203,193,0.1)', borderBottom: '1px solid rgba(138,203,193,0.1)' }}>
-                <span style={{ fontSize: '1rem' }}>📈</span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', color: '#eef0f6', fontWeight: 500 }}>Building Financial Futures</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#b9becf', fontSize: '0.92rem', fontFamily: 'var(--font-body)' }}>
+                <span style={{ color: 'var(--volt)', fontSize: '1.2rem', lineHeight: 1 }}>•</span>
+                <span>Building Financial Futures</span>
               </div>
             </div>
           ) : (
@@ -368,21 +364,20 @@ export default function Home() {
             </p>
           )}
 
-          {/* Bottom Block: 5. Mobile Action Buttons */}
+          {/* 5. Mobile Action Buttons */}
           {isMobile && (
             <div style={{
               display: 'flex',
               gap: '0.75rem',
               width: '100%',
-              marginTop: '0.5rem',
               opacity: 0,
               transform: 'translateY(1rem)',
               animation: 'fadeSlideUp 0.8s ease 1.3s both'
             }}>
-              <a href="#services" className="btn btn-primary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '0.85rem 1rem', fontSize: '0.9rem' }}>
+              <a href="#services" className="btn btn-primary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '0.75rem 1rem', fontSize: '0.88rem' }}>
                 Explore Divisions
               </a>
-              <a href="#contact" className="btn btn-secondary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '0.85rem 1rem', fontSize: '0.9rem' }}>
+              <a href="#contact" className="btn btn-secondary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '0.75rem 1rem', fontSize: '0.88rem' }}>
                 Contact Us
               </a>
             </div>
