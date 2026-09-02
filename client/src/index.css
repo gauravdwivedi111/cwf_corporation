@@ -346,6 +346,19 @@ select:focus-visible {
   h2[style*="font-size"] { font-size: 1.5rem !important; }
   h3[style*="font-size"] { font-size: 1.2rem !important; }
 
+  /* Mobile interactive touch targets & cards */
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bento-cell {
+    padding: 1.75rem 1.25rem !important;
+    border-radius: 14px !important;
+  }
+
   .mobile-menu-header {
     display: none !important; /* Hide sidebar close button as it's a dropdown card now */
   }
