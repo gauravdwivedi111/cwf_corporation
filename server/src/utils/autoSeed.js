@@ -23,13 +23,21 @@ const SERVICE_IMAGES_SYNC = {
 
   // Web
   'website-development-services': '/unsplash_13.jpg',
-  'business-websites-portals': '/unsplash_7.jpg',
-  'ecommerce-solutions-custom': '/unsplash_4.jpg',
-  'mobile-web-applications': '/unsplash_5.jpg',
+  'website-development': '/unsplash_13.jpg',
+  'business-websites-portals': '/web_cross_platform_portals.png',
+  'business-portals': '/web_cross_platform_portals.png',
+  'ecommerce-solutions-custom': '/web_ecommerce_fulfillment.jpg',
+  'ecommerce-solutions': '/web_ecommerce_fulfillment.jpg',
+  'mobile-web-applications': '/web_mobile_cloud_apps.jpg',
+  'mobile-apps': '/web_mobile_cloud_apps.jpg',
   'digital-branding-identity': '/unsplash_6.jpg',
+  'digital-branding': '/unsplash_6.jpg',
   'digital-marketing-campaigns': '/unsplash_3.jpg',
-  'crm-business-automation': '/unsplash_0.jpg',
-  'online-business-solutions': '/unsplash_14.jpg',
+  'digital-marketing': '/unsplash_3.jpg',
+  'crm-business-automation': '/web_automation_command_center.png',
+  'crm-automation': '/web_automation_command_center.png',
+  'online-business-solutions': '/web_high_speed_infrastructure.jpg',
+  'online-solutions': '/web_high_speed_infrastructure.jpg',
 
   // Finance
   'investment-planning-solutions': '/finance_investment_advisory.png',
