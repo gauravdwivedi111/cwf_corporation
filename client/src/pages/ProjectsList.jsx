@@ -18,10 +18,18 @@ export default function ProjectsList() {
   const prefersReduced = typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
 
   useEffect(() => {
-    // Reset active filters on segment change
+    // Reset active filters, close modal and release scroll lock on segment change
     setActiveFilter('all');
+    setSelectedProject(null);
+    document.body.style.overflow = '';
     fetchProjects(`/projects?segment=${segment}`).catch(() => {});
   }, [segment, fetchProjects]);
+
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   const projects = projectsData?.data || [];
 
@@ -274,7 +282,7 @@ export default function ProjectsList() {
 
       {/* Details Modal overlay */}
       {selectedProject && (
-        <div className="modal-overlay" onClick={closeModal} style={{ backgroundColor: 'rgba(10, 14, 39, 0.85)', zIndex: 9999 }}>
+        <div className="modal-overlay" onClick={closeModal} style={{ backgroundColor: 'rgba(10, 14, 39, 0.85)', zIndex: 900 }}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="modal-title" style={{ padding: '2.5rem', border: '4px solid var(--ink)', borderRadius: '6px', maxWidth: '850px' }}>
             <button className="modal-close" onClick={closeModal} aria-label="Close modal" style={{ top: '1.5rem', right: '1.5rem', color: 'var(--ink)' }}>
               <X size={24} />

@@ -35,9 +35,16 @@ export default function Header() {
 
   const handleSegmentChange = (e) => {
     const nextSeg = e.target.value;
+    document.body.style.overflow = '';
     if (urlSegment) {
-      // Retain the current sub-page context (e.g. /web/services -> /civil/services)
-      const remainingPath = pathParts.slice(2).join('/');
+      // Retain the current sub-page context (e.g. /civil/projects -> /web/projects)
+      let remainingPath = pathParts.slice(2).join('/');
+      // If switching from a detail page whose slug is segment-specific, map to the section root:
+      if (pathParts[2] === 'services' && pathParts.length > 3) {
+        remainingPath = 'services';
+      } else if (pathParts[2] === 'blog' && pathParts.length > 3) {
+        remainingPath = 'blog';
+      }
       navigate(`/${nextSeg}/${remainingPath}`);
     } else {
       // Redirect to target segment home from shared corporate pages
