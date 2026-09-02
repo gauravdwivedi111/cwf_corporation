@@ -12,30 +12,30 @@
  * @returns {string} - Optimized URL string
  */
 export const getOptimizedCloudinaryUrl = (url, width = 800) => {
-  if (!url) return '';
+  if (!url) return '/unsplash_0.webp';
 
-  // If the resource is a local file (does not contain res.cloudinary.com)
-  if (!url.includes('res.cloudinary.com')) {
-    // Convert any png/jpg/jpeg paths to webp format
-    let optimizedUrl = url.replace(/\.(png|jpg|jpeg)$/i, '.webp');
-    
-    // If layout requests width <= 400, load the small WebP version
-    if (width <= 400) {
-      return optimizedUrl.replace(/\.webp$/i, '-small.webp');
+  // If URL is an external link
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    // If not Cloudinary, return external URL unaltered
+    if (!url.includes('res.cloudinary.com')) {
+      return url;
     }
-    return optimizedUrl;
+
+    const uploadSegment = '/upload/';
+    const uploadIndex = url.indexOf(uploadSegment);
+    if (uploadIndex === -1) {
+      return url;
+    }
+
+    const insertionPosition = uploadIndex + uploadSegment.length;
+    const transformParams = `w_${width},q_auto,f_auto/`;
+    return url.slice(0, insertionPosition) + transformParams + url.slice(insertionPosition);
   }
 
-  const uploadSegment = '/upload/';
-  const uploadIndex = url.indexOf(uploadSegment);
-
-  // If URL doesn't contain the standard /upload/ segment, return as-is
-  if (uploadIndex === -1) {
-    return url;
+  // Local file path optimization
+  let optimizedUrl = url.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+  if (width <= 400) {
+    return optimizedUrl.replace(/\.webp$/i, '-small.webp');
   }
-
-  const insertionPosition = uploadIndex + uploadSegment.length;
-  const transformParams = `w_${width},q_auto,f_auto/`;
-
-  return url.slice(0, insertionPosition) + transformParams + url.slice(insertionPosition);
+  return optimizedUrl;
 };

@@ -102,7 +102,7 @@ export default function ServicesList() {
                   >
                     <div style={{ width: '100%', height: '200px', borderRadius: '4px', overflow: 'hidden', marginBottom: '1.25rem' }}>
                       <img
-                        src={getOptimizedCloudinaryUrl(service.coverImage, 500)}
+                        src={getOptimizedCloudinaryUrl(service.coverImage || (segment === 'web' ? '/unsplash_13.jpg' : segment === 'finance' ? '/unsplash_10.jpg' : '/unsplash_9.jpg'), 500)}
                         alt={service.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"

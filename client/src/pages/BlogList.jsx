@@ -109,7 +109,7 @@ export default function BlogList() {
                   >
                     <div style={{ width: '100%', height: '180px', borderRadius: '4px', overflow: 'hidden', marginBottom: '1.25rem' }}>
                       <img
-                        src={getOptimizedCloudinaryUrl(post.coverImage, 500)}
+                        src={getOptimizedCloudinaryUrl(post.coverImage || (segment === 'web' ? '/unsplash_0.jpg' : segment === 'finance' ? '/unsplash_23.jpg' : '/unsplash_8.jpg'), 500)}
                         alt={post.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"

@@ -187,7 +187,7 @@ export default function ProjectsList() {
                   >
                     <div style={{ width: '100%', height: '180px', borderRadius: '4px', overflow: 'hidden', position: 'relative', marginBottom: '1rem' }}>
                       <img
-                        src={getOptimizedCloudinaryUrl(project.coverImage || project.afterImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_500,h_350,c_fill/canyon.jpg', 500)}
+                        src={getOptimizedCloudinaryUrl(project.coverImage || project.gallery?.[0] || project.afterImages?.[0] || (segment === 'web' ? '/unsplash_4.jpg' : segment === 'finance' ? '/unsplash_20.jpg' : '/unsplash_11.jpg'), 500)}
                         alt={project.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"
@@ -296,15 +296,15 @@ export default function ProjectsList() {
             <div style={{ marginBottom: '2rem', width: '100%' }}>
               {segment === 'civil' ? (
                 <BeforeAfterSlider
-                  beforeImage={selectedProject.beforeImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg'}
-                  afterImage={selectedProject.afterImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg'}
+                  beforeImage={selectedProject.beforeImages?.[0] || '/terrace_before.jpg'}
+                  afterImage={selectedProject.afterImages?.[0] || '/terrace_waterproofing.png'}
                   beforeAlt={`Leakage state of ${selectedProject.title}`}
                   afterAlt={`Waterproofed state of ${selectedProject.title}`}
                 />
               ) : (
                 <div style={{ width: '100%', height: '350px', borderRadius: '4px', overflow: 'hidden', border: '3px solid var(--ink)' }}>
                   <img
-                    src={getOptimizedCloudinaryUrl(selectedProject.coverImage || selectedProject.afterImages?.[0] || 'https://res.cloudinary.com/demo/image/upload/w_800,h_500,c_fill/canyon.jpg', 800)}
+                    src={getOptimizedCloudinaryUrl(selectedProject.coverImage || selectedProject.gallery?.[0] || selectedProject.afterImages?.[0] || (segment === 'web' ? '/unsplash_4.jpg' : '/unsplash_20.jpg'), 800)}
                     alt={selectedProject.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />

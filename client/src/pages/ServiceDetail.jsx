@@ -183,7 +183,7 @@ export default function ServiceDetail() {
                 {/* Visual Cover Image */}
                 <div style={{ borderRadius: '6px', border: '3px solid var(--ink)', overflow: 'hidden', height: '400px' }}>
                   <img
-                    src={getOptimizedCloudinaryUrl(service.coverImage, 800)}
+                    src={getOptimizedCloudinaryUrl(service.coverImage || (segment === 'web' ? '/unsplash_13.jpg' : segment === 'finance' ? '/unsplash_10.jpg' : '/unsplash_9.jpg'), 800)}
                     alt={service.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />

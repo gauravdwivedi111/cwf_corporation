@@ -345,7 +345,7 @@ export default function SegmentHome() {
                   >
                     <div style={{ height: '180px', borderRadius: '4px', overflow: 'hidden', marginBottom: '1rem' }}>
                       <img
-                        src={getOptimizedCloudinaryUrl(project.coverImage || '/web_proj_agri.webp', 400)}
+                        src={getOptimizedCloudinaryUrl(project.coverImage || project.gallery?.[0] || (segment === 'web' ? '/unsplash_4.jpg' : '/unsplash_20.jpg'), 400)}
                         alt={project.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"

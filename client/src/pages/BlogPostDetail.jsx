@@ -97,7 +97,7 @@ export default function BlogPostDetail() {
             <div className="container" style={{ maxWidth: '800px' }}>
               <div style={{ borderRadius: '6px', border: '3px solid var(--ink)', overflow: 'hidden', marginBottom: '2.5rem', maxHeight: '450px' }}>
                 <img
-                  src={getOptimizedCloudinaryUrl(post.coverImage, 900)}
+                  src={getOptimizedCloudinaryUrl(post.coverImage || (segment === 'web' ? '/unsplash_0.jpg' : segment === 'finance' ? '/unsplash_23.jpg' : '/unsplash_8.jpg'), 900)}
                   alt={post.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
