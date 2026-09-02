@@ -34,38 +34,58 @@ const EXACT_SERVICE_IMAGES = {
   // 2. Software & Web
   'website-development': '/unsplash_13.jpg',
   'website-development-services': '/unsplash_13.jpg',
+  'website development': '/unsplash_13.jpg',
   'business-portals': '/unsplash_7.jpg',
   'business-websites-portals': '/unsplash_7.jpg',
+  'business websites & portals': '/unsplash_7.jpg',
+  'business websites and portals': '/unsplash_7.jpg',
   'ecommerce-solutions': '/unsplash_4.jpg',
   'ecommerce-solutions-custom': '/unsplash_4.jpg',
+  'e-commerce solutions': '/unsplash_4.jpg',
   'mobile-apps': '/unsplash_5.jpg',
   'mobile-web-applications': '/unsplash_5.jpg',
+  'mobile & web applications': '/unsplash_5.jpg',
+  'mobile and web applications': '/unsplash_5.jpg',
   'digital-branding': '/unsplash_6.jpg',
   'digital-branding-identity': '/unsplash_6.jpg',
+  'digital branding': '/unsplash_6.jpg',
   'digital-marketing': '/unsplash_3.jpg',
   'digital-marketing-campaigns': '/unsplash_3.jpg',
+  'digital marketing': '/unsplash_3.jpg',
   'crm-automation': '/unsplash_0.jpg',
   'crm-business-automation': '/unsplash_0.jpg',
+  'crm & business automation': '/unsplash_0.jpg',
+  'crm and business automation': '/unsplash_0.jpg',
   'online-solutions': '/unsplash_14.jpg',
   'online-business-solutions': '/unsplash_14.jpg',
+  'online business solutions': '/unsplash_14.jpg',
 
   // 3. Financial Advisory
   'investment-planning': '/unsplash_10.jpg',
   'investment-planning-solutions': '/unsplash_10.jpg',
+  'investment planning': '/unsplash_10.jpg',
   'insurance-solutions': '/unsplash_23.jpg',
   'corporate-insurance-solutions': '/unsplash_23.jpg',
+  'insurance solutions': '/unsplash_23.jpg',
   'loan-assistance': '/unsplash_20.jpg',
   'credit-loan-assistance': '/unsplash_20.jpg',
+  'loan assistance': '/unsplash_20.jpg',
   'nri-corner': '/unsplash_25.jpg',
   'nri-financial-corner': '/unsplash_25.jpg',
+  'nri corner': '/unsplash_25.jpg',
   'behavioural-profiling': '/unsplash_12.jpg',
   'behavioural-profiling-wealth': '/unsplash_12.jpg',
+  'behavioural profiling': '/unsplash_12.jpg',
   'risk-profiling': '/unsplash_19.jpg',
   'risk-profiling-advisory': '/unsplash_19.jpg',
+  'risk profiling': '/unsplash_19.jpg',
   'financial-planning': '/unsplash_16.jpg',
   'financial-planning-systems': '/unsplash_16.jpg',
+  'financial planning': '/unsplash_16.jpg',
   'wealth-guidance': '/unsplash_2.jpg',
   'wealth-portfolio-guidance': '/unsplash_2.jpg',
+  'wealth & portfolio guidance': '/unsplash_2.jpg',
+  'wealth and portfolio guidance': '/unsplash_2.jpg',
 };
 
 /**
@@ -74,6 +94,7 @@ const EXACT_SERVICE_IMAGES = {
 const EXACT_PROJECT_IMAGES = {
   // Civil
   'terrace slab waterproofing & leakage repair': '/terrace_waterproofing.png',
+  'terrace slab waterproofing and leakage repair': '/terrace_waterproofing.png',
   'basement retaining wall grouting': '/basement_grouting.jpg',
   'industrial epoxy flooring overhaul': '/flooring_after.png',
 
@@ -85,7 +106,9 @@ const EXACT_PROJECT_IMAGES = {
   // Finance
   'debt restructuring for manufacturing enterprise': '/unsplash_20.jpg',
   'working capital optimisation & funding round': '/unsplash_23.jpg',
+  'working capital optimization & funding round': '/unsplash_23.jpg',
   'corporate tax planning & compliance overhaul': '/unsplash_10.jpg',
+  'corporate tax planning and compliance overhaul': '/unsplash_10.jpg',
 };
 
 /**
@@ -103,12 +126,14 @@ const EXACT_BLOG_IMAGES = {
   'modern scaling strategies for enterprise apps': '/unsplash_0.jpg',
   'headless-vs-traditional-cms': '/unsplash_13.jpg',
   'choosing a modern cms: headless vs traditional': '/unsplash_13.jpg',
+  'choosing a modern cms': '/unsplash_13.jpg',
 
   // Finance
   'working-capital-loans-smes': '/unsplash_23.jpg',
   'understanding working capital loans for smes': '/unsplash_23.jpg',
   'tax-planning-checklist-fy-2026': '/unsplash_20.jpg',
   'tax planning checklist for indian businesses in fy 2026': '/unsplash_20.jpg',
+  'tax planning checklist for indian businesses': '/unsplash_20.jpg',
   'prepare-business-loan-application': '/unsplash_10.jpg',
   'how to prepare for a business loan application': '/unsplash_10.jpg',
 };
@@ -121,17 +146,49 @@ const SEGMENT_DEFAULT_IMAGES = {
 
 /**
  * Resolves the exact distinct image for any service card or detail page.
+ * Guarantees distinct visual images by prioritizing exact category/slug lookups.
  */
 export const getServiceImage = (service, segment = 'civil', index = 0, width = 500) => {
-  if (service?.coverImage && typeof service.coverImage === 'string' && service.coverImage.trim() !== '') {
+  if (!service) {
+    const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
+    return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
+  }
+
+  // 1. Custom user-uploaded Cloudinary image (distinct uploads from admin)
+  if (service.coverImage && (service.coverImage.startsWith('http://') || service.coverImage.startsWith('https://')) && service.coverImage.includes('res.cloudinary.com')) {
     return getOptimizedCloudinaryUrl(service.coverImage, width);
   }
-  const bySlug = EXACT_SERVICE_IMAGES[service?.slug?.toLowerCase()];
-  if (bySlug) return getOptimizedCloudinaryUrl(bySlug, width);
 
-  const byCategory = EXACT_SERVICE_IMAGES[service?.category?.toLowerCase()];
-  if (byCategory) return getOptimizedCloudinaryUrl(byCategory, width);
+  // 2. Exact match by slug
+  if (service.slug) {
+    const cleanSlug = service.slug.toLowerCase().trim();
+    if (EXACT_SERVICE_IMAGES[cleanSlug]) {
+      return getOptimizedCloudinaryUrl(EXACT_SERVICE_IMAGES[cleanSlug], width);
+    }
+  }
 
+  // 3. Exact match by category
+  if (service.category) {
+    const cleanCat = service.category.toLowerCase().trim();
+    if (EXACT_SERVICE_IMAGES[cleanCat]) {
+      return getOptimizedCloudinaryUrl(EXACT_SERVICE_IMAGES[cleanCat], width);
+    }
+  }
+
+  // 4. Exact match by title
+  if (service.title) {
+    const cleanTitle = service.title.toLowerCase().trim();
+    if (EXACT_SERVICE_IMAGES[cleanTitle]) {
+      return getOptimizedCloudinaryUrl(EXACT_SERVICE_IMAGES[cleanTitle], width);
+    }
+  }
+
+  // 5. If coverImage is a specialized local file (e.g. terrace_waterproofing.png)
+  if (service.coverImage && typeof service.coverImage === 'string' && service.coverImage.trim() !== '' && !service.coverImage.includes('unsplash')) {
+    return getOptimizedCloudinaryUrl(service.coverImage, width);
+  }
+
+  // 6. Deterministic default per index so every card has a distinct image
   const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
   return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
 };
@@ -140,22 +197,41 @@ export const getServiceImage = (service, segment = 'civil', index = 0, width = 5
  * Resolves the exact distinct image for any project case study card or modal.
  */
 export const getProjectImage = (project, segment = 'civil', index = 0, width = 500) => {
-  if (project?.coverImage && typeof project.coverImage === 'string' && project.coverImage.trim() !== '') {
+  if (!project) {
+    const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
+    return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
+  }
+
+  // 1. Custom user-uploaded Cloudinary image
+  if (project.coverImage && (project.coverImage.startsWith('http://') || project.coverImage.startsWith('https://')) && project.coverImage.includes('res.cloudinary.com')) {
     return getOptimizedCloudinaryUrl(project.coverImage, width);
   }
-  const byTitle = EXACT_PROJECT_IMAGES[project?.title?.toLowerCase()?.trim()];
-  if (byTitle) return getOptimizedCloudinaryUrl(byTitle, width);
 
-  if (project?.gallery?.[0] && typeof project.gallery[0] === 'string' && project.gallery[0].trim() !== '') {
-    return getOptimizedCloudinaryUrl(project.gallery[0], width);
+  // 2. Match by title
+  if (project.title) {
+    const cleanTitle = project.title.toLowerCase().trim();
+    if (EXACT_PROJECT_IMAGES[cleanTitle]) {
+      return getOptimizedCloudinaryUrl(EXACT_PROJECT_IMAGES[cleanTitle], width);
+    }
   }
-  if (project?.afterImages?.[0] && typeof project.afterImages[0] === 'string' && project.afterImages[0].trim() !== '') {
-    return getOptimizedCloudinaryUrl(project.afterImages[0], width);
+
+  // 3. Match by serviceCategory
+  if (project.serviceCategory) {
+    const cleanCat = project.serviceCategory.toLowerCase().trim();
+    if (EXACT_PROJECT_IMAGES[cleanCat]) {
+      return getOptimizedCloudinaryUrl(EXACT_PROJECT_IMAGES[cleanCat], width);
+    }
+    if (EXACT_SERVICE_IMAGES[cleanCat]) {
+      return getOptimizedCloudinaryUrl(EXACT_SERVICE_IMAGES[cleanCat], width);
+    }
   }
 
-  const byCategory = EXACT_SERVICE_IMAGES[project?.serviceCategory?.toLowerCase()];
-  if (byCategory) return getOptimizedCloudinaryUrl(byCategory, width);
+  // 4. If specialized local asset
+  if (project.coverImage && typeof project.coverImage === 'string' && project.coverImage.trim() !== '' && !project.coverImage.includes('unsplash')) {
+    return getOptimizedCloudinaryUrl(project.coverImage, width);
+  }
 
+  // 5. Deterministic fallback by index
   const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
   return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
 };
@@ -164,15 +240,33 @@ export const getProjectImage = (project, segment = 'civil', index = 0, width = 5
  * Resolves the exact distinct image for any blog post card or reader page.
  */
 export const getBlogImage = (post, segment = 'civil', index = 0, width = 500) => {
-  if (post?.coverImage && typeof post.coverImage === 'string' && post.coverImage.trim() !== '') {
+  if (!post) {
+    const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
+    return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
+  }
+
+  // 1. Custom user-uploaded Cloudinary image
+  if (post.coverImage && (post.coverImage.startsWith('http://') || post.coverImage.startsWith('https://')) && post.coverImage.includes('res.cloudinary.com')) {
     return getOptimizedCloudinaryUrl(post.coverImage, width);
   }
-  const bySlug = EXACT_BLOG_IMAGES[post?.slug?.toLowerCase()?.trim()];
-  if (bySlug) return getOptimizedCloudinaryUrl(bySlug, width);
 
-  const byTitle = EXACT_BLOG_IMAGES[post?.title?.toLowerCase()?.trim()];
-  if (byTitle) return getOptimizedCloudinaryUrl(byTitle, width);
+  // 2. Match by slug
+  if (post.slug) {
+    const cleanSlug = post.slug.toLowerCase().trim();
+    if (EXACT_BLOG_IMAGES[cleanSlug]) {
+      return getOptimizedCloudinaryUrl(EXACT_BLOG_IMAGES[cleanSlug], width);
+    }
+  }
 
+  // 3. Match by title
+  if (post.title) {
+    const cleanTitle = post.title.toLowerCase().trim();
+    if (EXACT_BLOG_IMAGES[cleanTitle]) {
+      return getOptimizedCloudinaryUrl(EXACT_BLOG_IMAGES[cleanTitle], width);
+    }
+  }
+
+  // 4. Deterministic fallback by index
   const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
   return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
 };

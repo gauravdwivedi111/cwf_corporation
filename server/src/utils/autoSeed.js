@@ -54,12 +54,15 @@ const BLOG_IMAGES_SYNC = {
 
 export const autoSeedIfEmpty = async () => {
   try {
-    // 0. Synchronize / update image paths for all existing services and blogs
-    for (const [slug, img] of Object.entries(SERVICE_IMAGES_SYNC)) {
-      await Service.updateOne({ slug }, { $set: { coverImage: img, gallery: [img] } });
+    // 0. Synchronize / update image paths for all existing services, projects, and blogs
+    for (const [key, img] of Object.entries(SERVICE_IMAGES_SYNC)) {
+      await Service.updateMany(
+        { $or: [{ slug: key }, { category: key }] },
+        { $set: { coverImage: img, gallery: [img] } }
+      );
     }
     for (const [slug, img] of Object.entries(BLOG_IMAGES_SYNC)) {
-      await BlogPost.updateOne({ slug }, { $set: { coverImage: img } });
+      await BlogPost.updateMany({ slug }, { $set: { coverImage: img } });
     }
 
     const serviceCount = await Service.countDocuments({});
