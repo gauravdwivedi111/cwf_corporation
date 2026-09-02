@@ -17,9 +17,17 @@ export default function Home() {
   const { data: segmentsData, loading, error, request: fetchSegments } = useApi();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const [windowWidth, setWindowWidth] = useState(() => typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const heroVideoRef = useRef(null);
+
   useEffect(() => {
     fetchSegments('/segments').catch(() => {});
   }, [fetchSegments]);
+
+  useEffect(() => {
+    if (heroVideoRef.current) {
+      heroVideoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -195,10 +203,12 @@ export default function Home() {
 
         {/* Hero Background Video */}
         <video
+          ref={heroVideoRef}
           autoPlay
           muted
           loop
           playsInline
+          preload="auto"
           src="/hero-bg.mp4"
           style={{
             position: 'absolute',
@@ -207,7 +217,7 @@ export default function Home() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: isMobile ? '28% center' : 'center center',
+            objectPosition: isMobile ? '50% center' : 'center center',
             zIndex: 0,
             pointerEvents: 'none'
           }}
@@ -222,7 +232,7 @@ export default function Home() {
             right: 0, 
             bottom: 0, 
             background: isMobile 
-              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.75) 0%, rgba(5, 7, 22, 0.9) 55%, rgba(5, 7, 22, 0.98) 100%)'
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.38) 0%, rgba(5, 7, 22, 0.58) 55%, rgba(5, 7, 22, 0.8) 100%)'
               : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
             zIndex: 1 
           }} 
