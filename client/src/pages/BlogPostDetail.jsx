@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getBlogImage } from '../utils/imageFallbacks.js';
+import { getBlogImage, handleImageError } from '../utils/imageFallbacks.js';
 
 /**
  * Dynamic Blog Post Detail Reader view.
@@ -99,6 +99,7 @@ export default function BlogPostDetail() {
                 <img
                   src={getBlogImage(post, segment, 0, 900)}
                   alt={post.title}
+                  onError={(e) => handleImageError(e, segment)}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>

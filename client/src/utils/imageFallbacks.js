@@ -101,3 +101,18 @@ export const getBlogImage = (post, segment = 'civil', index = 0, width = 500) =>
   const defaults = SEGMENT_DEFAULT_IMAGES[segment] || SEGMENT_DEFAULT_IMAGES.civil;
   return getOptimizedCloudinaryUrl(defaults[index % defaults.length], width);
 };
+
+/**
+ * Fallback handler for onError event on HTML <img> elements.
+ */
+export const handleImageError = (e, segment = 'civil') => {
+  if (e && e.currentTarget) {
+    e.currentTarget.onerror = null;
+    const fallbacks = {
+      civil: '/unsplash_9.jpg',
+      web: '/unsplash_13.jpg',
+      finance: '/unsplash_10.jpg',
+    };
+    e.currentTarget.src = fallbacks[segment] || '/unsplash_0.jpg';
+  }
+};

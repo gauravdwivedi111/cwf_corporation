@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { X, MapPin, ExternalLink, Calendar, Award, Cpu } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getProjectImage } from '../utils/imageFallbacks.js';
+import { getProjectImage, handleImageError } from '../utils/imageFallbacks.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 
 /**
@@ -189,6 +189,7 @@ export default function ProjectsList() {
                       <img
                         src={getProjectImage(project, segment, index, 500)}
                         alt={project.title}
+                        onError={(e) => handleImageError(e, segment)}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"
                       />
@@ -306,6 +307,7 @@ export default function ProjectsList() {
                   <img
                     src={getProjectImage(selectedProject, segment, 0, 800)}
                     alt={selectedProject.title}
+                    onError={(e) => handleImageError(e, segment)}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 </div>

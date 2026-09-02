@@ -3,7 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, ArrowLeft, ClipboardList, HelpCircle, Code, DollarSign, Calendar, Clock } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getServiceImage } from '../utils/imageFallbacks.js';
+import { getServiceImage, handleImageError } from '../utils/imageFallbacks.js';
+import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
 import LeadForm from '../components/LeadForm.jsx';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 
@@ -185,6 +186,7 @@ export default function ServiceDetail() {
                   <img
                     src={getServiceImage(service, segment, 0, 800)}
                     alt={service.title}
+                    onError={(e) => handleImageError(e, segment)}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
                 </div>
@@ -337,8 +339,9 @@ export default function ServiceDetail() {
                           }}
                         >
                           <img
-                            src={getOptimizedCloudinaryUrl(imgUrl, 300)}
+                            src={getOptimizedCloudinaryUrl(imgUrl || (segment === 'web' ? '/unsplash_13.jpg' : segment === 'finance' ? '/unsplash_10.jpg' : '/unsplash_9.jpg'), 300)}
                             alt={`Gallery item ${i + 1} for ${service.title}`}
+                            onError={(e) => handleImageError(e, segment)}
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             loading="lazy"
                           />

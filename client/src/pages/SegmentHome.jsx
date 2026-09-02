@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ChevronLeft, ChevronRight, Activity, MapPin, ExternalLink, Calendar, User } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getServiceImage, getProjectImage } from '../utils/imageFallbacks.js';
+import { getServiceImage, getProjectImage, handleImageError } from '../utils/imageFallbacks.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 import LeadForm from '../components/LeadForm.jsx';
 import CategoryIcon from '../components/CategoryIcon.jsx';
@@ -216,6 +216,7 @@ export default function SegmentHome() {
                       <img
                         src={getServiceImage(service, segment, index, 400)}
                         alt={service.title}
+                        onError={(e) => handleImageError(e, segment)}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"
                       />
@@ -347,6 +348,7 @@ export default function SegmentHome() {
                       <img
                         src={getProjectImage(project, segment, 0, 400)}
                         alt={project.title}
+                        onError={(e) => handleImageError(e, segment)}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"
                       />

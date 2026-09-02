@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useApi } from '../hooks/useApi.js';
-import { getServiceImage } from '../utils/imageFallbacks.js';
+import { getServiceImage, handleImageError } from '../utils/imageFallbacks.js';
 import CategoryIcon from '../components/CategoryIcon.jsx';
 
 /**
@@ -104,6 +104,7 @@ export default function ServicesList() {
                       <img
                         src={getServiceImage(service, segment, index, 500)}
                         alt={service.title}
+                        onError={(e) => handleImageError(e, segment)}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"
                       />
