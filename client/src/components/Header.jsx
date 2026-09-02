@@ -55,11 +55,10 @@ export default function Header() {
         position: 'sticky', 
         top: 0,
         zIndex: 100,
-        backgroundColor: 'rgba(16, 32, 42, 0.75)',
+        backgroundColor: 'rgba(16, 32, 42, 0.9)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(138, 203, 193, 0.12)',
-        overflow: 'hidden'
+        borderBottom: '1px solid rgba(138, 203, 193, 0.15)'
       }}>
         {/* CSS Keyframes and styling scoped to first page header only */}
         <style dangerouslySetInnerHTML={{__html: `
@@ -89,18 +88,20 @@ export default function Header() {
           }
         `}} />
 
-        {/* Animated SVGs of swimming fish */}
-        <div className="swimming-fish-right">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="80" height="40">
-            <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--volt)" />
-            <circle cx="22" cy="22" r="1.5" fill="#050716" />
-          </svg>
-        </div>
-        <div className="swimming-fish-left">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="80" height="40">
-            <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--treated)" />
-            <circle cx="22" cy="22" r="1.5" fill="#050716" />
-          </svg>
+        {/* Animated SVGs of swimming fish scoped to its own overflow-hidden layer */}
+        <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 1 }}>
+          <div className="swimming-fish-right">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="80" height="40">
+              <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--volt)" />
+              <circle cx="22" cy="22" r="1.5" fill="#050716" />
+            </svg>
+          </div>
+          <div className="swimming-fish-left">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="80" height="40">
+              <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--treated)" />
+              <circle cx="22" cy="22" r="1.5" fill="#050716" />
+            </svg>
+          </div>
         </div>
 
         {/* Mobile menu overlay */}
@@ -134,7 +135,7 @@ export default function Header() {
             onClick={toggleMenu}
             aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isOpen}
-            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0 }}
+            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, padding: '0.5rem', minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -149,18 +150,38 @@ export default function Header() {
               </li>
               <li>
                 <a href="#about" className="nav-link" onClick={closeMenu}>
-                  About
+                  🏢 About Company
                 </a>
               </li>
               <li>
                 <a href="#services" className="nav-link" onClick={closeMenu}>
-                  Services
+                  ⚡ Corporate Divisions
                 </a>
               </li>
               <li>
                 <a href="#contact" className="nav-link" onClick={closeMenu}>
-                  Contact
+                  📩 Contact Us
                 </a>
+              </li>
+              <li style={{ borderTop: '1px solid rgba(138, 203, 193, 0.15)', margin: '0.4rem 0', paddingTop: '0.4rem' }}>
+                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--volt)', letterSpacing: '1px', padding: '0 0.75rem', fontWeight: 700 }}>
+                  Jump to Segment
+                </span>
+              </li>
+              <li>
+                <NavLink to="/civil" className="nav-link" onClick={closeMenu}>
+                  🛡️ Civil & Waterproofing
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/web" className="nav-link" onClick={closeMenu}>
+                  💻 Software & Digital
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/finance" className="nav-link" onClick={closeMenu}>
+                  📈 Financial Advisory
+                </NavLink>
               </li>
             </ul>
           </nav>
@@ -218,6 +239,7 @@ export default function Header() {
           onClick={toggleMenu}
           aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isOpen}
+          style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, padding: '0.5rem', minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
