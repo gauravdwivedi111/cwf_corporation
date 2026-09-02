@@ -328,7 +328,7 @@ select:focus-visible {
   border: none;
   cursor: pointer;
   color: var(--ink);
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 768px) {

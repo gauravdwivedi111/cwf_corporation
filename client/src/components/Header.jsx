@@ -55,10 +55,10 @@ export default function Header() {
         position: 'sticky', 
         top: 0,
         zIndex: 100,
-        backgroundColor: 'rgba(16, 32, 42, 0.9)',
+        backgroundColor: 'rgba(16, 32, 42, 0.75)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(138, 203, 193, 0.15)'
+        borderBottom: '1px solid rgba(138, 203, 193, 0.12)'
       }}>
         {/* CSS Keyframes and styling scoped to first page header only */}
         <style dangerouslySetInnerHTML={{__html: `
@@ -135,7 +135,7 @@ export default function Header() {
             onClick={toggleMenu}
             aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isOpen}
-            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, padding: '0.5rem', minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, padding: '0.5rem', minWidth: '44px', minHeight: '44px' }}
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
@@ -150,38 +150,18 @@ export default function Header() {
               </li>
               <li>
                 <a href="#about" className="nav-link" onClick={closeMenu}>
-                  🏢 About Company
+                  About
                 </a>
               </li>
               <li>
                 <a href="#services" className="nav-link" onClick={closeMenu}>
-                  ⚡ Corporate Divisions
+                  Services
                 </a>
               </li>
               <li>
                 <a href="#contact" className="nav-link" onClick={closeMenu}>
-                  📩 Contact Us
+                  Contact
                 </a>
-              </li>
-              <li style={{ borderTop: '1px solid rgba(138, 203, 193, 0.15)', margin: '0.4rem 0', paddingTop: '0.4rem' }}>
-                <span style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--volt)', letterSpacing: '1px', padding: '0 0.75rem', fontWeight: 700 }}>
-                  Jump to Segment
-                </span>
-              </li>
-              <li>
-                <NavLink to="/civil" className="nav-link" onClick={closeMenu}>
-                  🛡️ Civil & Waterproofing
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/web" className="nav-link" onClick={closeMenu}>
-                  💻 Software & Digital
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/finance" className="nav-link" onClick={closeMenu}>
-                  📈 Financial Advisory
-                </NavLink>
               </li>
             </ul>
           </nav>
@@ -239,7 +219,7 @@ export default function Header() {
           onClick={toggleMenu}
           aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
           aria-expanded={isOpen}
-          style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, padding: '0.5rem', minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          style={{ color: 'var(--white)', border: 'none', background: 'none', cursor: 'pointer', flexShrink: 0, padding: '0.5rem', minWidth: '44px', minHeight: '44px' }}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
