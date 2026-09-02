@@ -217,7 +217,7 @@ export default function Home() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: isMobile ? '50% center' : 'center center',
+            objectPosition: isMobile ? '85% center' : 'center center',
             zIndex: 0,
             pointerEvents: 'none'
           }}
@@ -232,55 +232,11 @@ export default function Home() {
             right: 0, 
             bottom: 0, 
             background: isMobile 
-              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.38) 0%, rgba(5, 7, 22, 0.58) 55%, rgba(5, 7, 22, 0.8) 100%)'
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.28) 0%, rgba(5, 7, 22, 0.48) 50%, rgba(5, 7, 22, 0.78) 100%)'
               : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
             zIndex: 1 
           }} 
         />
-
-        {/* Animated Swimming Fish on Mobile Hero */}
-        {isMobile && (
-          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none', zIndex: 2 }}>
-            <style dangerouslySetInnerHTML={{__html: `
-              @keyframes hero-swim-1 {
-                0% { left: -100px; top: 18%; transform: scale(0.75) translateY(0px) rotate(2deg); }
-                50% { transform: scale(0.75) translateY(-12px) rotate(-4deg); }
-                100% { left: 100%; top: 22%; transform: scale(0.75) translateY(0px) rotate(2deg); }
-              }
-              @keyframes hero-swim-2 {
-                0% { right: -100px; top: 65%; transform: scale(0.6) scaleX(-1) translateY(0px) rotate(-3deg); }
-                50% { transform: scale(0.6) scaleX(-1) translateY(14px) rotate(5deg); }
-                100% { right: 100%; top: 58%; transform: scale(0.6) scaleX(-1) translateY(0px) rotate(-3deg); }
-              }
-              .hero-mobile-fish-1 {
-                position: absolute;
-                animation: hero-swim-1 15s linear infinite;
-                pointer-events: none;
-                opacity: 0.8;
-                filter: drop-shadow(0 0 10px rgba(138, 203, 193, 0.9));
-              }
-              .hero-mobile-fish-2 {
-                position: absolute;
-                animation: hero-swim-2 20s linear infinite;
-                pointer-events: none;
-                opacity: 0.7;
-                filter: drop-shadow(0 0 8px rgba(138, 203, 193, 0.8));
-              }
-            `}} />
-            <div className="hero-mobile-fish-1">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="85" height="42">
-                <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="var(--volt)" />
-                <circle cx="22" cy="22" r="2" fill="#050716" />
-              </svg>
-            </div>
-            <div className="hero-mobile-fish-2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" width="70" height="35">
-                <path d="M10,25 Q30,10 60,25 Q75,15 85,10 Q80,25 85,40 Q75,35 60,25 Q30,40 10,25 Z" fill="#8ACBC1" />
-                <circle cx="22" cy="22" r="1.8" fill="#050716" />
-              </svg>
-            </div>
-          </div>
-        )}
 
         {/* Left column content container */}
         <div className="container" style={{

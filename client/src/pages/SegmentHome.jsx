@@ -129,7 +129,7 @@ export default function SegmentHome() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: isMobile ? '50% center' : 'center center',
+            objectPosition: isMobile ? '85% center' : 'center center',
             zIndex: 0,
             pointerEvents: 'none'
           }}
@@ -144,7 +144,7 @@ export default function SegmentHome() {
             right: 0, 
             bottom: 0, 
             background: isMobile 
-              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.38) 0%, rgba(5, 7, 22, 0.58) 55%, rgba(5, 7, 22, 0.8) 100%)'
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.28) 0%, rgba(5, 7, 22, 0.48) 50%, rgba(5, 7, 22, 0.78) 100%)'
               : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
             zIndex: 1 
           }} 
