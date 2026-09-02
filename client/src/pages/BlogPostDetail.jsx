@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
+import { getBlogImage } from '../utils/imageFallbacks.js';
 
 /**
  * Dynamic Blog Post Detail Reader view.
@@ -97,7 +97,7 @@ export default function BlogPostDetail() {
             <div className="container" style={{ maxWidth: '800px' }}>
               <div style={{ borderRadius: '6px', border: '3px solid var(--ink)', overflow: 'hidden', marginBottom: '2.5rem', maxHeight: '450px' }}>
                 <img
-                  src={getOptimizedCloudinaryUrl(post.coverImage || (segment === 'web' ? '/unsplash_0.jpg' : segment === 'finance' ? '/unsplash_23.jpg' : '/unsplash_8.jpg'), 900)}
+                  src={getBlogImage(post, segment, 0, 900)}
                   alt={post.title}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

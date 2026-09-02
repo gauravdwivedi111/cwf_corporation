@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { X, MapPin, ExternalLink, Calendar, Award, Cpu } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
+import { getProjectImage } from '../utils/imageFallbacks.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 
 /**
@@ -187,7 +187,7 @@ export default function ProjectsList() {
                   >
                     <div style={{ width: '100%', height: '180px', borderRadius: '4px', overflow: 'hidden', position: 'relative', marginBottom: '1rem' }}>
                       <img
-                        src={getOptimizedCloudinaryUrl(project.coverImage || project.gallery?.[0] || project.afterImages?.[0] || (segment === 'web' ? '/unsplash_4.jpg' : segment === 'finance' ? '/unsplash_20.jpg' : '/unsplash_11.jpg'), 500)}
+                        src={getProjectImage(project, segment, index, 500)}
                         alt={project.title}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         loading="lazy"
@@ -304,7 +304,7 @@ export default function ProjectsList() {
               ) : (
                 <div style={{ width: '100%', height: '350px', borderRadius: '4px', overflow: 'hidden', border: '3px solid var(--ink)' }}>
                   <img
-                    src={getOptimizedCloudinaryUrl(selectedProject.coverImage || selectedProject.gallery?.[0] || selectedProject.afterImages?.[0] || (segment === 'web' ? '/unsplash_4.jpg' : '/unsplash_20.jpg'), 800)}
+                    src={getProjectImage(selectedProject, segment, 0, 800)}
                     alt={selectedProject.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />

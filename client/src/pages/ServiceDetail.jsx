@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, ArrowLeft, ClipboardList, HelpCircle, Code, DollarSign, Calendar, Clock } from 'lucide-react';
 import { useApi } from '../hooks/useApi.js';
-import { getOptimizedCloudinaryUrl } from '../utils/cloudinaryUrl.js';
+import { getServiceImage } from '../utils/imageFallbacks.js';
 import LeadForm from '../components/LeadForm.jsx';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 
@@ -183,7 +183,7 @@ export default function ServiceDetail() {
                 {/* Visual Cover Image */}
                 <div style={{ borderRadius: '6px', border: '3px solid var(--ink)', overflow: 'hidden', height: '400px' }}>
                   <img
-                    src={getOptimizedCloudinaryUrl(service.coverImage || (segment === 'web' ? '/unsplash_13.jpg' : segment === 'finance' ? '/unsplash_10.jpg' : '/unsplash_9.jpg'), 800)}
+                    src={getServiceImage(service, segment, 0, 800)}
                     alt={service.title}
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                   />
