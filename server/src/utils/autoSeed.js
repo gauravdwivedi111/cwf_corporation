@@ -32,14 +32,22 @@ const SERVICE_IMAGES_SYNC = {
   'online-business-solutions': '/unsplash_14.jpg',
 
   // Finance
-  'investment-planning-solutions': '/unsplash_10.jpg',
-  'corporate-insurance-solutions': '/unsplash_23.jpg',
-  'credit-loan-assistance': '/unsplash_20.jpg',
+  'investment-planning-solutions': '/finance_investment_advisory.png',
+  'investment-planning': '/finance_investment_advisory.png',
+  'corporate-insurance-solutions': '/finance_advisory_overview.png',
+  'insurance-solutions': '/finance_advisory_overview.png',
+  'credit-loan-assistance': '/finance_loan_guidance.png',
+  'loan-assistance': '/finance_loan_guidance.png',
   'nri-financial-corner': '/unsplash_25.jpg',
+  'nri-corner': '/unsplash_25.jpg',
   'behavioural-profiling-wealth': '/unsplash_12.jpg',
+  'behavioural-profiling': '/unsplash_12.jpg',
   'risk-profiling-advisory': '/unsplash_19.jpg',
-  'financial-planning-systems': '/unsplash_16.jpg',
-  'wealth-portfolio-guidance': '/unsplash_2.jpg',
+  'risk-profiling': '/unsplash_19.jpg',
+  'financial-planning-systems': '/finance_cash_flow_planning.jpg',
+  'financial-planning': '/finance_cash_flow_planning.jpg',
+  'wealth-portfolio-guidance': '/finance_startup_advisory.png',
+  'wealth-guidance': '/finance_startup_advisory.png',
 };
 
 const BLOG_IMAGES_SYNC = {
