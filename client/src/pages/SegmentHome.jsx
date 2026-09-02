@@ -101,16 +101,13 @@ export default function SegmentHome() {
       <section 
         style={{
           position: 'relative',
-          minHeight: isMobile ? 'calc(100dvh - 4.5rem)' : '75vh',
-          padding: isMobile ? '3.5rem 0' : '10rem 0 8rem',
+          padding: isMobile ? '6rem 0' : '10rem 0 8rem',
           backgroundImage: `url("${heroImageUrl}")`,
           backgroundSize: 'cover',
-          backgroundPosition: isMobile ? '25% center' : 'right center',
+          backgroundPosition: isMobile ? 'center' : 'right center',
           borderBottom: '3px solid var(--ink)',
           overflow: 'hidden',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
           alignItems: 'center'
         }}
       >
@@ -128,7 +125,6 @@ export default function SegmentHome() {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: isMobile ? '28% center' : 'center center',
             zIndex: 0,
             pointerEvents: 'none'
           }}
@@ -143,7 +139,7 @@ export default function SegmentHome() {
             right: 0, 
             bottom: 0, 
             background: isMobile 
-              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.72) 0%, rgba(5, 7, 22, 0.88) 55%, rgba(5, 7, 22, 0.98) 100%)'
+              ? 'linear-gradient(to bottom, rgba(5, 7, 22, 0.8) 0%, rgba(5, 7, 22, 0.96) 100%)'
               : 'linear-gradient(to right, rgba(5, 7, 22, 1) 0%, rgba(5, 7, 22, 0.9) 35%, rgba(5, 7, 22, 0.45) 60%, transparent 85%)',
             zIndex: 1 
           }} 
@@ -157,40 +153,21 @@ export default function SegmentHome() {
             textAlign: 'left',
             marginLeft: 0,
             marginRight: 'auto',
-            maxWidth: isMobile ? '100%' : '58%',
-            paddingLeft: isMobile ? '1.25rem' : '2rem',
-            paddingRight: isMobile ? '1.25rem' : '2rem'
+            maxWidth: isMobile ? '100%' : '58%'
           }}
         >
-          <span style={{ 
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            fontSize: isMobile ? '0.75rem' : '0.85rem',
-            color: 'var(--volt)',
-            backgroundColor: 'rgba(138, 203, 193, 0.1)',
-            border: '1px solid rgba(138, 203, 193, 0.25)',
-            borderRadius: '100px',
-            padding: '0.35rem 0.85rem',
-            fontFamily: 'var(--font-data)',
-            fontWeight: 'bold',
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
-            marginBottom: isMobile ? '1rem' : '1.25rem',
-            animation: 'fadeSlideUp 0.8s ease 0.2s both'
-          }}>
-            <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--volt)', display: 'inline-block' }}></span>
-            DIVISION: {info.displayName.toUpperCase()}
+          <span style={{ fontFamily: 'var(--font-data)', fontSize: '0.85rem', color: 'var(--volt)', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', display: 'block', marginBottom: '0.75rem', animation: 'fadeSlideUp 0.8s ease 0.2s both' }}>
+            [DIVISION: {info.displayName.toUpperCase()}]
           </span>
-          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: isMobile ? 'clamp(2.1rem, 7.8vw, 2.75rem)' : 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.12, marginBottom: isMobile ? '1rem' : '1.25rem', maxWidth: 'none', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
+          <h1 style={{ fontFamily: 'var(--font-heading)', color: 'var(--white)', textTransform: 'uppercase', fontSize: 'clamp(2rem, 5vw, 3.75rem)', lineHeight: 1.1, marginBottom: '1.25rem', maxWidth: 'none', animation: 'fadeSlideUp 0.8s ease 0.4s both' }}>
             {info.tagline}
           </h1>
-          <p style={{ color: 'rgba(255, 255, 255, 0.88)', fontFamily: 'var(--font-body)', fontSize: isMobile ? '0.92rem' : 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.55', maxWidth: 'none', margin: isMobile ? '0 0 1.5rem' : '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
+          <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontFamily: 'var(--font-body)', fontSize: 'clamp(1rem, 2vw, 1.15rem)', lineHeight: '1.6', maxWidth: 'none', margin: '0 0 2rem', animation: 'fadeSlideUp 0.8s ease 0.7s both' }}>
             {info.heroDescription}
           </p>
-          <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', width: '100%', animation: 'fadeSlideUp 0.8s ease 0.9s both' }}>
-            <a href="#services" className="btn btn-primary" style={{ flex: isMobile ? '1 1 140px' : 'none', textAlign: 'center', padding: '0.85rem 1.5rem', fontSize: '0.92rem' }}>Our Services</a>
-            <a href="#contact" className="btn btn-secondary" style={{ flex: isMobile ? '1 1 140px' : 'none', textAlign: 'center', padding: '0.85rem 1.5rem', fontSize: '0.92rem' }}>Get a Proposal</a>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', animation: 'fadeSlideUp 0.8s ease 0.9s both' }}>
+            <a href="#services" className="btn btn-primary">Our Services</a>
+            <a href="#contact" className="btn btn-secondary">Get a Proposal</a>
           </div>
         </div>
       </section>
