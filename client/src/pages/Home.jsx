@@ -181,7 +181,7 @@ export default function Home() {
         style={{ 
           position: 'relative',
           minHeight: isMobile ? 'calc(100dvh - 4.5rem)' : '75vh', 
-          padding: isMobile ? '3.5rem 0' : '10rem 0 9rem',
+          padding: isMobile ? '4rem 0 3.5rem' : '10rem 0 9rem',
           backgroundImage: 'url("/unsplash_16.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: isMobile ? '25% center' : 'right center',
@@ -247,36 +247,36 @@ export default function Home() {
           <span style={{ 
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.4rem',
-            fontSize: isMobile ? '0.75rem' : '0.85rem',
+            gap: '0.5rem',
+            fontSize: isMobile ? '0.85rem' : '0.85rem',
             color: 'var(--volt)',
-            backgroundColor: isMobile ? 'rgba(138, 203, 193, 0.12)' : 'transparent',
-            border: isMobile ? '1px solid rgba(138, 203, 193, 0.25)' : 'none',
+            backgroundColor: isMobile ? 'rgba(138, 203, 193, 0.14)' : 'transparent',
+            border: isMobile ? '1px solid rgba(138, 203, 193, 0.3)' : 'none',
             borderRadius: isMobile ? '100px' : '0',
-            padding: isMobile ? '0.35rem 0.85rem' : '0',
+            padding: isMobile ? '0.45rem 1rem' : '0',
             fontFamily: 'var(--font-data)',
             fontWeight: 'bold',
-            letterSpacing: isMobile ? '2px' : '3px',
+            letterSpacing: isMobile ? '2.5px' : '3px',
             textTransform: 'uppercase',
-            marginBottom: '1rem',
+            marginBottom: isMobile ? '1.25rem' : '1rem',
             opacity: 0,
             transform: 'translateY(1rem)',
             animation: 'fadeSlideUp 0.8s ease 0.2s both'
           }}>
-            {isMobile && <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--volt)', display: 'inline-block' }}></span>}
+            {isMobile && <span style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'var(--volt)', display: 'inline-block' }}></span>}
             CWF CONSULTING CORPORATION
           </span>
 
           {/* 2. Main Brand Statement Headline */}
           <h1 style={{
             fontFamily: 'var(--font-heading)',
-            fontSize: isMobile ? 'clamp(2.15rem, 8vw, 2.85rem)' : 'clamp(2.5rem, 5vw, 4rem)',
+            fontSize: isMobile ? 'clamp(2.4rem, 9.5vw, 3.2rem)' : 'clamp(2.5rem, 5vw, 4rem)',
             fontWeight: 800,
-            lineHeight: isMobile ? 1.15 : 1.15,
+            lineHeight: isMobile ? 1.12 : 1.15,
             color: '#eef0f6',
             letterSpacing: '-0.02em',
             textTransform: 'uppercase',
-            marginBottom: isMobile ? '1.25rem' : '2rem',
+            marginBottom: isMobile ? '1.5rem' : '2rem',
             marginInline: '0',
             maxWidth: '100%',
             opacity: 0,
@@ -284,38 +284,39 @@ export default function Home() {
             animation: 'fadeSlideUp 0.8s ease 0.5s both'
           }}>
             ONE PARTNER.<br/>
-            <span style={{ color: 'var(--volt)' }}>INFINITE POSSIBILITIES.</span>
+            <span style={{ color: 'var(--volt)', textShadow: '0 0 25px rgba(138, 203, 193, 0.35)' }}>INFINITE POSSIBILITIES.</span>
           </h1>
 
           {/* 3. Business Verticals Navigation/Identity element */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: isMobile ? '0.65rem' : '1rem',
+            justifyContent: isMobile ? 'space-around' : 'flex-start',
+            gap: isMobile ? '0.75rem' : '1rem',
             fontFamily: 'var(--font-data)',
-            fontSize: isMobile ? '0.82rem' : 'clamp(1rem, 2vw, 1.25rem)',
+            fontSize: isMobile ? '0.92rem' : 'clamp(1rem, 2vw, 1.25rem)',
             fontWeight: 600,
             color: 'rgba(255, 255, 255, 0.95)',
-            letterSpacing: isMobile ? '2px' : '4px',
+            letterSpacing: isMobile ? '2.5px' : '4px',
             textTransform: 'uppercase',
-            background: isMobile ? 'rgba(10, 19, 26, 0.75)' : 'transparent',
+            background: isMobile ? 'rgba(10, 19, 26, 0.85)' : 'transparent',
             backdropFilter: isMobile ? 'blur(8px)' : 'none',
             WebkitBackdropFilter: isMobile ? 'blur(8px)' : 'none',
-            border: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : 'none',
-            borderTop: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : '1px solid rgba(255, 255, 255, 0.15)',
-            borderBottom: isMobile ? '1px solid rgba(138, 203, 193, 0.2)' : '1px solid rgba(255, 255, 255, 0.15)',
-            borderRadius: isMobile ? '8px' : '0',
-            padding: isMobile ? '0.5rem 0.85rem' : '0.75rem 0',
-            width: isMobile ? 'auto' : '100%',
-            marginBottom: isMobile ? '1.35rem' : '2rem',
+            border: isMobile ? '1px solid rgba(138, 203, 193, 0.25)' : 'none',
+            borderTop: isMobile ? '1px solid rgba(138, 203, 193, 0.25)' : '1px solid rgba(255, 255, 255, 0.15)',
+            borderBottom: isMobile ? '1px solid rgba(138, 203, 193, 0.25)' : '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: isMobile ? '10px' : '0',
+            padding: isMobile ? '0.65rem 1rem' : '0.75rem 0',
+            width: isMobile ? '100%' : 'auto',
+            marginBottom: isMobile ? '1.75rem' : '2rem',
             opacity: 0,
             transform: 'translateY(1rem)',
             animation: 'fadeSlideUp 0.8s ease 0.8s both'
           }}>
             <span>CIVIL</span>
-            <span style={{ color: 'var(--volt)', opacity: 0.6 }}>{isMobile ? '•' : '|'}</span>
+            <span style={{ color: 'var(--volt)', opacity: 0.7 }}>{isMobile ? '•' : '|'}</span>
             <span>WEB</span>
-            <span style={{ color: 'var(--volt)', opacity: 0.6 }}>{isMobile ? '•' : '|'}</span>
+            <span style={{ color: 'var(--volt)', opacity: 0.7 }}>{isMobile ? '•' : '|'}</span>
             <span>FINANCE</span>
           </div>
 
@@ -324,23 +325,23 @@ export default function Home() {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '0.6rem',
+              gap: '0.85rem',
               width: '100%',
-              marginBottom: '1.75rem',
+              marginBottom: '2.25rem',
               opacity: 0,
               transform: 'translateY(1rem)',
               animation: 'fadeSlideUp 0.8s ease 1.1s both'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.9)', fontSize: '0.96rem', fontFamily: 'var(--font-body)' }}>
-                <span style={{ color: 'var(--volt)', fontSize: '1.3rem', lineHeight: 1 }}>•</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'rgba(255,255,255,0.95)', fontSize: '1.08rem', fontFamily: 'var(--font-body)', fontWeight: 500 }}>
+                <span style={{ color: 'var(--volt)', fontSize: '1.5rem', lineHeight: 1 }}>•</span>
                 <span>Protecting Assets</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.9)', fontSize: '0.96rem', fontFamily: 'var(--font-body)' }}>
-                <span style={{ color: 'var(--volt)', fontSize: '1.3rem', lineHeight: 1 }}>•</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'rgba(255,255,255,0.95)', fontSize: '1.08rem', fontFamily: 'var(--font-body)', fontWeight: 500 }}>
+                <span style={{ color: 'var(--volt)', fontSize: '1.5rem', lineHeight: 1 }}>•</span>
                 <span>Powering Digital Growth</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'rgba(255,255,255,0.9)', fontSize: '0.96rem', fontFamily: 'var(--font-body)' }}>
-                <span style={{ color: 'var(--volt)', fontSize: '1.3rem', lineHeight: 1 }}>•</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'rgba(255,255,255,0.95)', fontSize: '1.08rem', fontFamily: 'var(--font-body)', fontWeight: 500 }}>
+                <span style={{ color: 'var(--volt)', fontSize: '1.5rem', lineHeight: 1 }}>•</span>
                 <span>Building Financial Futures</span>
               </div>
             </div>
@@ -371,10 +372,10 @@ export default function Home() {
               transform: 'translateY(1rem)',
               animation: 'fadeSlideUp 0.8s ease 1.3s both'
             }}>
-              <a href="#services" className="btn btn-primary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '0.85rem 1rem', fontSize: '0.92rem', minHeight: '46px' }}>
+              <a href="#services" className="btn btn-primary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '1rem 1rem', fontSize: '1rem', minHeight: '52px' }}>
                 Explore Divisions
               </a>
-              <a href="#contact" className="btn btn-secondary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '0.85rem 1rem', fontSize: '0.92rem', minHeight: '46px' }}>
+              <a href="#contact" className="btn btn-secondary" style={{ flex: '1 1 50%', textAlign: 'center', padding: '1rem 1rem', fontSize: '1rem', minHeight: '52px' }}>
                 Contact Us
               </a>
             </div>
