@@ -1,4 +1,33 @@
 
+/* ==========================================================================
+   PERFORMANCE & ZERO-LAPSE HARDWARE ACCELERATION ENGINE
+   ========================================================================== */
+
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU Compositor promotion for zero-jank 60fps scrolling */
+.bento-cell,
+.stat-item,
+.app-header,
+.btn,
+.nav-menu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Off-screen layout skipping for rapid initial scroll response */
+section#company,
+section#about,
+section#faq,
+.app-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
+}
+
 :root {
   /* FPlus-Inspired Dark Sophisticated Theme for CWF Corporation */
   --canvas: #10202A;   /* deep slate-blue/teal base background */

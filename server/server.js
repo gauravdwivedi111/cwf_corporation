@@ -144,14 +144,28 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 7. Production Static SPA Asset Serving (Unified Full-Stack Deployments)
+// 7. Production Static SPA Asset Serving with High-Performance HTTP Caching
 const clientDistPath = path.join(__dirname, '../client/dist');
 if (fs.existsSync(clientDistPath)) {
-  app.use(express.static(clientDistPath));
+  // Static assets with content hashes get 1-year immutable caching
+  app.use(
+    express.static(clientDistPath, {
+      maxAge: '30d',
+      setHeaders: (res, filePath) => {
+        if (filePath.includes(path.sep + 'assets' + path.sep)) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        } else if (filePath.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        }
+      },
+    })
+  );
+
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api') || req.path === '/sitemap.xml') {
       return next();
     }
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.sendFile(path.join(clientDistPath, 'index.html'));
   });
 } else {
