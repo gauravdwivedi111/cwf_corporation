@@ -155,7 +155,13 @@ export const getServiceImage = (service, segment = 'civil', index = 0, width = 5
   }
 
   // 1. Custom user-uploaded Cloudinary image (distinct uploads from admin)
-  if (service.coverImage && (service.coverImage.startsWith('http://') || service.coverImage.startsWith('https://')) && service.coverImage.includes('res.cloudinary.com')) {
+  if (
+    service.coverImage &&
+    (service.coverImage.startsWith('http://') || service.coverImage.startsWith('https://')) &&
+    service.coverImage.includes('res.cloudinary.com') &&
+    !service.coverImage.includes('/demo/image/upload/sample.jpg') &&
+    !service.coverImage.includes('/demo/image/upload/w_800,h_500,c_fill/canyon.jpg')
+  ) {
     return getOptimizedCloudinaryUrl(service.coverImage, width);
   }
 
@@ -203,7 +209,13 @@ export const getProjectImage = (project, segment = 'civil', index = 0, width = 5
   }
 
   // 1. Custom user-uploaded Cloudinary image
-  if (project.coverImage && (project.coverImage.startsWith('http://') || project.coverImage.startsWith('https://')) && project.coverImage.includes('res.cloudinary.com')) {
+  if (
+    project.coverImage &&
+    (project.coverImage.startsWith('http://') || project.coverImage.startsWith('https://')) &&
+    project.coverImage.includes('res.cloudinary.com') &&
+    !project.coverImage.includes('/demo/image/upload/sample.jpg') &&
+    !project.coverImage.includes('/demo/image/upload/w_800,h_500,c_fill/canyon.jpg')
+  ) {
     return getOptimizedCloudinaryUrl(project.coverImage, width);
   }
 
@@ -246,7 +258,13 @@ export const getBlogImage = (post, segment = 'civil', index = 0, width = 500) =>
   }
 
   // 1. Custom user-uploaded Cloudinary image
-  if (post.coverImage && (post.coverImage.startsWith('http://') || post.coverImage.startsWith('https://')) && post.coverImage.includes('res.cloudinary.com')) {
+  if (
+    post.coverImage &&
+    (post.coverImage.startsWith('http://') || post.coverImage.startsWith('https://')) &&
+    post.coverImage.includes('res.cloudinary.com') &&
+    !post.coverImage.includes('/demo/image/upload/sample.jpg') &&
+    !post.coverImage.includes('/demo/image/upload/w_800,h_500,c_fill/canyon.jpg')
+  ) {
     return getOptimizedCloudinaryUrl(post.coverImage, width);
   }
 
