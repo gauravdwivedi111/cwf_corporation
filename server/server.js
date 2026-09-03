@@ -87,10 +87,16 @@ app.use(
       // Allow requests with no origin (like mobile apps, curl, or server-to-server)
       if (!origin) return callback(null, true);
       
-      // Permit local development origins, defined production domains, or Vercel subdomains
+      // Permit local development origins, LAN IPs for phone testing, defined production domains, or Vercel subdomains
       const isAllowed = allowedOrigins.includes(origin) || 
         origin.endsWith('.vercel.app') ||
-        (process.env.NODE_ENV !== 'production' && origin.startsWith('http://localhost'));
+        (process.env.NODE_ENV !== 'production' && (
+          origin.startsWith('http://localhost') ||
+          origin.startsWith('http://127.0.0.1') ||
+          origin.startsWith('http://192.168.') ||
+          origin.startsWith('http://10.') ||
+          origin.startsWith('http://172.')
+        ));
 
       if (isAllowed) {
         callback(null, true);
